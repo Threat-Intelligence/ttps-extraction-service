@@ -1,539 +1,819 @@
 [
     {
-        "article_author": "Microsoft Threat Intelligence",
-        "URL": "https://www.microsoft.com/en-us/security/blog/2024/05/28/moonstone-sleet-emerges-as-new-north-korean-threat-actor-with-new-bag-of-tricks/",
-        "iocs": [
-            "### File SHA-256 Hashes",
-            "- putty.exe (drops SplitLoader): `f59035192098e44b86c4648a0de4078edbe80352260276f4755d15d354f5fc58`",
-            "- putty.exe (drops SplitLoader): `cb97ec024c04150ad419d1af2d1eb66b5c48ab5f345409d9d791db574981a3fb`",
-            "- [random].dat (SplitLoader): `39d7407e76080ec5d838c8ebca5182f3ac4a5f416ff7bda9cbc4efffd78b4ff5`",
-            "- Package.db, thumbs.db (YouieLoad via npm): `70c5b64589277ace59db86d19d846a9236214b48aacabbaf880f2b6355ab5260`",
-            "- adb.bin, u.bin, Id.bin (YouieLoad): `cafaa7bc3277711509dc0800ed53b82f645e86c195e85fbf34430bbc75c39c24`",
-            "- data.tmp (YouieLoad): `9863173e0a45318f776e36b1a8529380362af8f3e73a2b4875e30d31ad7bd3c1`",
-            "- delfi-tank-unity.exe: `f66122a3e1eaa7dcb7c13838037573dace4e5a1c474a23006417274c0c8608be`",
-            "- DeTankWar.exe: `56554117d96d12bd3504ebef2a8f28e790dd1fe583c33ad58ccbf614313ead8c`",
-            "- NVUnityPlugin.dll, Unityplayer.dll (YouieLoad via tank game): `09d152aa2b6261e3b0a1d1c19fa8032f215932186829cfcca954cc5e84a6cc38`",
-            "",
-            "### Moonstone Sleet Domains",
-            "- bestonlinefilmstudio[.]org",
-            "- blockchain-newtech[.]com",
-            "- ccwaterfall[.]com",
-            "- chaingrown[.]com",
-            "- defitankzone[.]com",
-            "- detankwar[.]com",
-            "- freenet-zhilly[.]org",
-            "- matrixane[.]com",
-            "- pointdnt[.]com",
-            "- starglowventures[.]com",
-            "- mingeloem[.]com"
-        ],
-        "ttp": [
-            "Based on the provided indicators of compromise (IoCs), we can identify several Tactics, Techniques, and Procedures (TTPs) related to the MITRE ATT&CK framework. The IoCs include file SHA-256 hashes for various executables and data files, as well as a list of suspicious domains. These IoCs suggest a multi-stage attack involving initial access, execution, persistence, defense evasion, and command and control. Below is a breakdown of potential TTPs associated with these IoCs:",
-            "",
-            "### Initial Access",
-            "- **T1195: Supply Chain Compromise**: The presence of modified legitimate software (e.g., `putty.exe`) suggests attackers may have compromised the supply chain to distribute malware.",
-            "- **T1566: Phishing**: The use of domains that mimic legitimate services (e.g., `bestonlinefilmstudio[.]org`, `blockchain-newtech[.]com`) may indicate phishing campaigns to deliver malware or harvest credentials.",
-            "",
-            "### Execution",
-            "- **T1204: User Execution**: The attackers rely on users to execute the malicious `putty.exe` or game executables, which then drop additional payloads.",
-            "- **T1059: Command and Scripting Interpreter**: The execution of scripts or commands could be involved in the deployment of the `SplitLoader` or `YouieLoad` malware from the initial dropper files.",
-            "",
-            "### Persistence",
-            "- **T1547: Boot or Logon Autostart Execution**: Malicious files like `adb.bin`, `u.bin`, and `Id.bin` might be used to achieve persistence by registering them for automatic execution at system startup.",
-            "- **T1053: Scheduled Task/Job**: The malware may create scheduled tasks to ensure it remains running or is executed periodically.",
-            "",
-            "### Defense Evasion",
-            "- **T1027: Obfuscated Files or Information**: The use of `SplitLoader` and `YouieLoad` suggests possible obfuscation or encryption of the payload to evade detection.",
-            "- **T1140: Deobfuscate/Decode Files or Information**: The malware may include functionality to decode or deobfuscate its components after being deployed to the victim's machine.",
-            "- **T1562: Impair Defenses**: The malware might attempt to disable security software or modify system configurations to evade detection.",
-            "",
-            "### Command and Control",
-            "- **T1071: Application Layer Protocol**: The use of various domains for command and control (C2) communications, potentially over standard web protocols.",
-            "- **T1568: Dynamic Resolution**: The malware may use dynamic DNS or algorithmically generated domains (DGA) to maintain command and control communication, evidenced by the list of suspicious domains.",
-            "",
-            "### Exfiltration",
-            "- **T1041: Exfiltration Over C2 Channel**: The attackers may use the established C2 channels to exfiltrate data stolen from the victim's machine.",
-            "",
-            "### Impact",
-            "- **T1496: Resource Hijacking**: If the malware is related to cryptocurrency mining or similar activities, it might hijack system resources for the attacker's gain.",
-            "",
-            "It's important to note that the actual TTPs used by the attackers could vary and might involve additional techniques not directly inferred from the provided IoCs. Further analysis of the malware samples and attack infrastructure would be required for a comprehensive understanding of the attackers' methodologies."
-        ]
-    },
-    {
-        "article_author": "Microsoft Threat Intelligence",
-        "URL": "https://www.microsoft.com/en-us/security/blog/2024/07/02/vulnerabilities-in-panelview-plus-devices-could-lead-to-remote-code-execution/",
-        "iocs": [
-            "The provided content does not explicitly list specific Indicators of Compromise (IOCs) such as IP addresses, URLs, file hashes, or malicious domain names typically associated with cybersecurity threats. However, it does detail the vulnerabilities and potential exploitation techniques related to Rockwell Automation PanelView Plus devices. The vulnerabilities mentioned are:",
-            "",
-            "1. CVE-2023-2071: Remote Code Execution (RCE) vulnerability in PanelView Plus.",
-            "2. Denial-of-Service (DoS) vulnerability related to the same device, though no CVE identifier is provided for this specific vulnerability.",
-            "",
-            "The exploitation method involves:",
-            "- Compiling a malicious DLL to be run on Windows 10 IoT.",
-            "- Naming the DLL as \"remotehelper.dll\" and using specific function names such as \"GetVersion\" or patching the DLL to include \"InvokeExe\" as a valid function name.",
-            "- Utilizing custom classes within the device's firmware to upload and execute the malicious DLL.",
-            "",
-            "Mitigation patches recommended by Microsoft:",
-            "- PN1645 | FactoryTalk View Machine Edition Vulnerable to Remote Code Execution",
-            "- PN1652 | FactoryTalk\u00ae Linx Vulnerable to Denial-of-Service and Information Disclosure",
-            "",
-            "While these details provide insight into the vulnerabilities and potential attack vectors, they do not constitute direct IOCs. For actual network defense, organizations should refer to the patches and mitigation strategies provided by Rockwell Automation and Microsoft."
-        ],
-        "ttp": [
-            "Given the information about vulnerabilities and potential exploitation techniques related to Rockwell Automation PanelView Plus devices, we can infer several Tactics, Techniques, and Procedures (TTPs) within the MITRE ATT&CK framework that may be relevant. The TTPs listed below are inferred based on the described vulnerabilities and exploitation methods for CVE-2023-2071 and the Denial-of-Service (DoS) vulnerability, as well as the general approach to exploiting these vulnerabilities.",
-            "",
-            "### Tactics",
-            "",
-            "1. **Initial Access (TA0001)**",
-            "   - Exploiting the RCE vulnerability could provide initial access to an adversary by allowing them to execute arbitrary code on a vulnerable device.",
-            "",
-            "2. **Execution (TA0002)**",
-            "   - The compilation and execution of a malicious DLL (Dynamic Link Library) specifically crafted to exploit the vulnerabilities indicate a technique for executing malicious code on a system.",
-            "",
-            "3. **Persistence (TA0003)**",
-            "   - Modifying device firmware or deploying a malicious DLL could be used by an adversary to maintain persistence within the compromised system.",
-            "",
-            "4. **Privilege Escalation (TA0004)**",
-            "   - By exploiting the RCE vulnerability, an adversary might gain elevated privileges, depending on the context in which the vulnerable application is running.",
-            "",
-            "5. **Defense Evasion (TA0005)**",
-            "   - Crafting a malicious DLL with specific function names to bypass security measures or to appear as legitimate could be a strategy for evading detection.",
-            "",
-            "6. **Impact (TA0040)**",
-            "   - The exploitation of a DoS vulnerability directly aims at impacting the availability of the device, potentially disrupting operations.",
-            "",
-            "### Techniques",
-            "",
-            "1. **Exploit Public-Facing Application (T1190)**",
-            "   - If the RCE vulnerability can be triggered remotely, this technique would apply as the adversary is exploiting a weakness in an Internet-facing device.",
-            "",
-            "2. **User Execution (T1204)**",
-            "   - This might be relevant if interaction from a legitimate user is required to some extent, such as placing the malicious DLL in a specific location.",
-            "",
-            "3. **Modify System Image (T1601)**",
-            "   - Customizing the device's firmware to include malicious code would fall under this technique.",
-            "",
-            "4. **Execution through API (T1106)**",
-            "   - Utilizing custom classes within the device's firmware to execute the malicious DLL implies the use of APIs for execution.",
-            "",
-            "5. **External Remote Services (T1133)**",
-            "   - If the exploitation involves accessing the device remotely through services exposed to the Internet, this technique would be relevant.",
-            "",
-            "6. **Network Denial of Service (T1498)**",
-            "   - Specifically relates to the exploitation of the DoS vulnerability to disrupt services.",
-            "",
-            "### Procedures",
-            "",
-            "- **Compiling a Malicious DLL:** An adversary crafts a DLL named \"remotehelper.dll\" with specific function names like \"GetVersion\" or patches the DLL to include \"InvokeExe\" as a valid function name. This DLL is then compiled to be executable on Windows 10 IoT environments.",
-            "- **Utilizing Custom Classes for Malware Upload:** The adversary leverages custom classes available within the device's firmware to upload and execute the malicious DLL, exploiting the RCE vulnerability.",
-            "",
-            "### Mitigations",
-            "",
-            "- **Patch Management (M1051):** Applying the patches recommended by Microsoft and Rockwell Automation for the vulnerabilities.",
-            "- **Restrict File and Directory Permissions (M1022):** Limiting the ability to add or modify files like DLLs in critical directories could mitigate the risk of this attack.",
-            "",
-            "It's important to note that the actual applicability of these TTPs might vary based on the specifics of the network environment, device configuration, and how the vulnerabilities are exploited."
-        ]
-    },
-    {
-        "article_author": "Microsoft Threat Intelligence",
-        "URL": "https://www.microsoft.com/en-us/security/blog/2024/05/15/threat-actors-misusing-quick-assist-in-social-engineering-attacks-leading-to-ransomware/",
-        "iocs": [
-            "**Domain Names:**",
-            "- upd7a[.]com",
-            "- upd7[.]com",
-            "- upd9[.]com",
-            "- upd5[.]pro",
-            "- antispam3[.]com",
-            "- antispam2[.]com",
-            "",
-            "**SHA-256 Hashes:**",
-            "- 71d50b74f81d27feefbc2bc0f631b0ed7fcdf88b1abbd6d104e66638993786f8",
-            "- 0f9156f91c387e7781603ed716dcdc3f5342ece96e155115708b1662b0f9b4d0",
-            "- 1ad05a4a849d7ed09e2efb38f5424523651baf3326b5f95e05f6726f564ccc30",
-            "- 93058bd5fe5f046e298e1d3655274ae4c08f07a8b6876e61629ae4a0b510a2f7",
-            "- 1cb1864314262e71de1565e198193877ef83e98823a7da81eb3d59894b5a4cfb",
-            "",
-            "**ScreenConnect Relay:**",
-            "- instance-olqdnn-relay.screenconnect[.]com",
-            "",
-            "**NetSupport C2:**",
-            "- greekpool[.]com",
-            "",
-            "**Cobalt Strike Beacon C2:**",
-            "- zziveastnews[.]com",
-            "- realsepnews[.]com"
-        ],
-        "ttp": [
-            "Given the indicators of compromise (IoCs) provided, we can map out potential Tactics, Techniques, and Procedures (TTPs) using the MITRE ATT&CK framework that may be associated with these IoCs. The IoCs include domain names, SHA-256 hashes, a ScreenConnect Relay, NetSupport C2, and Cobalt Strike Beacon C2. These IoCs suggest a multi-faceted approach to intrusion, command and control (C2), and possibly lateral movement or persistence within a target network.",
-            "",
-            "### Initial Access",
-            "- **Spearphishing Link (T1566.002):** Attackers might use emails containing malicious links to the listed domains to gain initial access to a victim's system.",
-            "- **Drive-by Compromise (T1189):** Visiting the listed malicious domains might result in exploitation of vulnerabilities in the web browser to gain initial access.",
-            "",
-            "### Execution",
-            "- **Command and Scripting Interpreter (T1059):** Given the presence of Cobalt Strike and NetSupport RAT, attackers might use PowerShell, Windows Command Shell, or other scripting languages to execute their payloads.",
-            "- **User Execution (T1204):** The attackers might rely on the user executing a malicious file, possibly downloaded from one of the listed domains.",
-            "",
-            "### Persistence",
-            "- **External Remote Services (T1133):** Usage of ScreenConnect Relay suggests attackers may establish persistence by configuring external remote services.",
-            "- **New Service (T1050):** Malware identified by the SHA-256 hashes may install a new service on the victim's system for persistence.",
-            "",
-            "### Privilege Escalation",
-            "- **Exploitation for Privilege Escalation (T1068):** The malware might exploit vulnerabilities to gain higher privileges.",
-            "",
-            "### Defense Evasion",
-            "- **Obfuscated Files or Information (T1027):** The SHA-256 hashes might represent obfuscated files designed to evade antivirus detection.",
-            "- **Masquerading (T1036):** Use of seemingly legitimate domain names (e.g., antispam3[.]com) to disguise malicious activity.",
-            "",
-            "### Credential Access",
-            "- **Credential Dumping (T1003):** Tools like Cobalt Strike can be used to dump credentials.",
-            "",
-            "### Discovery",
-            "- **System Network Configuration Discovery (T1016):** Adversaries may use the NetSupport RAT to discover network configurations.",
-            "",
-            "### Lateral Movement",
-            "- **Remote Services: SMB/Windows Admin Shares (T1021):** The use of tools like Cobalt Strike and ScreenConnect suggests potential lateral movement via remote services.",
-            "",
-            "### Command and Control",
-            "- **Multi-hop Proxy (T1090):** Use of multiple domains and Cobalt Strike Beacon C2 suggests a multi-hop proxy to disguise C2 traffic.",
-            "- **Standard Cryptographic Protocol (T1032):** Encrypted C2 communication, likely in use by Cobalt Strike and NetSupport RAT.",
-            "",
-            "### Exfiltration",
-            "- **Data Encrypted (T1022):** Data might be encrypted before exfiltration to hide its content.",
-            "",
-            "### Impact",
-            "- **Data Destruction (T1485):** Depending on the attacker's intent, the final payload could involve data destruction.",
-            "",
-            "This analysis is based on the IoCs provided and assumes a sophisticated adversary capable of conducting a multi-stage attack. It's important to note that the specific TTPs used by an adversary may vary and not all TTPs listed here will necessarily be used in every campaign associated with these IoCs. Continuous monitoring and analysis are crucial for accurate detection and response."
-        ]
-    },
-    {
-        "article_author": "Microsoft Threat Intelligence",
-        "URL": "https://www.microsoft.com/en-us/security/blog/2024/04/22/analyzing-forest-blizzards-custom-post-compromise-tool-for-exploiting-cve-2022-38028-to-obtain-credentials/",
-        "iocs": [
-            "**Indicators of Compromise (IOCs):**",
-            "",
-            "1. CVE IDs:",
-            "   - CVE-2022-38028",
-            "   - CVE-2023-23397",
-            "   - PrintNightmare (CVE-2021-34527 and CVE-2021-1675)",
-            "",
-            "2. File Names and Paths:",
-            "   - execute.bat",
-            "   - doit.bat",
-            "   - servtask.bat",
-            "   - justice.exe",
-            "   - DefragmentSrv.exe",
-            "   - wayzgoose23.dll and other DLLs starting with \"wayzgoose\"",
-            "   - Installation subdirectories under C:\\ProgramData\\ (Microsoft, Adobe, Comms, Intel, Kaspersky Lab, Bitdefender, ESET, NVIDIA, UbiSoft, Steam)",
-            "   - C:\\Windows\\System32\\DriverStore\\FileRepository\\pnms003.inf_*",
-            "   - C:\\Windows\\System32\\DriverStore\\FileRepository\\pnms009.inf_*",
-            "   - MPDW-Constraints.js",
-            "",
-            "3. Registry Keys and Values:",
-            "   - Custom protocol handler registry keys",
-            "   - CLSID registration for the \"rogue\" protocol",
-            "",
-            "4. Hash Values:",
-            "   - SHA-256: 7d51e5cc51c43da5deae5fbc2dce9b85c0656c465bb25ab6bd063a503c1806a9 (for execute.bat/doit.bat/servtask.bat)",
-            "   - SHA-256: 6b311c0a977d21e772ac4e99762234da852bbf84293386fbe78622a96c0b052f (for justice.exe)",
-            "   - SHA-256: c60ead92cd376b689d1b4450f2578b36ea0bf64f3963cfa5546279fa4424c2a5 (for DefragmentSrv.exe)",
-            "   - SHA-256: 41a9784f8787ed86f1e5d20f9895059dac7a030d8d6e426b9ddcaf547c3393aa (for wayzgoose[%n].dll where %n is a random number)",
-            "",
-            "5. Malware Detections:",
-            "   - HackTool:Win64/GooseEgg",
-            "",
-            "6. URLs/Links:",
-            "   - Microsoft Threat Intelligence Blog: https://aka.ms/threatintelblog",
-            "   - LinkedIn: https://www.linkedin.com/showcase/microsoft-threat-intelligence",
-            "   - X (formerly Twitter): https://twitter.com/MsftSecIntel",
-            "   - Microsoft Threat Intelligence podcast: https://thecyberwire.com/podcasts/microsoft-threat-intelligence",
-            "",
-            "7. External References:",
-            "   - https://media.defense.gov/2021/Jul/01/2002753896/-1/-1/1/CSA_GRU_GLOBAL_BRUTE_FORCE_CAMPAIGN_UOO158036-21.PDF",
-            "   - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-34527",
-            "   - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-1675",
-            "   - https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-074a"
-        ],
-        "ttp": [
-            "Given the Indicators of Compromise (IoCs) provided, we can map out several Tactics, Techniques, and Procedures (TTPs) associated with these IoCs using the MITRE ATT&CK framework. The TTPs are categorized under the relevant MITRE ATT&CK tactics:",
-            "",
-            "### 1. Initial Access",
-            "- **T1190 - Exploit Public-Facing Application**: The CVEs mentioned (CVE-2022-38028, CVE-2023-23397, CVE-2021-34527, CVE-2021-1675) could be exploited to gain initial access to a system. These vulnerabilities often affect public-facing applications or services.",
-            "",
-            "### 2. Execution",
-            "- **T1059 - Command and Scripting Interpreter**: The presence of batch files (`execute.bat`, `doit.bat`, `servtask.bat`) and JavaScript (`MPDW-Constraints.js`) indicates the use of scripting to execute commands.",
-            "- **T1204 - User Execution**: Malicious files named to appear benign, such as `justice.exe` and `DefragmentSrv.exe`, might rely on users inadvertently executing them.",
-            "",
-            "### 3. Persistence",
-            "- **T1547 - Boot or Logon Autostart Execution**: Malware might use custom protocol handler registry keys or CLSID registration for persistence by executing upon system startup or user logon.",
-            "- **T1112 - Modify Registry**: The modification of registry keys and values can be used to maintain persistence on a compromised host.",
-            "",
-            "### 4. Privilege Escalation",
-            "- **T1068 - Exploitation for Privilege Escalation**: The vulnerabilities like PrintNightmare (CVE-2021-34527 and CVE-2021-1675) can be exploited to escalate privileges on a compromised system.",
-            "",
-            "### 5. Defense Evasion",
-            "- **T1027 - Obfuscated Files or Information**: The use of files with non-descriptive names (`justice.exe`, `DefragmentSrv.exe`, `wayzgoose23.dll`) and the presence of hash values for these files suggest attempts to evade detection.",
-            "- **T1036 - Masquerading**: Files placed in directories mimicking legitimate software (`C:\\ProgramData\\`) or system directories could be used to masquerade as legitimate files.",
-            "",
-            "### 6. Credential Access",
-            "- **T1555 - Credentials from Password Stores**: By exploiting vulnerabilities, attackers might attempt to access credentials stored on the system or within applications.",
-            "",
-            "### 7. Discovery",
-            "- **T1083 - File and Directory Discovery**: The presence of specific file paths and names in the IoCs suggests attackers may have been conducting discovery operations to identify valuable files or directories.",
-            "",
-            "### 8. Lateral Movement",
-            "- **T1570 - Lateral Tool Transfer**: The use of batch files and executables could indicate the transfer of tools or payloads to other systems within the network for lateral movement.",
-            "",
-            "### 9. Command and Control",
-            "- **T1071 - Application Layer Protocol**: The use of legitimate websites and URLs (Microsoft Threat Intelligence Blog, LinkedIn, X (formerly Twitter)) could be indicative of C2 communications or the distribution of misinformation.",
-            "",
-            "### 10. Exfiltration",
-            "- **T1041 - Exfiltration Over C2 Channel**: If attackers have established command and control, they might exfiltrate data over these channels.",
-            "",
-            "### 11. Impact",
-            "- **T1485 - Data Destruction**: The use of specific executables and scripts could be aimed at data destruction or manipulation as part of an impact strategy.",
-            "",
-            "These TTPs are derived from the provided IoCs and represent a broad range of potential attacker behaviors. Actual tactics and techniques used would depend on the specifics of the attack campaign and the goals of the attackers."
-        ]
-    },
-    {
+        "title": "Attackers exploiting new critical OpenMetadata vulnerabilities on Kubernetes clusters | Microsoft Security Blog",
         "article_author": "Microsoft Threat Intelligence",
         "URL": "https://www.microsoft.com/en-us/security/blog/2024/04/17/attackers-exploiting-new-critical-openmetadata-vulnerabilities-on-kubernetes-clusters/",
-        "iocs": [
-            "- CVE-2024-28255",
-            "- CVE-2024-28847",
-            "- CVE-2024-28253",
-            "- CVE-2024-28848",
-            "- CVE-2024-28254",
-            "- oast[.]me",
-            "- oast[.]pro",
-            "- SHA-256: 7c6f0bae1e588821bd5d66cd98f52b7005e054279748c2c851647097fa2ae2df",
-            "- SHA-256: 19a63bd5d18f955c0de550f072534aa7a6a6cc6b78a24fea4cc6ce23011ea01d",
-            "- SHA-256: 31cd1651752eae014c7ceaaf107f0bf8323b682ff5b24c683a683fdac7525bad",
-            "- IP: 8[.]222[.]144[.]60",
-            "- IP: 61[.]160[.]194[.]160",
-            "- IP: 8[.]130[.]115[.]208"
-        ],
-        "ttp": [
-            "Given the list of Indicators of Compromise (IoCs) that includes CVE identifiers, domain names, SHA-256 hashes, and IP addresses, we can infer potential Tactics, Techniques, and Procedures (TTPs) based on the MITRE ATT&CK framework. However, without specific details about the vulnerabilities or the context in which the IoCs were identified, the following TTPs are speculative and based on common patterns associated with such IoCs:",
-            "",
-            "### 1. Initial Access",
-            "- **T1190** Exploit Public-Facing Application: The CVEs listed could be vulnerabilities in public-facing applications, and attackers may exploit these to gain initial access.",
-            "- **T1189** Drive-by Compromise: Users visiting or redirected to malicious domains (e.g., `oast[.]me`, `oast[.]pro`) could have their systems compromised.",
-            "",
-            "### 2. Execution",
-            "- **T1203** Exploitation for Client Execution: Exploiting vulnerabilities (CVEs) to execute unauthorized commands or code on a victim's system.",
-            "  ",
-            "### 3. Persistence",
-            "- **T1574** Hijack Execution Flow: If any of the CVEs allow modification of the execution flow, this could be used for persistence.",
-            "",
-            "### 4. Privilege Escalation",
-            "- **T1068** Exploitation for Privilege Escalation: Some of the CVEs might allow attackers to gain higher privileges.",
-            "",
-            "### 5. Defense Evasion",
-            "- **T1027** Obfuscated Files or Information: The SHA-256 hashes could pertain to malware that is obfuscated to evade detection.",
-            "- **T1562** Impair Defenses: If any of the CVEs can be used to disable or impair security software, this would be relevant.",
-            "",
-            "### 6. Credential Access",
-            "- **T1555** Credentials from Password Stores: If any of the CVEs affect software that stores credentials, this could be a vector for credential access.",
-            "",
-            "### 7. Discovery",
-            "- **T1083** File and Directory Discovery: Malware associated with the SHA-256 hashes might perform discovery operations post-compromise.",
-            "",
-            "### 8. Lateral Movement",
-            "- **T1021** Remote Services: Exploiting vulnerabilities to move laterally within a network.",
-            "",
-            "### 9. Command and Control",
-            "- **T1071** Application Layer Protocol: Using domains or IP addresses for C2 communications.",
-            "- **T1568** Dynamic Resolution: Utilizing domains like `oast[.]me` and `oast[.]pro` for dynamic C2 infrastructure.",
-            "",
-            "### 10. Exfiltration",
-            "- **T1041** Exfiltration Over C2 Channel: Data might be exfiltrated to the attacker-controlled IPs or domains.",
-            "",
-            "### 11. Impact",
-            "- **T1485** Data Destruction: If any of the CVEs allow for data manipulation, this could lead to data destruction or alteration.",
-            "",
-            "It's important to note that the actual TTPs used in association with these IoCs would depend on the context of the attack, the specific vulnerabilities of the CVEs mentioned (which are fictional in this scenario as their numbers are beyond the current date's range), and the attackers' objectives. The MITRE ATT&CK framework provides a comprehensive list of TTPs, and the ones listed above are inferred based on the types of IoCs provided."
-        ]
+        "iocs": {
+            "ip_addresses": [
+                "8.222.144.60, 61.160.194.160, 8.130.115.208"
+            ],
+            "file_hashes": [
+                "- SHA-256: 7c6f0bae1e588821bd5d66cd98f52b7005e054279748c2c851647097fa2ae2df",
+                "- SHA-256: 19a63bd5d18f955c0de550f072534aa7a6a6cc6b78a24fea4cc6ce23011ea01d",
+                "- SHA-256: 31cd1651752eae014c7ceaaf107f0bf8323b682ff5b24c683a683fdac7525bad"
+            ],
+            "domain_names": [
+                "- oast[.]me",
+                "- oast[.]pro",
+                "- aka.ms",
+                "- linkedin.com",
+                "- twitter.com",
+                "- thecyberwire.com"
+            ],
+            "email_addresses": [],
+            "urls": [
+                "1. https://aka.ms/threatintelblog",
+                "2. https://www.linkedin.com/showcase/microsoft-threat-intelligence",
+                "3. https://twitter.com/MsftSecIntel",
+                "4. https://thecyberwire.com/podcasts/microsoft-threat-intelligence"
+            ],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Initial Access (TA0001):** The use of malicious domains and IP addresses can indicate attempts to gain initial access through various means such as spear-phishing or drive-by compromise.",
+                "- **Execution (TA0002):** The presence of file hashes related to malicious software suggests that adversaries are executing code on a victim's system.",
+                "- **Command and Control (TA0011):** The listed IP addresses and domains may be used for command and control (C2) communication between the compromised systems and the attacker's infrastructure.",
+                "- **Exfiltration (TA0010):** The use of specific network infrastructure (IP addresses and domains) could be related to data exfiltration attempts."
+            ],
+            "Techniques": [
+                "- **Spearphishing Link (T1566.002):** The use of legitimate-looking domains (such as the spoofed or similar domains to `aka.ms`, `linkedin.com`, etc.) in URLs could be part of spear-phishing campaigns to deceive users into clicking malicious links.",
+                "- **User Execution (T1204):** The malicious file hashes represent malware that requires a user to execute it, possibly through deceptive means.",
+                "- **Command and Control over Web Protocol (T1071):** The listed URLs and domains indicate the use of web protocols for C2 communication, which is a common technique for maintaining contact with a compromised system.",
+                "- **Exfiltration Over Command and Control Channel (T1041):** The presence of specific IP addresses and domains used for command and control suggests that adversaries could be exfiltrating data over these established C2 channels."
+            ],
+            "Procedures": [
+                "- **Phishing with a Spoofed Domain:** Using domains that appear legitimate (e.g., `oast[.]me`, `oast[.]pro`) to host phishing sites or malicious content, tricking users into interacting with them.",
+                "- **Delivery of Malware via Email Link:** Embedding URLs (like `https://aka.ms/threatintelblog`) in emails that direct users to download malware, leveraging the trust in seemingly legitimate domains.",
+                "- **Remote Command Execution through Malware:** Utilizing the malware associated with the given SHA-256 hashes to execute commands remotely on the victim's machine, allowing for data theft, system manipulation, or further malware deployment.",
+                "- **Data Exfiltration to C2 Infrastructure:** Transmitting stolen data from the victim's network to the attacker-controlled infrastructure identified by the listed IP addresses, leveraging encrypted channels to avoid detection."
+            ]
+        }
     },
     {
+        "title": "Analyzing Forest Blizzard\u2019s custom post-compromise tool for exploiting CVE-2022-38028 to obtain credentials | Microsoft Security Blog",
+        "article_author": "Microsoft Threat Intelligence",
+        "URL": "https://www.microsoft.com/en-us/security/blog/2024/04/22/analyzing-forest-blizzards-custom-post-compromise-tool-for-exploiting-cve-2022-38028-to-obtain-credentials/",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [
+                "- 7d51e5cc51c43da5deae5fbc2dce9b85c0656c465bb25ab6bd063a503c1806a9 (SHA-256)",
+                "- c60ead92cd376b689d1b4450f2578b36ea0bf64f3963cfa5546279fa4424c2a5 (SHA-256)",
+                "- 6b311c0a977d21e772ac4e99762234da852bbf84293386fbe78622a96c0b052f (SHA-256)",
+                "- 41a9784f8787ed86f1e5d20f9895059dac7a030d8d6e426b9ddcaf547c3393aa (SHA-256)"
+            ],
+            "domain_names": [],
+            "email_addresses": [],
+            "urls": [],
+            "registry_keys": [
+                "```",
+                "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{026CC6D7-34B2-33D5-B551-CA31EB6CE345}\\Server",
+                "HKEY_CURRENT_USER\\Software\\Classes\\PROTOCOLS\\Handler\\rogue",
+                "```"
+            ]
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Persistence (TA0003):** The presence of specific registry keys suggests techniques to maintain persistence on a system by adding or modifying registry entries.",
+                "- **Defense Evasion (TA0005):** The use of file hashes and registry modifications can indicate attempts to avoid detection by security solutions. Modifying registry keys can also be used to disable security mechanisms.",
+                "- **Execution (TA0002):** The registry keys could be related to techniques for executing malicious code on a system startup or when certain conditions are met."
+            ],
+            "Techniques": [
+                "- **Registry Run Keys / Startup Folder (T1547.001):** The registry keys mentioned might be used to achieve persistence by adding entries that execute malware during system startup.",
+                "- **Obfuscated Files or Information (T1027):** The presence of file hashes without corresponding file names suggests that obfuscated or encrypted files could be involved, aiming to evade antivirus detection.",
+                "- **Process Injection (T1055):** The specific registry keys might be used in techniques that involve injecting malicious code into legitimate processes to execute code in the context of another process, evading process-based defenses."
+            ],
+            "Procedures": [
+                "- **Modifying Registry for Persistence:** By adding or modifying the registry keys listed in the IoCs, an attacker ensures that the malware is executed at system startup or when certain actions are taken, achieving persistence on the victim's machine.",
+                "- **Using Obfuscated Malware:** The file hashes provided in the IoCs could belong to malware that has been obfuscated to avoid detection by security tools. The attacker relies on obfuscation techniques to deliver the payload without being intercepted.",
+                "- **Process Injection for Stealth Execution:** The attacker could use the registry modifications indicated by the IoCs to inject malicious code into legitimate processes. This procedure allows the malware to run undetected by operating under the guise of legitimate processes."
+            ]
+        }
+    },
+    {
+        "title": "Mitigating Skeleton Key, a new type of generative AI jailbreak technique | Microsoft Security Blog",
         "article_author": "Mark Russinovich",
         "URL": "https://www.microsoft.com/en-us/security/blog/2024/06/26/mitigating-skeleton-key-a-new-type-of-generative-ai-jailbreak-technique/",
-        "iocs": [
-            "The content provided does not contain traditional Indicators of Compromise (IOCs) such as IP addresses, URLs, hashes, or specific malware signatures typically associated with cyber threats. Instead, it discusses a theoretical or conceptual attack technique known as \"Skeleton Key\" targeting AI models. Therefore, no standard IOCs can be extracted from this text."
-        ],
-        "ttp": [
-            "Given the nature of the scenario described as \"Skeleton Key\" targeting AI models, we can infer a range of Tactics, Techniques, and Procedures (TTPs) that might be employed by adversaries within the context of the MITRE ATT&CK framework. These TTPs are more conceptual, given the abstract nature of the threat, and focus on areas such as initial access, execution, persistence, privilege escalation, defense evasion, and impact \u2013 particularly as they relate to compromising or manipulating AI models.",
-            "",
-            "### Initial Access",
-            "- **T1190 - Exploit Public-Facing Application**: Attackers might target web applications that interact with AI models to gain initial access.",
-            "- **T1189 - Drive-by Compromise**: Compromising a website known to be visited by targets interested in AI to deliver a payload that targets the AI models or their supporting infrastructure.",
-            "",
-            "### Execution",
-            "- **T1059 - Command and Scripting Interpreter**: Using scripts to manipulate AI models or their inputs.",
-            "- **T1203 - Exploitation for Client Execution**: Exploiting vulnerabilities in client applications that interact with AI models.",
-            "",
-            "### Persistence",
-            "- **T1166 - Modify Authentication Process**: Modifying the AI model's authentication mechanisms to allow persistent access.",
-            "- **T1133 - External Remote Services**: Gaining access to an external service that interacts with the AI model, allowing for persistent access.",
-            "",
-            "### Privilege Escalation",
-            "- **T1068 - Exploitation for Privilege Escalation**: Exploiting vulnerabilities in systems that host AI models to gain higher privileges.",
-            "- **T1055 - Process Injection**: Injecting malicious code into legitimate processes related to the AI model's operation.",
-            "",
-            "### Defense Evasion",
-            "- **T1027 - Obfuscated Files or Information**: Obfuscating malicious inputs to AI models to evade detection.",
-            "- **T1036 - Masquerading**: Mimicking legitimate AI model interactions to avoid detection.",
-            "",
-            "### Credential Access",
-            "- **T1110 - Brute Force**: Attempting to guess or crack passwords to gain access to AI models or their management interfaces.",
-            "- **T1081 - Credentials in Files**: Searching for credentials in files related to AI model development or deployment.",
-            "",
-            "### Discovery",
-            "- **T1082 - System Information Discovery**: Gathering information about how the AI models are deployed and operated.",
-            "- **T1046 - Network Service Scanning**: Scanning for open ports and services related to AI model management or operation.",
-            "",
-            "### Lateral Movement",
-            "- **T1021 - Remote Services**: Utilizing remote services to move across the network to systems hosting AI models.",
-            "- **T1072 - Software Deployment Tools**: Using legitimate software deployment tools to distribute malicious payloads targeting AI models.",
-            "",
-            "### Collection",
-            "- **T1119 - Automated Collection**: Automating the collection of data from compromised AI models or systems.",
-            "- **T1056 - Input Capture**: Capturing input to AI models to learn about their operation or to find vulnerabilities.",
-            "",
-            "### Impact",
-            "- **T1485 - Data Destruction**: Deleting or corrupting data related to AI models to impair their functionality.",
-            "- **T1499 - Endpoint Denial of Service**: Disrupting the operation of AI models through resource exhaustion or other means.",
-            "",
-            "### Command and Control",
-            "- **T1071 - Application Layer Protocol**: Using application layer protocols to communicate with compromised systems or AI models.",
-            "- **T1132 - Data Encoding**: Encoding data to be exfiltrated from compromised AI models or systems.",
-            "",
-            "### Exfiltration",
-            "- **T1041 - Exfiltration Over Command and Control Channel**: Exfiltrating data stolen from AI models over a C2 channel.",
-            "- **T1020 - Automated Exfiltration**: Automating the exfiltration of data related to AI models.",
-            "",
-            "Given the speculative nature of the \"Skeleton Key\" attack on AI models, the TTPs listed above are broad and would need to be refined based on specific attack scenarios, vulnerabilities, and the nature of the AI models targeted."
-        ]
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [],
+            "domain_names": [
+                "- microsoft.com",
+                "- aka.ms",
+                "- linkedin.com",
+                "- twitter.com",
+                "- thecyberwire.com"
+            ],
+            "email_addresses": [],
+            "urls": [
+                "1. https://www.microsoft.com/ai/principles-and-approach",
+                "2. https://aka.ms/threatintelblog",
+                "3. https://www.linkedin.com/showcase/microsoft-threat-intelligence",
+                "4. https://twitter.com/MsftSecIntel",
+                "5. https://thecyberwire.com/podcasts/microsoft-threat-intelligence"
+            ],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Spearphishing (T1566):** The use of spoofed or compromised legitimate domains in spearphishing campaigns to gain initial access or deliver payloads.",
+                "- **Reputation Hijacking (T1550):** Attackers could leverage the good reputation of the listed domains to bypass security measures and trick users into trusting malicious content."
+            ],
+            "Techniques": [
+                "- **Spearphishing Link (T1566.002):** The URLs provided in the IoCs could be used in spearphishing emails or messages, directing users to malicious sites that masquerade as legitimate services for the purpose of credential theft, malware delivery, or other malicious activities.",
+                "- **Masquerading (T1036):** The use of legitimate-looking domain names to masquerade as reputable entities in order to deceive users or security tools.",
+                "- **Phishing for Information (T1598):** The IoCs, especially the URLs, could be part of a campaign aimed at phishing for sensitive information under the guise of legitimate services."
+            ],
+            "Procedures": [
+                "- **Domain Spoofing for Phishing:** Attackers create or compromise websites that closely mimic the legitimate ones listed in the IoCs, using them to conduct phishing attacks aimed at stealing credentials or distributing malware.",
+                "- **Social Engineering via Compromised Links:** The URLs, appearing to be legitimate links to reputable sites, could be used in social engineering attacks. Attackers might send these links via email or social media, tricking users into interacting with them under false pretenses.",
+                "- **Information Gathering through Fake Profiles:** Creating fake profiles or pages on platforms like LinkedIn and Twitter, using URLs that mimic legitimate entities to gather information on targets or to spread further misinformation or malicious links."
+            ]
+        }
     },
     {
-        "article_author": "Microsoft Threat Intelligence",
-        "URL": "https://www.microsoft.com/en-us/security/blog/2024/05/30/exposed-and-vulnerable-recent-attacks-highlight-critical-need-to-protect-internet-exposed-ot-devices/",
-        "iocs": [
-            "1. **Threat Actors:**",
-            "   - IRGC-affiliated \u201cCyberAv3ngers\u201d",
-            "   - Pro-Russian hacktivists",
-            "   - \u201cSoldiers of Solomon\u201d",
-            "   - \u201cAbnaa Al-Saada\u201d",
-            "   - Microsoft's internal tracking of \u201cCyberAv3ngers\u201d and \u201cSoldiers of Solomon\u201d as Storm-0784.",
-            "",
-            "2. **Targeted Systems and Vulnerabilities:**",
-            "   - Internet-exposed OT devices with weak security configurations.",
-            "   - PLC-HMI systems by Israeli manufacturer Unitronics.",
-            "   - Unitronics systems displaying a message: \u201cEvery equipment \u2018made in Israel\u2019 is a Cyber Av3ngers legal target\u201c.",
-            "   - Vulnerability related to Unitronics default password configuration (CVE-2023-6448).",
-            "",
-            "3. **Specific Incident Details:**",
-            "   - Aliquippa water plant cyberattack in November 2023.",
-            "   - Attack on a PLC-HMI system by Unitronics at the Aliquippa water plant, displaying a red screen with the \u201cCyberAv3ngers\u201d logo.",
-            "   - Model number of the targeted Unitronics system: V570.",
-            "   - PLC Name field set to \u201cRaccoon Primary PLC\u201d.",
-            "   - Geographic location near the Aliquippa station.",
-            "",
-            "4. **Detection and Mitigation Tools:**",
-            "   - Microsoft Defender for IoT.",
-            "   - Microsoft Defender Vulnerability Management.",
-            "   - Microsoft Defender for Endpoint with the Microsoft Defender for IoT add-on.",
-            "   - Microsoft Defender External Attack Surface Management.",
-            "",
-            "5. **Microsoft Defender for IoT Detections:**",
-            "   - External address within the network communicated with Internet.",
-            "   - Internet Access Detected.",
-            "   - Unauthorized Internet Connectivity Detected.",
-            "   - Unauthorized PLC Program Upload.",
-            "   - Unauthorized PLC Programming.",
-            "",
-            "6. **External References and Advisories:**",
-            "   - CISA advisory on IRGC-Affiliated Cyber Actors exploiting PLCs.",
-            "   - CVE-2023-6448 listed on NVD (nist.gov).",
-            "   - Unitronics Cybersecurity Advisory 2023-001-CVE-2023-6448 (unitronicsplc.com).",
-            "",
-            "7. **Social Media and Forums:**",
-            "   - Unitronics Support Forum posts about PLC hacking.",
-            "   - X (formerly Twitter) posts about cyberattacks on Unitronics systems."
-        ],
-        "ttp": [
-            "Given the information provided, we can map out several Tactics, Techniques, and Procedures (TTPs) related to the incidents and threat actors described, using the MITRE ATT&CK framework. This framework provides a comprehensive listing of various cyber adversary behavior across several matrices, focusing on areas such as enterprise, mobile, and industrial control systems (ICS). Given the context of the incidents, our focus will likely lean more towards the ICS and enterprise matrices.",
-            "",
-            "### Tactics",
-            "1. **Initial Access (TA0001)**: The threat actors likely gain initial access through exploiting internet-exposed OT devices with weak security configurations or through exploitation of known vulnerabilities such as CVE-2023-6448.",
-            "2. **Execution (TA0002)**: Execution of unauthorized PLC (Programmable Logic Controller) program uploads and programming, as indicated by the Microsoft Defender for IoT detections.",
-            "3. **Persistence (TA0003)**: The unauthorized changes to PLC programs could indicate attempts at maintaining persistence within the targeted systems.",
-            "4. **Discovery (TA0007)**: The actors may engage in discovery techniques to identify OT devices and systems for targeting, as evidenced by the specific targeting of Unitronics systems.",
-            "5. **Collection (TA0009)**: Collection might involve gathering information from targeted systems to facilitate further operations or to identify valuable targets.",
-            "6. **Command and Control (TA0011)**: Unauthorized Internet connectivity and communications with external addresses indicate the establishment of command and control channels.",
-            "7. **Impact (TA0040)**: Displaying messages on compromised systems and potentially disrupting operations at facilities like the Aliquippa water plant highlight the impact-focused nature of these attacks.",
-            "",
-            "### Techniques",
-            "1. **Exploit Public-Facing Application (T1190)**: Exploiting vulnerabilities in internet-exposed OT devices.",
-            "2. **External Remote Services (T1133)**: Utilizing remote services for initial access or persistence.",
-            "3. **Drive-by Compromise (T1189)**: If the threat actors used web-based methods to exploit vulnerabilities in visiting browsers or applications.",
-            "4. **Modify Controller Configuration (T0800)**: Specifically altering PLC configurations, as seen with the unauthorized PLC programming.",
-            "5. **Network Sniffing (T1040)**: Potentially used to discover network traffic and identify valuable targets.",
-            "6. **Data Encrypted for Impact (T1486)**: While not explicitly stated, if the attackers aimed to disrupt operations, encrypting data could be a plausible technique.",
-            "7. **Denial of Service (T1498)**: Any actions taken to disrupt the normal operations of the targeted systems.",
-            "",
-            "### Procedures",
-            "- **CVE-2023-6448 Exploitation**: The threat actors exploit a known vulnerability related to default password configurations in Unitronics systems.",
-            "- **PLC Program Uploads**: Unauthorized uploading of PLC programs to display messages or logos, indicating system compromise.",
-            "- **Network Communication with External Addresses**: Establishing unauthorized network communications to facilitate command and control or exfiltrate data.",
-            "- **Display Warning Messages**: Modifying system displays to show threatening messages or logos as a form of psychological impact or public announcement of the breach.",
-            "",
-            "### Mitigations",
-            "- **Network Segmentation and Segregation (M1030)**: To limit the exposure of critical systems to the internet and unauthorized access.",
-            "- **Update Software (M1051)**: Applying patches and updates to fix known vulnerabilities like CVE-2023-6448.",
-            "- **User Account Management (M1018)**: Enforcing strong password policies and changing default credentials.",
-            "- **Restrict Web-Based Content (M1021)**: To prevent drive-by compromises and other web-based attack vectors.",
-            "- **Multi-factor Authentication (M1032)**: Adding an additional layer of security for accessing critical systems.",
-            "",
-            "This analysis leverages the information provided to align with the MITRE ATT&CK framework, showcasing how these incidents and threat actors' actions can be categorized into standardized cybersecurity terminologies and concepts."
-        ]
-    },
-    {
+        "title": "AI jailbreaks: What they are and how they can be mitigated | Microsoft Security Blog",
         "article_author": "Microsoft Threat Intelligence",
         "URL": "https://www.microsoft.com/en-us/security/blog/2024/06/04/ai-jailbreaks-what-they-are-and-how-they-can-be-mitigated/",
-        "iocs": [
-            "The content does not contain traditional indicators of compromise (IOCs) such as IP addresses, domain names, or specific malware signatures that are typically associated with cybersecurity threats. Instead, it discusses concepts and techniques related to AI security, including AI jailbreaks and mitigation strategies."
-        ],
-        "ttp": [
-            "Given the nature of the content, which focuses on AI security, AI jailbreaks, and mitigation strategies without traditional indicators of compromise (IoCs), we would need to look at Tactics, Techniques, and Procedures (TTPs) from the MITRE ATT&CK framework that could potentially relate to adversarial AI, misuse of AI, or the defense against such threats. Since MITRE ATT&CK is primarily focused on cybersecurity threats and doesn't directly address AI security issues, we will extrapolate relevant TTPs based on the concepts mentioned:",
-            "",
-            "### Tactics:",
-            "1. **Initial Access** (TA0001): While not directly related to AI, adversaries could use initial access vectors to deploy AI-driven attacks or tools.",
-            "2. **Execution** (TA0002): Execution of AI-driven malware or scripts that could perform actions like AI jailbreaks.",
-            "3. **Defense Evasion** (TA0005): Techniques that could be enhanced by AI, such as polymorphic malware or adversarial AI techniques to evade detection.",
-            "4. **Discovery** (TA0007): Use of AI to perform more effective discovery processes within a compromised network.",
-            "5. **Command and Control** (TA0011): Utilizing AI to manage C2 communications dynamically or to evade detection.",
-            "6. **Impact** (TA0040): AI could be used to enhance the impact of attacks, for example through optimizing the spread of ransomware within a network.",
-            "",
-            "### Techniques:",
-            "1. **Spearphishing Attachment** (T1566.001): AI could be used to generate highly convincing spearphishing campaigns.",
-            "2. **Scripting** (T1059): Use of AI models in scripting to automate tasks or evade detection.",
-            "3. **Obfuscated Files or Information** (T1027): AI-driven obfuscation techniques to evade signature-based detection.",
-            "4. **Masquerading** (T1036): AI could be used to generate more convincing masquerades to evade heuristic and behavior-based detection.",
-            "5. **Adversarial AI** (Not directly in MITRE but relevant): Techniques that involve the use of AI to bypass AI-driven security systems, such as generating inputs that machine learning models misclassify.",
-            "",
-            "### Procedures:",
-            "1. **AI-Driven Phishing**: Using AI to analyze vast amounts of data to create highly targeted phishing emails.",
-            "2. **Automated Lateral Movement**: Utilizing AI to analyze network defenses and automate the selection of lateral movement techniques.",
-            "3. **Evasive Malware**: Employing AI to dynamically change malware signatures or behavior to evade detection.",
-            "4. **AI Jailbreaks**: Techniques specifically designed to exploit vulnerabilities in AI systems or to escape from restricted AI environments.",
-            "5. **Mitigation Strategies Against AI Threats**: Implementing AI security measures, such as adversarial training, robustness testing, and anomaly detection to mitigate risks associated with adversarial AI.",
-            "",
-            "It's important to note that as AI security evolves, so will the tactics, techniques, and procedures used by adversaries and defenders. The MITRE ATT&CK framework is continuously updated, and future iterations may include more AI-specific entries as the landscape changes."
-        ]
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [],
+            "domain_names": [
+                "1. aka.ms",
+                "2. www.linkedin.com",
+                "3. twitter.com",
+                "4. thecyberwire.com"
+            ],
+            "email_addresses": [],
+            "urls": [
+                "1. https://aka.ms/threatintelblog",
+                "2. https://www.linkedin.com/showcase/microsoft-threat-intelligence",
+                "3. https://twitter.com/MsftSecIntel",
+                "4. https://thecyberwire.com/podcasts/microsoft-threat-intelligence"
+            ],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Initial Access (T1190):** The IoCs could be part of spear-phishing links or trusted relationship abuse, where attackers use social engineering to trick users into clicking on seemingly legitimate links that lead to credential harvesting or malware deployment.",
+                "- **Execution (T1203):** If the URLs lead to malicious downloads, this could be an instance of execution through exploitation of trusted resources.",
+                "- **Command and Control (T1071):** The domain names, if controlled by adversaries, could be used for command and control communications, masquerading as legitimate services to evade detection."
+            ],
+            "Techniques": [
+                "- **Spearphishing Link (T1566.002):** The URLs provided in the IoCs could be used in spear-phishing emails to direct victims to sites controlled by the adversary for credential theft or malware delivery.",
+                "- **Trusted Relationship (T1199):** The use of domain names resembling reputable entities could exploit the trust relationship between the entity and the victim, convincing them to engage with malicious content.",
+                "- **Web Protocols (T1071.001):** If the domains are used for command and control, they might leverage standard web protocols to blend in with normal traffic and avoid detection."
+            ],
+            "Procedures": [
+                "- **Phishing Campaign Using Reputable Domains:** An attacker crafts emails that include links to the listed URLs, which are designed to mimic legitimate services offered by Microsoft, LinkedIn, Twitter, and The CyberWire. The goal is to trick users into providing sensitive information or downloading malware.",
+                "- **Masquerading as Legitimate Services for C2 Communications:** The attacker sets up infrastructure under the guise of the listed domain names to communicate with compromised hosts, leveraging the trust in these domain names to bypass network defenses.",
+                "- **Distributing Malware Through Compromised Links:** The attacker modifies the content at the provided URLs or creates phishing pages mimicking these URLs to distribute malware to unsuspecting users, exploiting their trust in these well-known entities."
+            ]
+        }
+    },
+    {
+        "title": "\u201cDirty stream\u201d attack: Discovering and mitigating a common vulnerability pattern in Android apps | Microsoft Security Blog",
+        "article_author": "Microsoft Threat Intelligence",
+        "URL": "https://www.microsoft.com/en-us/security/blog/2024/05/01/dirty-stream-attack-discovering-and-mitigating-a-common-vulnerability-pattern-in-android-apps/",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [],
+            "domain_names": [
+                "1. play.google.com",
+                "2. developer.android.com",
+                "3. googlesamples.github.io",
+                "4. androidrank.org",
+                "5. cs.android.com",
+                "6. github.com",
+                "7. codeql.github.com",
+                "8. aka.ms",
+                "9. linkedin.com",
+                "10. twitter.com",
+                "11. thecyberwire.com"
+            ],
+            "email_addresses": [],
+            "urls": [
+                "1. https://www.blackhat.com/asia-23/briefings/schedule/index.html#dirty-stream-attack-turning-android-share-targets-into-attack-vectors-30234",
+                "2. https://developer.android.com/privacy-and-security/risks/untrustworthy-contentprovider-provided-filename",
+                "3. https://developer.android.com/reference/androidx/core/content/FileProvider",
+                "4. https://developer.android.com/guide/topics/manifest/provider-element#gprmsn",
+                "5. https://play.google.com/store/apps/details?id=com.mi.android.globalFileexplorer",
+                "6. https://play.google.com/store/apps/details?id=cn.wps.moffice_eng",
+                "7. https://googlesamples.github.io/android-custom-lint-rules/checks/UnsafeDynamicallyLoadedCode.md.html",
+                "8. https://androidrank.org/application/file_manager/com.mi.android.globalFileexplorer",
+                "9. https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/android/app/SharedPreferencesImpl.java;l=150",
+                "10. https://developer.android.com/privacy-and-security/risks",
+                "11. https://developer.android.com/studio/write/lint#gradle",
+                "12. https://github.com/google/android-security-lints/",
+                "13. https://codeql.github.com/codeql-query-help/java/",
+                "14. https://aka.ms/threatintelblog",
+                "15. https://www.linkedin.com/showcase/microsoft-threat-intelligence",
+                "16. https://twitter.com/MsftSecIntel",
+                "17. https://thecyberwire.com/podcasts/microsoft-threat-intelligence"
+            ],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Resource Development (TA0042):** The IoCs suggest activities related to acquiring and developing resources such as malicious tools or content that can be used in operations. Domains like GitHub and various Android development resources indicate the development or modification of tools targeting Android platforms.",
+                "- **Initial Access (TA0001):** The presence of URLs pointing to Android development resources and applications on the Play Store suggests tactics aiming to gain initial access through the distribution of potentially malicious applications or exploiting Android features.",
+                "- **Execution (TA0002):** The IoCs, particularly URLs related to Android development and code samples, suggest techniques involving the execution of code, possibly through exploitation or malicious applications.",
+                "- **Discovery (TA0007):** Domains and URLs related to Android development and security resources indicate research or discovery efforts aimed at identifying vulnerabilities or features that can be exploited.",
+                "- **Collection (TA0009):** Given the nature of the IoCs, there might be an interest in collecting information from compromised Android devices or through the deployment of malicious applications designed to gather data."
+            ],
+            "Techniques": [
+                "- **Spearphishing Link (T1566.002):** The use of legitimate-looking domains and URLs could be indicative of spearphishing campaigns designed to trick users into downloading malicious applications or granting permissions to malicious actors.",
+                "- **Drive-by Compromise (T1189):** The presence of URLs that could be used to host or distribute malicious content suggests a technique where users are compromised through the exploitation of vulnerabilities in web browsers or apps.",
+                "- **Exploitation for Client Execution (T1203):** The URLs related to Android development and security risks suggest the potential exploration or exploitation of vulnerabilities within Android applications or the operating system for execution purposes.",
+                "- **Query Registry (T1012):** Although no specific registry keys are listed, the focus on Android development could imply an interest in querying Android-related registry keys or configurations as part of reconnaissance or persistence efforts."
+            ],
+            "Procedures": [
+                "- **Malicious Application Development:** The use of Android development resources and GitHub suggests the development or modification of Android applications for malicious purposes, possibly incorporating exploits or malicious payloads.",
+                "- **Vulnerability Research and Exploitation:** The focus on Android security risks and vulnerabilities, as indicated by the URLs, points to procedures involving the research of Android vulnerabilities followed by the development or deployment of exploits targeting these vulnerabilities.",
+                "- **Social Engineering Campaigns:** The utilization of legitimate-looking domains and professional networking sites like LinkedIn could indicate the preparation for social engineering campaigns aimed at distributing malicious applications or links.",
+                "- **Security Tool Evasion:** The reference to Android security lints and privacy risks suggests efforts to understand and possibly evade Android security mechanisms or to develop applications that can bypass security checks."
+            ]
+        }
+    },
+    {
+        "title": "Vulnerabilities in PanelView Plus devices could lead to remote code execution | Microsoft Security Blog",
+        "article_author": "Microsoft Threat Intelligence",
+        "URL": "https://www.microsoft.com/en-us/security/blog/2024/07/02/vulnerabilities-in-panelview-plus-devices-could-lead-to-remote-code-execution/",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [],
+            "domain_names": [
+                "- odva.org",
+                "- rockwellautomation.com",
+                "- aka.ms",
+                "- linkedin.com",
+                "- twitter.com",
+                "- thecyberwire.com"
+            ],
+            "email_addresses": [],
+            "urls": [
+                "1. https://www.odva.org/wp-content/uploads/2020/06/PUB00123R1_Common-Industrial_Protocol_and_Family_of_CIP_Networks.pdf",
+                "2. https://www.rockwellautomation.com/en-us/trust-center/security-advisories/advisory.PN1652.html",
+                "3. https://www.rockwellautomation.com/en-us/trust-center/security-advisories/advisory.PN1645%20.html",
+                "4. https://aka.ms/threatintelblog",
+                "5. https://www.linkedin.com/showcase/microsoft-threat-intelligence",
+                "6. https://twitter.com/MsftSecIntel",
+                "7. https://thecyberwire.com/podcasts/microsoft-threat-intelligence"
+            ],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Resource Development (T1583/T1584):** The presence of domain names and URLs related to reputable organizations such as Microsoft, LinkedIn, and specific industrial sites like odva.org and rockwellautomation.com suggests a tactic where adversaries may develop resources such as malicious domains or content that mimic legitimate services to support operations.",
+                "- **Reconnaissance (T1595):** The collection of domain names and URLs, especially those related to security advisories and threat intelligence, indicates a reconnaissance tactic where adversaries gather information on potential targets or seek to understand security measures and vulnerabilities.",
+                "- **Initial Access (T1566):** The specific URLs that lead to PDFs, security advisories, and blogs may be used in phishing campaigns or to deliver malicious payloads, indicating a tactic aimed at gaining initial access through deception or exploitation of trust."
+            ],
+            "Techniques": [
+                "- **Spearphishing Link (T1566.002):** The URLs provided could be used in spearphishing emails to direct victims to sites hosting malicious content or to impersonate legitimate resources for credential theft, aligning with this technique.",
+                "- **Drive-by Compromise (T1189):** The use of legitimate-looking URLs that could host or redirect to malicious content without the victim's knowledge fits the drive-by compromise technique.",
+                "- **Masquerading (T1036):** The domain names mimic reputable organizations, which could be used to create malicious websites or content that appears legitimate, a common masquerading technique.",
+                "- **Phishing for Information (T1598):** The URLs and domains related to security advisories and threat intelligence could be used in phishing campaigns aimed at gathering sensitive information from victims, aligning with this technique."
+            ],
+            "Procedures": [
+                "- **Creating Fake Domains:** The adversary registers domains closely resembling legitimate organizations (e.g., odva.org, rockwellautomation.com) to host malicious content or conduct phishing campaigns.",
+                "- **Distributing Malicious Documents:** Using the URLs pointing to PDF documents, the adversary might distribute documents that appear legitimate but contain malicious payloads or links to exploit vulnerabilities.",
+                "- **Social Media Masquerading:** Creating fake profiles or pages on platforms like LinkedIn and Twitter to distribute malicious URLs or gather intelligence on targeted individuals or organizations.",
+                "- **Security Advisory Phishing:** Sending emails that mimic security advisories from reputable sources, containing links (e.g., to rockwellautomation.com advisories) that lead to phishing pages or malware downloads."
+            ]
+        }
+    },
+    {
+        "title": "Threat actors misusing Quick Assist in social engineering attacks leading to ransomware | Microsoft Security Blog",
+        "article_author": "Microsoft Threat Intelligence",
+        "URL": "https://www.microsoft.com/en-us/security/blog/2024/05/15/threat-actors-misusing-quick-assist-in-social-engineering-attacks-leading-to-ransomware/",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [
+                "71d50b74f81d27feefbc2bc0f631b0ed7fcdf88b1abbd6d104e66638993786f8",
+                "0f9156f91c387e7781603ed716dcdc3f5342ece96e155115708b1662b0f9b4d0",
+                "1ad05a4a849d7ed09e2efb38f5424523651baf3326b5f95e05f6726f564ccc30",
+                "93058bd5fe5f046e298e1d3655274ae4c08f07a8b6876e61629ae4a0b510a2f7",
+                "1cb1864314262e71de1565e198193877ef83e98823a7da81eb3d59894b5a4cfb"
+            ],
+            "domain_names": [
+                "- antispam3[.]com",
+                "- instance-olqdnn-relay.screenconnect[.]com",
+                "- greekpool[.]com",
+                "- zziveastnews[.]com",
+                "- realsepnews[.]com"
+            ],
+            "email_addresses": [],
+            "urls": [
+                "1. https://aka.ms/threatintelblog",
+                "2. https://www.linkedin.com/showcase/microsoft-threat-intelligence",
+                "3. https://twitter.com/MsftSecIntel",
+                "4. https://thecyberwire.com/podcasts/microsoft-threat-intelligence"
+            ],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Resource Development (T1583/T1584):** The domain names and URLs listed could be indicative of an adversary's efforts to establish infrastructure for command and control, phishing, or dissemination of malware.",
+                "- **Initial Access (T1566):** The presence of domain names and URLs might suggest phishing or spear-phishing attempts to gain initial access to a victim's system.",
+                "- **Execution (T1204):** The file hashes provided could be related to the execution of malicious software on a victim's system.",
+                "- **Command and Control (T1071):** Domain names such as `instance-olqdnn-relay.screenconnect[.]com` could be used for command and control communications between the compromised system and the attacker's infrastructure.",
+                "- **Exfiltration (T1041):** The use of command and control domains could also suggest data being exfiltrated from the victim's network to the attacker-controlled servers."
+            ],
+            "Techniques": [
+                "- **Spearphishing Link (T1566.002):** The URLs provided could be used in spear-phishing emails to deceive users into visiting malicious sites or downloading malware.",
+                "- **User Execution (T1204.002):** The file hashes represent files that might require the user to execute them, initiating the malware infection process.",
+                "- **Command and Control Over Web Protocol (T1071.001):** The domain names listed could be utilized for C2 communications over HTTP/HTTPS, indicating this technique.",
+                "- **Data Encoded (T1132):** If the network communication with these domains involves exfiltration, encoding data into regular communication with these domains might be a technique used to avoid detection."
+            ],
+            "Procedures": [
+                "- **Malware Distribution via Spear Phishing:** Utilizing the URLs in phishing emails to distribute malware. The emails could be crafted to appear as if they are from legitimate sources like Microsoft, as suggested by the URLs, to trick users into downloading malware.",
+                "- **Establishing Command and Control Channel:** Using the domain names `instance-olqdnn-relay.screenconnect[.]com` or similar for establishing a command and control channel after initial compromise, allowing the attacker to command the malware and exfiltrate data.",
+                "- **Execution of Malware:** The identified file hashes are likely associated with specific malware samples. These could be executed by the user, either directly or through exploitation of vulnerabilities, leading to the compromise of the system."
+            ]
+        }
+    },
+    {
+        "title": "Moonstone Sleet emerges as new North Korean threat actor with new bag of tricks | Microsoft Security Blog",
+        "article_author": "Microsoft Threat Intelligence",
+        "URL": "https://www.microsoft.com/en-us/security/blog/2024/05/28/moonstone-sleet-emerges-as-new-north-korean-threat-actor-with-new-bag-of-tricks/",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [],
+            "domain_names": [
+                "- detankwar.com",
+                "- defitankzone.com",
+                "- bestonlinefilmstudio.org",
+                "- blockchain-newtech.com",
+                "- ccwaterfall.com",
+                "- chaingrown.com",
+                "- freenet-zhilly.org",
+                "- matrixane.com",
+                "- pointdnt.com",
+                "- starglowventures.com",
+                "- mingeloem.com"
+            ],
+            "email_addresses": [],
+            "urls": [],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Resource Development (TA0042):** The acquisition and management of resources, like domain names, that support operations. The listed domain names could be part of infrastructure setup for various malicious activities.",
+                "- **Initial Access (TA0001):** Attackers use different methods to gain entry into a network. Phishing or drive-by compromise using these domains could be a vector.",
+                "- **Command and Control (TA0011):** The use of domains for establishing communication with compromised systems to control them remotely."
+            ],
+            "Techniques": [
+                "- **Acquire Infrastructure: Domains (T1583):** The registration of domains that can be used for malicious purposes such as C2 servers or phishing sites.",
+                "- **Spearphishing Link (T1566.002):** Sending emails that contain malicious links to one of these domains as a method to compromise targets.",
+                "- **Web Protocols (T1071):** Utilizing the HTTP/HTTPS protocols for communication with a command and control server identified by one of the listed domains.",
+                "- **Drive-by Compromise (T1189):** Compromising a user's web browser through vulnerabilities after visiting one of the malicious domains."
+            ],
+            "Procedures": [
+                "- **Domain Registration for C2:** Registering domains like those listed to set up command and control infrastructure.",
+                "- **Phishing Campaign Using Malicious Domains:** Launching phishing campaigns that include links to one or more of the listed domains, aiming to deceive recipients into revealing sensitive information or downloading malware.",
+                "- **Hosting Malware on Compromised Domains:** Uploading and distributing malware through compromised websites identified by the listed domain names.",
+                "- **Data Exfiltration to C2 Server:** Exfiltrating stolen data from a victim's network to a server controlled by attackers, using one of the domains as a command and control channel."
+            ]
+        }
+    },
+    {
+        "title": "APT29 Uses WINELOADER to Target German Political Parties | Google Cloud Blog",
+        "article_author": null,
+        "URL": "https://www.mandiant.com/resources/blog/apt29-wineloader-german-political-parties",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [
+                "- Invite.pdf (MD5: fb6323c19d3399ba94ecd391f7e35a9c)",
+                "- invite.php (MD5: 7a465344a58a6c67d5a733a815ef4cb7)",
+                "- invite.hta (MD5: efafcd00b9157b4146506bd381326f39)",
+                "- invite.txt (MD5: 44ce4b785d1795b71cee9f77db6ffe1b)",
+                "- invite.zip (MD5: 5928907c41368d6e87dc3e4e4be30e42)",
+                "- sqldumper.exe (MD5: f32c04ad97fa25752f9488781853f0ea)",
+                "- vcruntime140.dll (MD5: 8bd528d2b828c9289d9063eba2dc6aa0)",
+                "- Vcruntime140.dll (MD5: e017bfc36e387e8c3e7a338782805dde)"
+            ],
+            "domain_names": [
+                "- waterforvoiceless[.]org",
+                "- siestakeying[.]com"
+            ],
+            "email_addresses": [],
+            "urls": [
+                "- https://waterforvoiceless[.]org/invite.php",
+                "- https://waterforvoiceless[.]org/util.php",
+                "- https://siestakeying[.]com/auth.php"
+            ],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Initial Access (TA0001):** The presence of phishing-related files (Invite.pdf, invite.php, invite.hta, invite.txt, invite.zip) and URLs indicates tactics aimed at gaining initial access through deception or exploitation of trust.",
+                "- **Execution (TA0002):** The use of files like sqldumper.exe and various scripts (invite.php, invite.hta) suggests tactics for executing malicious code on a victim's system.",
+                "- **Persistence (TA0003):** The modification or use of system files like vcruntime140.dll indicates tactics aimed at maintaining a foothold on the system by ensuring the malware persists through reboots and user logouts.",
+                "- **Defense Evasion (TA0005):** Malicious files masquerading as legitimate ones (vcruntime140.dll) and the use of obfuscated files or information (invite.php, invite.hta) indicate tactics for avoiding detection.",
+                "- **Command and Control (TA0011):** The use of domain names and URLs for communication with controlled servers suggests tactics for maintaining control over compromised systems."
+            ],
+            "Techniques": [
+                "- **Spearphishing Attachment (T1566.001):** The use of a PDF file named Invite.pdf suggests a technique where attackers use email attachments to deliver malware.",
+                "- **User Execution (T1204):** The presence of files like invite.php and invite.hta implies a technique where the attacker relies on the user to execute the malicious file to gain execution.",
+                "- **Scripting (T1064):** Files like invite.php and invite.hta indicate the use of scripting to execute arbitrary code, often as part of exploitation or to automate tasks.",
+                "- **Masquerading (T1036):** The use of legitimate-sounding file names (vcruntime140.dll) suggests a technique aimed at making malicious files or processes look harmless.",
+                "- **Command and Control Over Web Protocol (T1071.001):** The use of URLs for communication with an external server indicates a technique where web protocols are used for command and control activities."
+            ],
+            "Procedures": [
+                "- **Phishing with Attachment:** Using Invite.pdf as a lure in phishing emails to trick users into opening the attachment, which could lead to the execution of malicious payload.",
+                "- **Web Delivery of Malware:** Hosting malicious scripts (invite.php, util.php, auth.php) on compromised or attacker-controlled websites to deliver malware when visited by unsuspecting users.",
+                "- **Execution Through Script:** Utilizing invite.php and invite.hta to execute malicious scripts or payloads on the victim's machine upon opening or accessing these files.",
+                "- **DLL Side-Loading:** Placing a malicious vcruntime140.dll file in a directory where it can be loaded by legitimate software, exploiting the Windows search order to execute malicious code.",
+                "- **Command and Control Communication:** Using domain names like waterforvoiceless[.]org and siestakeying[.]com for establishing command and control channels, allowing attackers to send commands and receive data from compromised systems."
+            ]
+        }
+    },
+    {
+        "title": "Bringing Access Back \u2014 Initial Access Brokers Exploit F5 BIG-IP (CVE-2023-46747) and ScreenConnect | Google Cloud Blog",
+        "article_author": null,
+        "URL": "https://www.mandiant.com/resources/blog/initial-access-brokers-exploit-f5-screenconnect",
+        "iocs": {
+            "ip_addresses": [
+                "154.12.177.8, 172.104.124.74, 118.140.151.242, 61.239.68.73, 172.245.68.110"
+            ],
+            "file_hashes": [],
+            "domain_names": [],
+            "email_addresses": [],
+            "urls": [],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Command and Control (T1071):** The presence of IP addresses as IoCs suggests that these might be servers or endpoints used for command and control (C2) communication by an adversary to maintain communication with compromised systems within a target network.",
+                "- **Initial Access (T1190):** If these IP addresses were identified during an investigation of unauthorized access, they might be related to tactics used to gain initial access to a network, such as through exploiting public-facing applications.",
+                "- **Exfiltration (T1041):** IP addresses could be endpoints where data is being exfiltrated to. Adversaries might use specific servers to collect and store data stolen from target networks."
+            ],
+            "Techniques": [
+                "- **External Remote Services (T1133):** If adversaries are using these IP addresses to provide external remote services, such as VPNs or SSH, to maintain persistence in a network, this technique could be relevant.",
+                "- **Application Layer Protocol (T1071.001):** If the communication to these IP addresses is happening over application layer protocols (e.g., HTTP, HTTPS), it could be an indication of command and control activity.",
+                "- **Data Encrypted for Impact (T1486):** If data is being sent to these IP addresses in an encrypted format, it might suggest an exfiltration technique where data is secured before transmission to avoid detection."
+            ],
+            "Procedures": [
+                "- **Use of Known Command and Control Infrastructure:** Adversaries might be using these IP addresses as part of their known C2 infrastructure to commandeer compromised systems and direct next steps of an attack.",
+                "- **Dynamic DNS Resolution:** In some cases, adversaries use dynamic DNS to frequently change the IP addresses of their C2 servers. The listed IPs might be part of such a system, indicating a procedure to evade detection.",
+                "- **Data Staging for Exfiltration:** If adversaries are aggregating stolen data at a compromised internal system before exfiltration, they might be using these IP addresses as final destinations for the stolen data, indicating a multi-stage exfiltration process."
+            ]
+        }
+    },
+    {
+        "title": "Delving into Dalvik: A Look Into DEX Files | Google Cloud Blog",
+        "article_author": null,
+        "URL": "https://www.mandiant.com/resources/blog/dalvik-look-into-dex-files",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [
+                "MD5: d87e04db4f4a36df263ecbfe8a8605bd"
+            ],
+            "domain_names": [],
+            "email_addresses": [],
+            "urls": [],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Initial Access (TA0001):** The malicious file represented by the MD5 hash could have been used as a method to gain initial access to a system. This could involve tactics such as spear-phishing or exploiting a vulnerability in public-facing software.",
+                "- **Execution (TA0002):** The file hash suggests the presence of a specific file, which could be an executable used by an adversary to run commands or malicious code on a compromised system.",
+                "- **Persistence (TA0003):** If the file is malware or a tool used by attackers, it might be part of a strategy to maintain persistent access to a compromised host.",
+                "- **Defense Evasion (TA0005):** The file could be involved in techniques aimed at avoiding detection, such as obfuscation, masquerading, or disabling security software."
+            ],
+            "Techniques": [
+                "- **User Execution (T1204):** The presence of a file hash indicates that a specific file is of interest, possibly requiring user interaction to execute, such as opening a malicious email attachment or clicking a link.",
+                "- **Scripting (T1064):** If the file is a script, it could be used to automate tasks, execute arbitrary code, or exploit vulnerabilities in the context of execution.",
+                "- **Obfuscated Files or Information (T1027):** The file might be obfuscated to evade antivirus and other security measures, a common technique used in defense evasion.",
+                "- **Masquerading (T1036):** The malicious file might be named or formatted in a way to appear benign to users and security tools, aiding in its execution and persistence."
+            ],
+            "Procedures": [
+                "- **Malicious Document Delivery:** The file represented by the hash could be part of a procedure where adversaries send documents containing malicious code or links to unsuspecting users via email.",
+                "- **Exploit Execution:** The file could be an exploit or payload designed to take advantage of vulnerabilities in software on the target system.",
+                "- **Registry Persistence:** Although no specific registry keys were provided in the IoCs, a common procedure involves modifying registry entries to ensure the malicious file executes at system startup or upon certain triggers.",
+                "- **Anti-Virus Evasion:** The file could be part of a procedure that involves modifying its code or encrypting its contents to bypass antivirus detection mechanisms."
+            ]
+        }
+    },
+    {
+        "title": "When Cats Fly: Suspected Iranian Threat Actor UNC1549 Targets Israeli and Middle East Aerospace and Defense Sectors | Google Cloud Blog",
+        "article_author": null,
+        "URL": "https://www.mandiant.com/resources/blog/suspected-iranian-unc1549-targets-israel-middle-east",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [
+                "MD5: 4a223bc9c6096ac6bae3e7452ed6a1cd",
+                "MD5: adef679c6aa6860aa89b775dceb6958b",
+                "MD5: 409c2ac789015e76f9886f1203a73bc0",
+                "MD5: 691d0143c0642ff783909f983ccb8ffd",
+                "MD5: e3dc8810da71812b860fc59aeadcc350",
+                "MD5: 054c67236a86d9ab5ec80e16b884f733",
+                "MD5: 36e2d9ce19ed045a9840313439d6f18d",
+                "MD5: a5fdf55c1c50be471946de937f1e46dd",
+                "MD5: ec6a0434b94f51aa1df76a066aa05413",
+                "MD5: 4a223bc9c6096ac6bae3e7452ed6a1cd",
+                "MD5: ef262f571cd429d88f629789616365e4",
+                "MD5: 816af741c3d6be1397d306841d12e206",
+                "MD5: c5dc2c75459dc99a42400f6d8b455250",
+                "MD5: 05fcace605b525f1bece1813bb18a56c",
+                "MD5: 4ed5d74a746461d3faa9f96995a1eec8",
+                "MD5: f58e0dfb8f915fa5ce1b7ca50c46b51b",
+                "MD5: 0a739dbdbcf9a5d8389511732371ecb4",
+                "MD5: 36e2d9ce19ed045a9840313439d6f18d",
+                "MD5: aaef98be8e58be6b96566268c163b6aa",
+                "MD5: c3830b1381d95aa6f97a58fd8ff3524e",
+                "MD5: c51bc86beb9e16d1c905160e96d9fa29",
+                "MD5: a5fdf55c1c50be471946de937f1e46dd"
+            ],
+            "domain_names": [
+                "1stemployer[.]com",
+                "birngthemhomenow[.]co[.]il",
+                "cashcloudservices[.]com",
+                "jupyternotebookcollections[.]com",
+                "notebooktextcheckings[.]com",
+                "teledyneflir[.]com[.]de",
+                "vsliveagent[.]com",
+                "xboxplayservice[.]com"
+            ],
+            "email_addresses": [],
+            "urls": [],
+            "registry_keys": [
+                "- HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\OneDriveFileCoAuth.exe",
+                "- HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\OneDrive FileCoAuth",
+                "- HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\OneDriveCoUpdate"
+            ]
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Initial Access (TA0001):** The use of domain names that mimic legitimate services indicates an attempt to deceive users into believing they are accessing a trustworthy site, which is a common tactic for initial access.",
+                "- **Execution (TA0002):** The presence of registry keys designed to run specific executables at startup suggests a tactic for achieving execution of malicious code on a victim's system.",
+                "- **Persistence (TA0003):** The modification of registry keys to ensure malware executes at system startup is a tactic used to maintain persistence on a compromised host.",
+                "- **Defense Evasion (TA0005):** The use of file hashes and registry modifications could indicate attempts to evade antivirus or other security measures by disguising malicious activities as legitimate processes."
+            ],
+            "Techniques": [
+                "- **Spearphishing Link (T1566.002):** The use of deceptive domain names could be part of a technique where attackers send emails containing malicious links to users, attempting to trick them into clicking.",
+                "- **User Execution (T1204):** The attackers may rely on the user to execute the malware, possibly through deceptive means such as misleading domain names or files that appear legitimate.",
+                "- **Modify Registry (T1112):** The specific registry keys listed under IoCs are indicative of a technique where malware modifies the Windows registry to ensure persistence and possibly hide its presence from users and security tools.",
+                "- **Masquerading (T1036):** The use of file names like \"OneDriveFileCoAuth.exe\" suggests a technique where malware attempts to appear as a legitimate file or process to evade detection."
+            ],
+            "Procedures": [
+                "- **Phishing with Deceptive Domains:** Attackers register domains that closely mimic legitimate services to trick users into visiting these sites, potentially leading to credential theft or malware infection.",
+                "- **Registry Persistence Mechanism:** Malware modifies specific registry keys to ensure it is executed every time the infected system starts, achieving persistence.",
+                "- **Execution through User Interaction:** The attackers may rely on users to execute the malware by disguising it with legitimate-sounding file names and prompting the user to open or execute the file, possibly through a phishing email or malicious website.",
+                "- **Masquerading as Legitimate Applications:** By naming malicious files after legitimate applications or processes (e.g., OneDrive related executables), attackers aim to blend in with normal system activities, making detection more difficult for both users and security software."
+            ]
+        }
+    },
+    {
+        "title": "Cutting Edge, Part 3: Investigating Ivanti Connect Secure VPN Exploitation and Persistence Attempts | Google Cloud Blog",
+        "article_author": null,
+        "URL": "https://www.mandiant.com/resources/blog/investigating-ivanti-exploitation-persistence",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [
+                "- DSUserAgentCap.pm: e4fe3a314a3aee5aee9c55787a33671c",
+                "- querymanifest.cgi: e48716521dc48425feae71bc9dc768cd",
+                "- diskCounters: 8c4b32e8ee9e0b2f8dab01364971ffff",
+                "- diskmonitor: e33a3a90f1f8fa6d8f17bc6151b027d6",
+                "- diskAnalysis: 6c58b8b1e3b36a5a124afd110c109ebc",
+                "- plugin.jar: b76d7890a7a7ff6d0b1151a8251e318f",
+                "- gateway.conf: 9e0941c4851d414b5d25dd15872c3e47",
+                "- libchilkat.so: fd83b3e9db57838b62c5baf8218ce5a8",
+                "- libaprhelper.so: 2ddeca6511506fe435dc1f63b4cf061c",
+                "- security.jar: f64a799ff16aded3f4d6706ffbd7e6dd",
+                "- gateway.conf: fb973c8bbfdba234ea83ee20084dcac9",
+                "- mem.rd: 5368b1122c10fa7850f44d3e16fc18fb",
+                "- memorysCounter: 31a591a28198f05e9ab4d12609a9ce81",
+                "- dsAgent: 5f561f217a8046de8cadf418ef4dfda0"
+            ],
+            "domain_names": [],
+            "email_addresses": [],
+            "urls": [],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Persistence (TA0003):** The presence of modified or unusual files such as `gateway.conf`, `diskmonitor`, and `security.jar` suggests attempts to maintain persistence on a system by altering or adding new files to ensure continuous operation of malicious software.",
+                "- **Defense Evasion (TA0005):** The modification of system files and the use of custom libraries (`libchilkat.so`, `libaprhelper.so`) indicate efforts to avoid detection by security software and analysts, by masquerading as legitimate files or using obfuscation techniques.",
+                "- **Discovery (TA0007):** Files like `diskCounters`, `diskAnalysis`, and `memorysCounter` imply the gathering of system information, which is crucial for understanding the environment and planning further actions.",
+                "- **Execution (TA0002):** The presence of executable files such as `dsAgent` and `plugin.jar` suggests the execution of malicious code as part of the attack lifecycle.",
+                "- **Credential Access (TA0006):** The existence of specific files might indicate attempts to access or exfiltrate credentials stored on the system, though specific files in the provided IoCs list do not directly imply this tactic without additional context."
+            ],
+            "Techniques": [
+                "- **Boot or Logon Autostart Execution (T1547):** The manipulation of `gateway.conf` could be used to automatically execute malicious scripts or binaries upon system startup or user logon.",
+                "- **Modify System Image (T1601):** Altering system files such as `diskmonitor` and `security.jar` can be indicative of attempts to modify the system image for persistence and defense evasion.",
+                "- **System Information Discovery (T1082):** Files like `diskAnalysis` and `memorysCounter` suggest techniques for discovering detailed information about the system, which can inform further actions by an attacker.",
+                "- **User Execution (T1204):** The presence of `plugin.jar` suggests attackers may rely on users to execute malicious code, possibly through social engineering or exploiting trust relationships.",
+                "- **Obfuscated Files or Information (T1027):** The use of custom or altered libraries (`libchilkat.so`, `libaprhelper.so`) and potentially obfuscated file names points to efforts to hide malicious activity."
+            ],
+            "Procedures": [
+                "- **Configuring Autostart Mechanisms:** The modification of `gateway.conf` and addition of files like `dsAgent` could be part of procedures to ensure malware persistence through system reboots.",
+                "- **System Reconnaissance:** Using files such as `diskAnalysis` and `memorysCounter` to perform a detailed survey of the system's hardware and software configurations, enabling targeted follow-up actions.",
+                "- **Malicious Code Execution via User Interaction:** Employing `plugin.jar` in a way that entices or deceives the user into executing it, potentially as part of a phishing campaign.",
+                "- **Hiding Malicious Activity:** Altering system files (`diskmonitor`, `security.jar`) and using custom libraries (`libchilkat.so`, `libaprhelper.so`) to evade detection by blending in with normal system operations or encrypting/hiding the true nature of the activity."
+            ]
+        }
+    },
+    {
+        "title": "Evolution of UNC4990: Uncovering USB Malware's Hidden Depths | Google Cloud Blog",
+        "article_author": null,
+        "URL": "https://www.mandiant.com/resources/blog/unc4990-evolution-usb-malware",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [
+                "- SHA256: 6fb4945bb73ac3f447fb7af6bd2937395a067a6e0c0900886095436114a17443",
+                "- SHA256: 72f1ba6309c98cd52ffc99dd15c45698dfca2d6ce1ef0bf262433b5dfff084be",
+                "- SHA256: 99d9dfd8f1c11d055e515a02c1476bd9036c788493063f08b82bb5f34e19dfd6",
+                "- SHA256: b38dbaea648ef7da1c639f4fdaac0d88f03306ea42f0edc9af512c613dbdb7e1",
+                "- SHA256: a4f20b60a50345ddf3ac71b6e8c5ebcb9d069721b0b0edc822ed2e7569a0bb40",
+                "- SHA256: 4814393285c2afcd671dbdd53b3b2021963c32a09745f83ed894e5ae4e2764b8",
+                "- SHA256: 461d580a16cf1fa67b4ac751dfe9d36b2de3f13c97670b3b12641f20246ce4b3",
+                "- SHA256: fae6192a0648a892c845d9498002ca79497ea58e5315d277f65f7b243f7110e4",
+                "- SHA256: 8a492973b12f84f49c52216d8c29755597f0b92a02311286b1f75ef5c265c30d",
+                "- SHA256: 060882f97ace7cb6238e714fd48b3448939699e9f085418af351c42b401a1227",
+                "- SHA256: 8c25b73245ada24d2002936ea0f3bcc296fdcc9071770d81800a2e76bfca3617",
+                "- SHA256: b9ffba378d4165f003f41a619692a8898aed2e819347b25994f7a5e771045217",
+                "- SHA256: 84674ae8db63036d1178bb42fa5d1b506c96b3b22ce22a261054ef4d021d2c69",
+                "- SHA256: 15d977dae1726c2944b0b4965980a92d8e8616da20e4d47d74120073cbc701b3",
+                "- SHA256: 26d93501cb9d85b34f2e14d7d2f3c94501f0aaa518fed97ce2e8d9347990decf",
+                "- SHA256: 26e943db620c024b5e87462c147514c990f380a4861d3025cf8fc1d80a74059a",
+                "- SHA256: 71c9ce52da89c32ee018722683c3ffbc90e4a44c5fba2bd674d28b573fba1fdc",
+                "- SHA256: 539a79f716cf359dceaa290398bc629010b6e02e47eaed2356074bffa072052f"
+            ],
+            "domain_names": [
+                "- arstechnica.com",
+                "- github.com",
+                "- gitlab.com",
+                "- vimeo.com",
+                "- lucaespo.altervista.org",
+                "- eldi8.github.io",
+                "- evh001.gitlab.io",
+                "- wjecpujpanmwm.tk",
+                "- evinfeoptasw.dedyn.io",
+                "- bobsmith.apiworld.cf",
+                "- monumental.ga",
+                "- studiofotografico35mm.altervista.org",
+                "- ncnskjhrbefwifjhww.tk",
+                "- geraldonsboutique.altervista.org",
+                "- captcha.grouphelp.top",
+                "- captcha.tgbot.it",
+                "- luke.compeyson.eu.org",
+                "- davebeerblog.eu.org",
+                "- lucaesposito.herokuapp.com",
+                "- euserv3.herokuapp.com",
+                "- eu1.microtunnel.it"
+            ],
+            "email_addresses": [],
+            "urls": [],
+            "registry_keys": [
+                "- HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Node_Run"
+            ]
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Resource Development (T1583):** The acquisition of domain names such as 'arstechnica.com', 'github.com', etc., can be part of an adversary's preparation phase to set up infrastructure for command and control, phishing, or other malicious activities.",
+                "- **Execution (TA0002):** The presence of registry key modifications, specifically within `HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Node_Run`, suggests tactics aimed at executing malicious code upon system startup or user login.",
+                "- **Command and Control (TA0011):** The use of various domain names could indicate the establishment of communication channels with compromised systems to control them remotely or exfiltrate data."
+            ],
+            "Techniques": [
+                "- **Acquire Infrastructure: Domains (T1583.001):** The acquisition of various domain names listed in the IoCs can be a technique used by adversaries to support their operations, such as hosting malicious content or establishing command and control servers.",
+                "- **Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder (T1547.001):** The modification of the `HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Node_Run` registry key is a technique used to achieve persistence by automatically executing specific malware or scripts upon system startup or user login.",
+                "- **Exfiltration Over Web Service (T1567):** The use of legitimate-looking domain names could be leveraged to exfiltrate data to external servers controlled by the adversaries while attempting to blend in with normal traffic and avoid detection."
+            ],
+            "Procedures": [
+                "- **Domain Acquisition for C2:** Adversaries may register or compromise various domain names to use as command and control servers. The diverse set of domain names listed in the IoCs could be part of such a procedure to make detection and blocking more difficult for defenders.",
+                "- **Persistence via Registry Key Modification:** The specific registry key mentioned (`HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Node_Run`) could be used by adversaries to ensure their malicious payload executes each time the victim's system starts, thus maintaining persistence on the compromised host.",
+                "- **Data Exfiltration Using Legitimate Domains:** Adversaries might use acquired or compromised domains that appear legitimate (e.g., mimicking popular sites like 'github.com' or 'gitlab.com') to exfiltrate stolen data. This procedure could help in evading network-based detection mechanisms by blending in with normal traffic."
+            ]
+        }
+    },
+    {
+        "title": "Cutting Edge: Suspected APT Targets Ivanti Connect Secure VPN in New Zero-Day Exploitation | Google Cloud Blog",
+        "article_author": null,
+        "URL": "https://www.mandiant.com/resources/blog/suspected-apt-targets-ivanti-zero-day",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [
+                "- MD5: 6de651357a15efd01db4e658249d4981",
+                "- MD5: 3d97f55a03ceb4f71671aa2ecf5b24e9",
+                "- MD5: 677c1aa6e2503b56fe13e1568a814754",
+                "- MD5: d0c7a334a4d9dcd3c6335ae13bee59ea"
+            ],
+            "domain_names": [],
+            "email_addresses": [],
+            "urls": [],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Initial Access (TA0001):** The presence of unique file hashes could indicate malicious files being used to gain initial access to a system. This could involve methods such as spear-phishing attachments or drive-by downloads.",
+                "- **Execution (TA0002):** The malicious files represented by these hashes might be used to execute code on a victim's system, indicating the execution phase of an attack.",
+                "- **Persistence (TA0003):** Malware associated with these hashes may employ various techniques to maintain persistence on a system, ensuring it remains active through reboots and user logouts.",
+                "- **Defense Evasion (TA0005):** The unique file hashes suggest that the malware might attempt to evade detection by altering its code or packaging to avoid signature-based detection."
+            ],
+            "Techniques": [
+                "- **User Execution (T1204):** If the files are part of a phishing campaign, the technique of tricking users into executing the malicious file could be relevant.",
+                "- **Scripting (T1064):** The execution of scripts (potentially contained within these files) to perform actions on the system without user consent.",
+                "- **Obfuscated Files or Information (T1027):** The malware might use obfuscation techniques to make analysis more difficult, which could be why the hashes are flagged as IoCs.",
+                "- **Registry Run Keys / Startup Folder (T1060):** Malware associated with these hashes might use registry modifications for persistence, even though registry keys are not explicitly mentioned among the IoCs."
+            ],
+            "Procedures": [
+                "- **Malicious Document Delivery:** Using one of the files as an attachment in a spear-phishing email to trick the recipient into opening it, thereby executing the malware.",
+                "- **Obfuscation of Malware:** Altering the malware code or using packing techniques to generate new file hashes, making the malware harder to detect by signature-based tools.",
+                "- **System Compromise and Data Exfiltration:** Once executed, the malware associated with these hashes could perform actions such as keystroke logging, data theft, or the installation of additional payloads."
+            ]
+        }
+    },
+    {
+        "title": "Hundreds of Thousands of Dollars Worth of Solana Cryptocurrency Assets Stolen in Recent CLINKSINK Drainer Campaigns | Google Cloud Blog",
+        "article_author": null,
+        "URL": "https://www.mandiant.com/resources/blog/solana-cryptocurrency-stolen-clinksink-drainer-campaigns",
+        "iocs": {
+            "ip_addresses": [],
+            "file_hashes": [
+                "MD5 hash: 8650e83da50bd726f77311b729905c0d"
+            ],
+            "domain_names": [],
+            "email_addresses": [],
+            "urls": [],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Initial Access (T1190):** The presence of a malicious file hash may indicate a method of gaining entry into a network or system. This could relate to tactics involving the delivery and execution of a malicious payload, such as through a phishing email or drive-by download.",
+                "- **Execution (T1059):** The identified file hash suggests that a specific piece of code or script is executed on a victim's system. This tactic involves the execution of code to perform actions on a system under adversary control.",
+                "- **Persistence (T1547):** If the file associated with the hash is part of a malware installation process, it might be used to establish persistence by adding or modifying system processes or files to ensure it remains active across reboots.",
+                "- **Defense Evasion (T1562):** The file could be part of a technique designed to avoid detection by security software. This might involve obfuscation, packing, or other methods to make analysis and detection more difficult."
+            ],
+            "Techniques": [
+                "- **User Execution (T1204):** The file hash might represent a payload that requires the user to manually execute it, such as opening an attachment or running a downloaded file.",
+                "- **Scripting (T1064):** If the file is a script, this technique would involve the execution of scripts to assist in execution and propagation of the malicious payload.",
+                "- **Obfuscated Files or Information (T1027):** The file might be obfuscated to hide its true intent from analysts and security tools, making detection and analysis more difficult.",
+                "- **Registry Run Keys / Startup Folder (T1547.001):** If the file establishes persistence, it might alter registry keys associated with startup to ensure it is executed upon system reboot."
+            ],
+            "Procedures": [
+                "- **Malware Installation:** The file hash could represent a malware installer. Once executed, it could install additional malicious software, establish communication with a command-and-control server, or perform other unauthorized actions.",
+                "- **Phishing Attachment Execution:** The procedure might involve tricking a user into opening an email attachment that contains the malicious file, leading to execution of the malware.",
+                "- **Obfuscation of Malicious Files:** The file could be obfuscated or packed in a way that makes it difficult for antivirus solutions to detect its malicious nature. This procedure would involve using various techniques to hide or encrypt the file's contents.",
+                "- **Persistence Through Registry Modification:** The malware associated with the file hash might modify registry keys to ensure it is automatically executed at system startup, ensuring persistence on the infected host."
+            ]
+        }
+    },
+    {
+        "title": "Opening a Can of Whoop Ads: Detecting and Disrupting a Malvertising Campaign Distributing Backdoors | Google Cloud Blog",
+        "article_author": null,
+        "URL": "https://www.mandiant.com/resources/blog/detecting-disrupting-malvertising-backdoors",
+        "iocs": {
+            "ip_addresses": [
+                "47.252.45[.]173, 35.203.111[.]228, 127.0.0[.]1, 34.16.181[.]0, 47.253.165[.]1, 8.209.99[.]230, 47.252.33[.]131, 47.253.141[.]12, 35.247.194[.]72, 94.228[.]169[.]143"
+            ],
+            "file_hashes": [],
+            "domain_names": [
+                "- Mandiant.com",
+                "- Google.com",
+                "- Microsoft.com",
+                "- Bing.com",
+                "- TreasuryDept.org",
+                "- claimprocessing.org",
+                "- Googleadservices.com",
+                "- pittsburgh.soulcarelife.org",
+                "- durham.soulcarelife.org",
+                "- plano.soulcarelife.org",
+                "- mesa.halibut.sbs",
+                "- arlington.barracudas.sbs",
+                "- lugbara.top",
+                "- lewru.top",
+                "- infocatalog.pics",
+                "- bikeontop.shop",
+                "- positivereview.cloud",
+                "- dreamteamup.shop",
+                "- whatup.cloud",
+                "- thebesttime.buzz",
+                "- ignitethefund.com"
+            ],
+            "email_addresses": [],
+            "urls": [],
+            "registry_keys": []
+        },
+        "ttp": {
+            "Tactics": [
+                "- **Initial Access (TA0001):** The use of various domain names suggests attempts at phishing or using drive-by compromise techniques to gain initial access to systems.",
+                "- **Command and Control (TA0011):** The presence of multiple IP addresses, especially the use of 127.0.0[.]1 (localhost), implies communication with command and control (C2) servers and possibly the use of proxy servers or internal routing to disguise C2 traffic.",
+                "- **Discovery (TA0007):** The interaction with legitimate domain names like Google.com, Microsoft.com, and others could indicate attempts at understanding the network environment or bypassing content filtering controls.",
+                "- **Exfiltration (TA0010):** The variety of domain names, some of which appear to be designed for data collection or mimic legitimate services, suggests potential avenues for data exfiltration."
+            ],
+            "Techniques": [
+                "- **Spearphishing Link (T1566.002):** The inclusion of specific domain names could indicate spearphishing campaigns that use links to malicious sites for initial access.",
+                "- **Proxy (T1090):** The presence of multiple IP addresses, including localhost (127.0.0[.]1), suggests the use of proxies to obfuscate command and control traffic.",
+                "- **Data from Information Repositories (T1213):** Accessing legitimate domains like Mandiant.com and Microsoft.com could be an attempt to gather information from public sources to support other attack techniques.",
+                "- **Exfiltration Over Web Service (T1567):** The use of various custom domain names that seem innocuous or related to legitimate services hints at the potential for exfiltrating data through web services masquerading as legitimate traffic."
+            ],
+            "Procedures": [
+                "- **Phishing with Malicious Link:** Attackers craft emails containing links to malicious domains (e.g., claimprocessing.org, ignitethefund.com) designed to either directly compromise the victim's system or harvest credentials.",
+                "- **C2 Traffic Masking:** Malicious actors use a mix of IP addresses, including local and external ones, to route command and control traffic through proxies or compromised systems within the target network to avoid detection.",
+                "- **Information Gathering via Legitimate Services:** Attackers query legitimate services (e.g., Google.com, Microsoft.com) to gather information on the target environment or to blend in with normal traffic, making detection harder.",
+                "- **Data Exfiltration via Fake Services:** Utilizing domains that appear legitimate or related to common services (e.g., Googleadservices.com, positivereview.cloud), attackers exfiltrate data under the guise of normal traffic to external web services."
+            ]
+        }
     }
 ]

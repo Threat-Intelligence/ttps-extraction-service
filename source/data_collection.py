@@ -16,6 +16,10 @@ def insert_json_to_mongodb(file_path, connection_string, db_name, collection_nam
     db = client[db_name]
     collection = db[collection_name]
     
+    # Delete existing data in the collection
+    delete_result = collection.delete_many({})
+    print(f"Deleted {delete_result.deleted_count} documents from the collection.")
+    
     # Insert each document into the collection
     inserted_ids = []
     for document in data:
@@ -29,8 +33,9 @@ def insert_json_to_mongodb(file_path, connection_string, db_name, collection_nam
 
 if __name__ == "__main__":
     # Path to the JSON file containing the data to insert
-    file_path = "/Users/swapnil/Documents/FinalProject/OpenAI TIA/TTPExtraction/data.json"
+    file_path = "/Users/swapnil/Documents/FinalProject/OpenAI TIA/ttps-extraction-service/source/articles.json"
     
     # Insert data into MongoDB
     insert_json_to_mongodb(file_path, connection_string, db_name, collection_name)
+
 

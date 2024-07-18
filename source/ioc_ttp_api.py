@@ -6,6 +6,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 import json
 import logging
+import re
 
 # Load environment variables
 load_dotenv()
@@ -32,6 +33,8 @@ db = db_client[db_name]
 source_collection = db["crawler_data"]
 target_collection = db["ioc-ttp-collection"]  # New collection name for saving IoCs and TTPs
 
+
+
 # Initialize Flask app
 app = Flask(__name__)
 
@@ -39,6 +42,10 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO,  # Set to INFO for relevant logging
                     format='%(asctime)s %(levelname)s %(message)s',
                     handlers=[logging.FileHandler('flask_api.log'), logging.StreamHandler()])
+
+# Suppress logging from http.client and urllib3
+logging.getLogger('http.client').setLevel(logging.WARNING)
+logging.getLogger('urllib3').setLevel(logging.WARNING)
 
 # Middleware to log requests
 @app.before_request
@@ -57,8 +64,41 @@ def serialize_doc(doc):
         doc['_id'] = str(doc['_id'])  # Convert ObjectId to str for easier handling in UI
     return doc
 
-def extract_iocs(content):
-    prompt = f"Extract all thge IOCs from the content:\n\n{content}\n\nIOCs:"
+# def extract_iocs(content):
+#     prompt = f"Extract all thge IOCs from the content:\n\n{content}\n\nIOCs:"
+
+#     response = openai_client.chat.completions.create(
+#         model="TTPmodel",  # Specify your desired model here
+#         messages=[
+#             {"role": "system", "content": prompt}
+#         ],
+#         # max_tokens=1500,
+#         stop=None,
+#         temperature=0.5,
+#     )
+
+        
+#     return response.choices[0].message.content.strip().split('\n')
+
+def extract_ip_addresses(content):
+    prompt = f"Extract all the IP Address from the content and if there are no IP addresses present return are 'No IP addresses are present.':\n\n{content}\n\nIP Addresses:"
+
+    response = openai_client.chat.completions.create(
+        model="TTPmodel",  # Specify your desired model here
+        messages=[
+            {"role": "system", "content": prompt}
+        ],
+        # max_tokens=1500,
+        stop=None,
+        temperature=0.5,
+    )
+        
+    result = response.choices[0].message.content.strip().split('\n')
+    return result if "No IP addresses are present." not in result else []
+
+
+def extract_file_hashes(content):
+    prompt = f"Extract all the file hashes (MD5, SHA-1, SHA-256) from the content and if there are no hash files are present return 'No file hashes are present.':\n\n{content}\n\nFile Hashes:"
 
     response = openai_client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -71,31 +111,152 @@ def extract_iocs(content):
     )
 
         
-    return response.choices[0].message.content.strip().split('\n')
+    result = response.choices[0].message.content.strip().split('\n')
+    return result if "No file hashes are present." not in result else []
 
-# Function to map IoCs to TTPs using OpenAI
-def map_iocs_to_ttps(iocs):
-    logging.info(f"Extracting TTPs for IoCs")
-    
-    prompt = f"List out all possible Tactics, Techniques, and Procedures related to the following IoC using MITRE ATTACK framework :\n\n{iocs}\n\nTTPs:"
+
+def extract_domain_names(content):
+    prompt = f"Extract all the domain names from the content and if there are no domain names are present return 'No domain names are present.':\n\n{content}\n\nDomain Names:"
 
     response = openai_client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
         messages=[
             {"role": "system", "content": prompt}
         ],
+        # max_tokens=1500,
         stop=None,
         temperature=0.5,
     )
+ 
+    result = response.choices[0].message.content.strip().split('\n')
+    return result if "No domain names are present." not in result else []
+
+
+def extract_email_addresses(content):
+    prompt = f"Extract all the email addresses from the content and if there are no email addresses are present return 'No email addresses are present.':\n\n{content}\n\nEmail Addresses:"
+
+    response = openai_client.chat.completions.create(
+        model="TTPmodel",  # Specify your desired model here
+        messages=[
+            {"role": "system", "content": prompt}
+        ],
+        # max_tokens=1500,
+        stop=None,
+        temperature=0.5,
+    )
+
         
-    return response.choices[0].message.content.strip().split('\n')
+    result = response.choices[0].message.content.strip().split('\n')
+    return result if "No email addresses are present." not in result else []
+
+def extract_urls(content):
+    prompt = f"Extract all the URLs from the content and if there are no URLs are present return 'No URLS are present.':\n\n{content}\n\nURLs:"
+
+    response = openai_client.chat.completions.create(
+        model="TTPmodel",  # Specify your desired model here
+        messages=[
+            {"role": "system", "content": prompt}
+        ],
+        # max_tokens=1500,
+        stop=None,
+        temperature=0.5,
+    )
+
+    result = response.choices[0].message.content.strip().split('\n')
+    return result if "No URLs are present." not in result else []
+
+def extract_registry_keys(content):
+    prompt = f"Extract all the registry keys from the content and if there are no registry keys are present return 'No registry keys are present.':\n\n{content}\n\nRegistry Keys:"
+
+    response = openai_client.chat.completions.create(
+        model="TTPmodel",  # Specify your desired model here
+        messages=[
+            {"role": "system", "content": prompt}
+        ],
+        # max_tokens=1500,
+        stop=None,
+        temperature=0.5,
+    )
+
+    result = response.choices[0].message.content.strip().split('\n')
+    return result if "No registry keys are present." not in result else []
+
+# Function to map IoCs to TTPs using OpenAI
+def map_iocs_to_ttps(iocs):
+    # ttps = []
+    # for ioc in iocs:
+    prompt = prompt = (
+        "Based on the following Indicators of Compromise (IoCs), list all possible Tactics, Techniques, and Procedures (TTPs) "
+        "that could be associated with these IoCs according to the MITRE ATT&CK framework. Please format your response with clear bullet points as follows:\n\n"
+        "Tactics:\n"
+        "- **Tactic Name (TID):** Brief description of how the IoCs relate to this tactic.\n\n"
+        "Techniques:\n"
+        "- **Technique Name (TID):** Brief description of how it is used in relation to the IoCs.\n\n"
+        "Procedures:\n"
+        "- **Procedure Name:** Brief description of how the IoCs are used in this procedure.\n\n"
+        "Here are the IoCs:\n\n"
+        f"{(iocs)}\n\n"
+        "Provide your response in the following structured format:\n\n"
+        "### Tactics:\n"
+        "- Tactic Name (TID): Description.\n\n"
+        "### Techniques:\n"
+        "- Technique Name (TID): Description.\n\n"
+        "### Procedures:\n"
+        "- Procedure Name: Description.\n\n"
+    )
+
+    response = openai_client.chat.completions.create(
+        model="TTPmodel",  # Specify your desired model here
+        messages=[
+            {"role": "system", "content": prompt}
+        ],
+        # max_tokens=1500,
+        stop=None,
+        temperature=0.5,
+    )
+
+        
+    return response.choices[0].message.content.strip()
+
+def parse_ttp_response(response_text):
+    # Initialize dictionary to store TTPs
+    ttp_dict = {'Tactics': [], 'Techniques': [], 'Procedures': []}
+    
+    # Define section headers
+    section_headers = {
+        'Tactics': re.compile(r'^###\s*Tactics:', re.IGNORECASE),
+        'Techniques': re.compile(r'^###\s*Techniques:', re.IGNORECASE),
+        'Procedures': re.compile(r'^###\s*Procedures:', re.IGNORECASE)
+    }
+    
+    # Initialize the current section
+    current_section = None
+
+    # Split the response text by newlines and process each line
+    lines = response_text.strip().split('\n')
+    for line in lines:
+        line = line.strip()
+
+        # Check if the line starts a new section
+        for section_name, pattern in section_headers.items():
+            if pattern.match(line):
+                current_section = section_name
+                continue
+
+        # Add lines to the current section if it's set
+        if current_section:
+            # Check if line is part of a list item
+            if line.startswith('- **'):
+                ttp_dict[current_section].append(line)
+                
+    return ttp_dict
 
 # Function to fetch data from MongoDB, process, and update
 def fetch_process_update():
     try:
         # Fetch first 8 documents from the source collection
         logging.info("Fetching data from the database.")
-        documents = list(source_collection.find().limit(8))
+        documents = list(source_collection.find().limit(30))
 
         # Process each document
         results = []
@@ -103,8 +264,30 @@ def fetch_process_update():
             content = doc.get('content', '')
             # logging.info(f"Extracted IoCs: {iocs}")
             
-            iocs = extract_iocs(content)
-            ttps = map_iocs_to_ttps(iocs)
+            file_hashes = extract_file_hashes(content)
+            ip_addresses = extract_ip_addresses(content)
+            domain_names = extract_domain_names(content)
+            email_addresses = extract_email_addresses(content)
+            urls = extract_urls(content)
+            registry_keys = extract_registry_keys(content)
+
+            iocs = {
+                    'ip_addresses': ip_addresses,
+                    'file_hashes': file_hashes,
+                    'domain_names': domain_names,
+                    'email_addresses': email_addresses,
+                    'urls': urls,
+                    'registry_keys': registry_keys
+                }
+            # If no IOCs are found, skip the document
+            if all(not iocs[key] for key in iocs):
+                logging.info(f"No IOCs found in the article '{doc.get('URL', '')}'. Skipping...")
+                continue
+            
+            logging.info(f"Collecting TTPs for article '{doc.get('URL', '')}'")
+            ttp = map_iocs_to_ttps(iocs)
+            # Parse the response into structured data
+            ttp_data = parse_ttp_response(ttp)
             # logging.info(f"Extracted TTPs: {ttps}")
 
             # # Ensure 'name' is a string
@@ -112,19 +295,21 @@ def fetch_process_update():
             
             # Save IoCs and TTPs to the new collection
             target_collection.insert_one({
+                'title': doc.get('title'),
                 'article_author': doc.get('author'),
                 'URL': doc.get('URL', ''),
                 'iocs': iocs,
-                'ttp' : ttps
+                'ttp' : ttp_data
             })
             logging.info("Saved IoCs and TTPs to the database.")
             
             # Prepare result for local saving
             results.append({
+                'title': doc.get('title'),
                 'article_author': doc.get('author'),
                 'URL': doc.get('URL', ''),
                 'iocs': iocs,
-                'ttp' : ttps
+                'ttp' : ttp_data
             })
 
         # Save results to a local JSON file
@@ -176,4 +361,4 @@ def get_all_ttps():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=False, port=5000)

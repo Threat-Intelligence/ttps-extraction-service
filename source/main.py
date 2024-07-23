@@ -27,24 +27,8 @@ logging.basicConfig(level=logging.WARNING,  # Set to WARNING to hide INFO logs
                     handlers=[logging.FileHandler('main.log'), logging.StreamHandler()])
 
 
-# def extract_iocs(content):
-#     prompt = f"Extract all thge IOCs from the content:\n\n{content}\n\nIOCs:"
-
-#     response = client.chat.completions.create(
-#         model="TTPmodel",  # Specify your desired model here
-#         messages=[
-#             {"role": "system", "content": prompt}
-#         ],
-#         # max_tokens=1500,
-#         stop=None,
-#         temperature=0.5,
-#     )
-
-        
-#     return response.choices[0].message.content.strip().split('\n')
-
 def extract_ip_addresses(content):
-    prompt = f"Extract all the IP Address from the content and if there are no IP addresses present return are 'No IP addresses are present.':\n\n{content}\n\nIP Addresses:"
+    prompt = f"Extract all the IP Address from the content and if there are no IP addresses present return are 'No IP addresses are present.':\n\n{content}\n\nIP Addresses:(List of all the values as comma seperated)"
 
     response = client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -61,7 +45,7 @@ def extract_ip_addresses(content):
 
 
 def extract_file_hashes(content):
-    prompt = f"Extract all the file hashes (MD5, SHA-1, SHA-256) from the content and if there are no hash files are present return 'No file hashes are present.':\n\n{content}\n\nFile Hashes:"
+    prompt = f"Extract all the file hashes (MD5, SHA-1, SHA-256) from the content and if there are no hash files are present return 'No file hashes are present.':\n\n{content}\n\nFile Hashes:(List of all the values as comma seperated)"
 
     response = client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -79,7 +63,7 @@ def extract_file_hashes(content):
 
 
 def extract_domain_names(content):
-    prompt = f"Extract all the domain names from the content and if there are no domain names are present return 'No domain names are present.':\n\n{content}\n\nDomain Names:"
+    prompt = f"Extract all the domain names from the content and if there are no domain names are present return 'No domain names are present.':\n\n{content}\n\nDomain Names:(List of all the values as comma seperated)"
 
     response = client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -96,7 +80,7 @@ def extract_domain_names(content):
 
 
 def extract_email_addresses(content):
-    prompt = f"Extract all the email addresses from the content and if there are no email addresses are present return 'No email addresses are present.':\n\n{content}\n\nEmail Addresses:"
+    prompt = f"Extract all the email addresses from the content and if there are no email addresses are present return 'No email addresses are present.':\n\n{content}\n\nEmail Addresses:(List of all the values as comma seperated)"
 
     response = client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -113,7 +97,7 @@ def extract_email_addresses(content):
     return result if "No email addresses are present." not in result else []
 
 def extract_urls(content):
-    prompt = f"Extract all the URLs from the content and if there are no URLs are present return 'No URLS are present.':\n\n{content}\n\nURLs:"
+    prompt = f"Extract all the URLs from the content and if there are no URLs are present return 'No URLS are present.':\n\n{content}\n\nURLs:(List of all the values as comma seperated)"
 
     response = client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -129,7 +113,7 @@ def extract_urls(content):
     return result if "No URLs are present." not in result else []
 
 def extract_registry_keys(content):
-    prompt = f"Extract all the registry keys from the content and if there are no registry keys are present return 'No registry keys are present.':\n\n{content}\n\nRegistry Keys:"
+    prompt = f"Extract all the registry keys from the content and if there are no registry keys are present return 'No registry keys are present.':\n\n{content}\n\nRegistry Keys:(List of all the values as comma seperated)"
 
     response = client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -148,7 +132,7 @@ def extract_registry_keys(content):
 def map_iocs_to_ttps(iocs):
     # ttps = []
     # for ioc in iocs:
-    prompt = prompt = (
+    prompt = (
         "Based on the following Indicators of Compromise (IoCs), list all possible Tactics, Techniques, and Procedures (TTPs) "
         "that could be associated with these IoCs according to the MITRE ATT&CK framework. Please format your response with clear bullet points as follows:\n\n"
         "Tactics:\n"
@@ -218,17 +202,14 @@ def parse_ttp_response(response_text):
 def process_osint_file(file_path, num_records):
     with open(file_path, 'r') as file:
         data = json.load(file)
-        # print(data[0])
+
 
     results = []
     for i, article in enumerate(data[:num_records]):
         # article_content = article.get('description', '')
         # content = [content['content'] for content in article.get('content', [])]
         content = article.get('content', '')
-        # Parse the HTML content
-        # soup = BeautifulSoup(content, 'lxml')
-        # # Extract and join the text content
-        # text_content = ' '.join(soup.stripped_strings)
+       
         file_hashes = extract_file_hashes(content)
         ip_addresses = extract_ip_addresses(content)
         domain_names = extract_domain_names(content)

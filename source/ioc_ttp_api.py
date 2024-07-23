@@ -64,24 +64,9 @@ def serialize_doc(doc):
         doc['_id'] = str(doc['_id'])  # Convert ObjectId to str for easier handling in UI
     return doc
 
-# def extract_iocs(content):
-#     prompt = f"Extract all thge IOCs from the content:\n\n{content}\n\nIOCs:"
-
-#     response = openai_client.chat.completions.create(
-#         model="TTPmodel",  # Specify your desired model here
-#         messages=[
-#             {"role": "system", "content": prompt}
-#         ],
-#         # max_tokens=1500,
-#         stop=None,
-#         temperature=0.5,
-#     )
-
-        
-#     return response.choices[0].message.content.strip().split('\n')
 
 def extract_ip_addresses(content):
-    prompt = f"Extract all the IP Address from the content and if there are no IP addresses present return are 'No IP addresses are present.':\n\n{content}\n\nIP Addresses:"
+    prompt = f"Extract all the IP Address from the content and if there are no IP addresses present return are 'No IP addresses are present.':\n\n{content}\n\nIP Addresses:(List of all the values as comma seperated)"
 
     response = openai_client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -98,7 +83,7 @@ def extract_ip_addresses(content):
 
 
 def extract_file_hashes(content):
-    prompt = f"Extract all the file hashes (MD5, SHA-1, SHA-256) from the content and if there are no hash files are present return 'No file hashes are present.':\n\n{content}\n\nFile Hashes:"
+    prompt = f"Extract all the file hashes (MD5, SHA-1, SHA-256) from the content and if there are no hash files are present return 'No file hashes are present.':\n\n{content}\n\nFile Hashes:(List of all the values as comma seperated)"
 
     response = openai_client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -116,7 +101,7 @@ def extract_file_hashes(content):
 
 
 def extract_domain_names(content):
-    prompt = f"Extract all the domain names from the content and if there are no domain names are present return 'No domain names are present.':\n\n{content}\n\nDomain Names:"
+    prompt = f"Extract all the domain names from the content and if there are no domain names are present return 'No domain names are present.':\n\n{content}\n\nDomain Names:(List of all the values as comma seperated)"
 
     response = openai_client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -133,7 +118,7 @@ def extract_domain_names(content):
 
 
 def extract_email_addresses(content):
-    prompt = f"Extract all the email addresses from the content and if there are no email addresses are present return 'No email addresses are present.':\n\n{content}\n\nEmail Addresses:"
+    prompt = f"Extract all the email addresses from the content and if there are no email addresses are present return 'No email addresses are present.':\n\n{content}\n\nEmail Addresses:(List of all the values as comma seperated)"
 
     response = openai_client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -150,7 +135,7 @@ def extract_email_addresses(content):
     return result if "No email addresses are present." not in result else []
 
 def extract_urls(content):
-    prompt = f"Extract all the URLs from the content and if there are no URLs are present return 'No URLS are present.':\n\n{content}\n\nURLs:"
+    prompt = f"Extract all the URLs from the content and if there are no URLs are present return 'No URLS are present.':\n\n{content}\n\nURLs:(List of all the values as comma seperated)"
 
     response = openai_client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -166,7 +151,7 @@ def extract_urls(content):
     return result if "No URLs are present." not in result else []
 
 def extract_registry_keys(content):
-    prompt = f"Extract all the registry keys from the content and if there are no registry keys are present return 'No registry keys are present.':\n\n{content}\n\nRegistry Keys:"
+    prompt = f"Extract all the registry keys from the content and if there are no registry keys are present return 'No registry keys are present.':\n\n{content}\n\nRegistry Keys:(List of all the values as comma seperated)"
 
     response = openai_client.chat.completions.create(
         model="TTPmodel",  # Specify your desired model here
@@ -185,7 +170,7 @@ def extract_registry_keys(content):
 def map_iocs_to_ttps(iocs):
     # ttps = []
     # for ioc in iocs:
-    prompt = prompt = (
+    prompt = (
         "Based on the following Indicators of Compromise (IoCs), list all possible Tactics, Techniques, and Procedures (TTPs) "
         "that could be associated with these IoCs according to the MITRE ATT&CK framework. Please format your response with clear bullet points as follows:\n\n"
         "Tactics:\n"
@@ -256,12 +241,13 @@ def fetch_process_update():
     try:
         # Fetch first 8 documents from the source collection
         logging.info("Fetching data from the database.")
-        documents = list(source_collection.find().limit(30))
+        documents = list(source_collection.find().limit(50))
 
         # Process each document
         results = []
         for doc in documents:
             content = doc.get('content', '')
+            article_id = str(doc.get('_id', ''))
             # logging.info(f"Extracted IoCs: {iocs}")
             
             file_hashes = extract_file_hashes(content)
@@ -295,6 +281,7 @@ def fetch_process_update():
             
             # Save IoCs and TTPs to the new collection
             target_collection.insert_one({
+                'article_id': article_id,
                 'title': doc.get('title'),
                 'article_author': doc.get('author'),
                 'URL': doc.get('URL', ''),
@@ -305,6 +292,7 @@ def fetch_process_update():
             
             # Prepare result for local saving
             results.append({
+                'article_id': article_id,
                 'title': doc.get('title'),
                 'article_author': doc.get('author'),
                 'URL': doc.get('URL', ''),
@@ -332,7 +320,7 @@ def index():
 def fetch_process_update_route():
     success, message = fetch_process_update()
     if success:
-        return jsonify({"message": "Data fetched, processed, and saved to ioc-ttp-collection successfully for the first 8 documents."}), 200
+        return jsonify({"message": "Data fetched, processed, and saved to ioc-ttp-collection successfully for the first 50 documents."}), 200
     else:
         return jsonify({"error": message}), 500
 
@@ -341,7 +329,7 @@ def fetch_process_update_route():
 @app.route('/ttp/<id>', methods=['GET'])
 def get_ttp(id):
     try:
-        ttp = target_collection.find_one({"_id": ObjectId(id)})
+        ttp = target_collection.find_one({"article_id": id})
         if ttp:
             return jsonify(serialize_doc(ttp)), 200
         else:

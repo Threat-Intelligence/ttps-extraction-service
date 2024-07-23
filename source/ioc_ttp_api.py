@@ -181,6 +181,21 @@ def extract_registry_keys(content):
     result = response.choices[0].message.content.strip().split('\n')
     return result if "No registry keys are present." not in result else []
 
+# Function to extract actors from an article using Aho-Corasick algorithm
+def extract_actors(content, known_actors):
+    actors_present = []
+
+    automaton = ahocorasick.Automaton()
+    for idx, key in enumerate(known_actors):
+        automaton.add_word(key, (idx, key))
+
+    automaton.make_automaton()
+
+    for end_index, (insert_order, original_value) in automaton.iter(content):
+        actors_present.append(original_value)
+
+    return list(set(actors_present))
+
 # Function to map IoCs to TTPs using OpenAI
 def map_iocs_to_ttps(iocs):
     # ttps = []

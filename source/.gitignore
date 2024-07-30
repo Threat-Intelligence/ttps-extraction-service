@@ -1,6 +1,7 @@
 # Python
 *.pyc
 __pycache__/
+.DS_Store
 
 # Virtual environments
 venv/
@@ -11,3 +12,10 @@ env/
 
 # Environment variables
 .env
+
+#research work
+articles.json
+data.json
+ioc_ttp_api.py
+test.py
+data_collection.py

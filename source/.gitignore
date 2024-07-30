@@ -18,3 +18,4 @@ articles.json
 data.json
 ioc_ttp_api.py
 test.py
+data_collection.py

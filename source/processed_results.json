@@ -22,24 +22,25 @@
         },
         "ttp": {
             "Tactics": [
-                "- **Initial Access (TA0001):** The use of phishing domains (e.g., oast.me, oast.pro) and URLs that mimic legitimate services (e.g., aka.ms, linkedin.com, twitter.com, thecyberwire.com) suggest tactics for gaining initial access to a system through deception.",
-                "- **Command and Control (TA0011):** The presence of multiple IP addresses and domains indicates the setup for command and control (C2) servers to manage compromised systems remotely.",
-                "- **Execution (TA0002):** The file hashes listed as IoCs suggest the execution of malicious payloads on the targeted systems.",
-                "- **Exfiltration (TA0010):** The use of command and control servers can also be involved in data exfiltration activities, where stolen data is sent to these servers."
+                "- **Initial Access (TA0001):** The use of phishing domains that mimic legitimate websites (e.g., oast.me, oast.pro) can be an indicator of attempts to gain initial access through deception.",
+                "- **Command and Control (TA0011):** The presence of IP addresses and domains in the IoCs suggests the use of remote servers to manage control over compromised systems.",
+                "- **Execution (TA0002):** The existence of file hashes could indicate the execution of malicious software on a target system.",
+                "- **Discovery (TA0007):** The use of legitimate domains like linkedin.com and twitter.com could be part of an adversary's effort to gather information about potential targets or to distribute malicious links under the guise of trusted sources."
             ],
             "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The use of URLs that mimic legitimate services could be part of spearphishing campaigns to deceive users into clicking malicious links.",
-                "- **User Execution (T1204):** The execution of malicious files, as indicated by the file hashes, often requires some form of user interaction, such as opening a file or clicking a link.",
-                "- **Command and Scripting Interpreter (T1059):** The execution of malicious scripts or commands could be indicated by the file hashes associated with scripts or executable payloads.",
-                "- **Exfiltration Over C2 Channel (T1041):** The use of command and control servers (indicated by the IP addresses) for data exfiltration."
+                "- **Spearphishing Link (T1566.002):** The presence of URLs in the IoCs, especially those mimicking legitimate services, suggests the use of spearphishing with a link as a technique to deceive users into clicking malicious links.",
+                "- **Command and Scripting Interpreter (T1059):** The execution of malicious files (as indicated by file hashes) could involve the use of command and scripting interpreters to run the malware.",
+                "- **Exfiltration Over C2 Channel (T1041):** The mentioned IP addresses may serve as command and control servers for exfiltrating data from compromised hosts.",
+                "- **Drive-by Compromise (T1189):** The inclusion of URLs in the IoCs suggests the possibility of adversaries attempting to compromise systems through drive-by downloads from these sites."
             ],
             "Procedures": [
-                "- **Phishing Campaign Deployment:** Use of deceptive domains and URLs in emails or web content to trick users into clicking links that lead to malicious sites or directly download malware.",
-                "- **Malware Distribution:** Distribution of malware through compromised or malicious websites (e.g., using the listed URLs) or direct delivery of payloads via email, where the file hashes represent the malware samples.",
-                "- **Remote System Control:** Establishing command and control channels using the listed IP addresses to manage the compromised systems, issue commands, and potentially move laterally within the network.",
-                "- **Data Theft and Exfiltration:** Stealing sensitive information from the victim's system and exfiltrating it to an external command and control server for further use by the attackers."
+                "- **Phishing with Malicious Attachment or Link:** Adversaries may send emails containing links to the listed malicious domains or directly attaching the files with the mentioned hashes, aiming to deceive the recipient into executing the malicious payload.",
+                "- **Web-based Delivery of Malware:** The URLs could host or redirect to malicious content, exploiting vulnerabilities in the web browser or deceiving the user to download and execute malicious files.",
+                "- **Remote Command Execution:** The IP addresses listed in the IoCs could be used for establishing a command and control channel, through which adversaries can execute commands or deploy additional malware.",
+                "- **Social Engineering via Legitimate Platforms:** The use of legitimate platforms' URLs (like LinkedIn and Twitter) could be a tactic to build trust and encourage users to follow malicious links posted on these platforms, under the guise of legitimate content."
             ]
-        }
+        },
+        "actors": []
     },
     {
         "article_id": "6697a4af91ce7296607fec5f",
@@ -53,28 +54,84 @@
             ],
             "domain_names": [],
             "email_addresses": [],
-            "urls": [],
+            "urls": [
+                "https://learn.microsoft.com/azure/sentinel/sentinel-solutions-deploy, https://media.defense.gov/2021/Jul/01/2002753896/-1/-1/1/CSA_GRU_GLOBAL_BRUTE_FORCE_CAMPAIGN_UOO158036-21.PDF, https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-34527, https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-1675, https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-074a, https://aka.ms/threatintelblog, https://www.linkedin.com/showcase/microsoft-threat-intelligence, https://twitter.com/MsftSecIntel, https://thecyberwire.com/podcasts/microsoft-threat-intelligence"
+            ],
             "registry_keys": [
                 "\"HKEY_CURRENT_USER\\\\Software\\\\Classes\\\\CLSID\\\\{026CC6D7-34B2-33D5-B551-CA31EB6CE345}\\\\Server\", \"HKEY_CURRENT_USER\\\\Software\\\\Classes\\\\PROTOCOLS\\\\Handler\\\\rogue\""
             ]
         },
         "ttp": {
             "Tactics": [
-                "- **Persistence (TA0003):** The use of registry keys suggests an attempt to maintain presence on a system by manipulating the Windows Registry to automatically execute malware or malicious tools.",
-                "- **Defense Evasion (TA0005):** Modifying registry keys and using specific file hashes could be part of an effort to avoid detection by security solutions. Malware often alters registry keys to disguise its presence.",
-                "- **Execution (TA0002):** The existence of file hashes indicates the presence of executable files which could be used to perform malicious activities on the victim's system."
+                "- **Resource Development (T1583/T1584):** The presence of specific URLs and domain names in the IoCs suggests the adversary is developing resources such as malicious websites or leveraging legitimate ones for phishing, delivering malware, or command and control (C2) communication.",
+                "- **Execution (T1059):** The file hashes provided in the IoCs may indicate the execution of malicious software on a victim's system.",
+                "- **Persistence (T1547):** The registry keys listed under IoCs could be used by adversaries to maintain persistence on a compromised system by ensuring their malware starts after a reboot or user logon.",
+                "- **Credential Access (T1110):** The URLs related to cybersecurity advisories and CVE details suggest that the adversary might be exploiting known vulnerabilities to steal credentials or escalate privileges.",
+                "- **Defense Evasion (T1562):** Modifying registry keys, as indicated in the IoCs, can be a technique used by adversaries to disable or evade security mechanisms."
             ],
             "Techniques": [
-                "- **Registry Run Keys / Startup Folder (T1547.001):** The modification of registry keys for persistence often involves adding entries to Run keys or the Startup folder, allowing malware to execute upon system startup.",
-                "- **Masquerading (T1036):** The use of seemingly benign or system-related registry keys (e.g., CLSID, PROTOCOLS Handler) could be an effort to make malicious modifications appear legitimate, thereby evading detection.",
-                "- **User Execution (T1204):** The presence of file hashes suggests that the attacker may rely on the victim executing a malicious file, possibly delivered via phishing or other social engineering tactics."
+                "- **Spearphishing Link (T1566.002):** The URLs provided in the IoCs might be used in spearphishing emails to trick users into visiting malicious sites or downloading malware.",
+                "- **Registry Run Keys / Startup Folder (T1547.001):** The specific registry keys mentioned could be used by malware to achieve persistence by adding a program to the startup routine.",
+                "- **Exploitation for Credential Access (T1212):** The URLs pointing to CVE details suggest the adversary might exploit these vulnerabilities to gain unauthorized access to credentials.",
+                "- **Modify Registry (T1112):** The listed registry keys indicate that adversaries may attempt to modify the registry to help their malware evade detection or gain persistence."
             ],
             "Procedures": [
-                "- **Registry Persistence Mechanism:** By creating or modifying specific registry keys (e.g., \"HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{ID}\\Server\"), attackers ensure their malware is executed at system startup or upon certain triggers, thus maintaining persistence.",
-                "- **Evasion Through Registry Keys:** Using registry keys that are less likely to be monitored by security tools or seem legitimate (e.g., \"PROTOCOLS Handler\") allows malware to operate without immediate detection.",
-                "- **Execution of Malicious Files:** The identified file hashes represent specific malicious files that, once executed by the user or automatically via registry modifications, perform the attacker's intended actions on the victim's system."
+                "- **Deploying Malware via Spearphishing:** The adversary uses the listed URLs within spearphishing emails to trick victims into clicking on them, leading to malware download or credential theft.",
+                "- **Exploiting CVE-2021-34527 and CVE-2021-1675:** The adversary targets specific vulnerabilities (as indicated by the CVE URLs) in systems to escalate privileges or access sensitive information.",
+                "- **Creating Registry Persistence:** Malware associated with the provided file hashes modifies the listed registry keys to ensure it is executed every time the system boots up, maintaining persistence on the compromised system.",
+                "- **Disabling Security Tools:** The adversary uses modifications to registry keys to disable security tools, allowing their malicious activities to go undetected longer."
             ]
-        }
+        },
+        "actors": [
+            {
+                "name": "APT28",
+                "id": "6697ebb4cf2c3eb23089c673",
+                "aliases": [
+                    "Forest Blizzard",
+                    "STRONTIUM",
+                    "Sofacy",
+                    "APT28",
+                    "Fancy Bear",
+                    "Sednit"
+                ]
+            },
+            {
+                "name": "Sandworm",
+                "id": "6697ebb4cf2c3eb23089c677",
+                "aliases": [
+                    "Seashell Blizzard"
+                ]
+            },
+            {
+                "name": "IRIDIUM",
+                "id": "6697ebb4cf2c3eb23089c719",
+                "aliases": [
+                    "IRIDIUM"
+                ]
+            },
+            {
+                "name": "DEV-0586",
+                "id": "6697ebb4cf2c3eb23089c7af",
+                "aliases": [
+                    "DEV-0586",
+                    "Cadet Blizzard"
+                ]
+            },
+            {
+                "name": "APT2",
+                "id": "6697ebb4cf2c3eb23089c64a",
+                "aliases": [
+                    "APT2"
+                ]
+            },
+            {
+                "name": "Tick",
+                "id": "6697ebb4cf2c3eb23089c6b8",
+                "aliases": [
+                    "Tick"
+                ]
+            }
+        ]
     },
     {
         "article_id": "6697a4af91ce7296607fec60",
@@ -88,26 +145,29 @@
                 "www.microsoft.com, aka.ms, www.linkedin.com, twitter.com, thecyberwire.com"
             ],
             "email_addresses": [],
-            "urls": [],
+            "urls": [
+                "https://www.microsoft.com/ai/principles-and-approach, https://aka.ms/threatintelblog, https://www.linkedin.com/showcase/microsoft-threat-intelligence, https://twitter.com/MsftSecIntel, https://thecyberwire.com/podcasts/microsoft-threat-intelligence"
+            ],
             "registry_keys": []
         },
         "ttp": {
             "Tactics": [
-                "- **Initial Access (T1078):** The use of legitimate domain names in IoCs might indicate tactics aiming for initial access through phishing or other means that exploit user trust in these domains.",
-                "- **Execution (T1059):** If any of these domains were compromised to deliver malicious scripts or content, it would relate to execution tactics where adversaries attempt to run malicious code on a victim's system.",
-                "- **Command and Control (T1071):** Legitimate domains might be abused for command and control communications, making the malicious traffic harder to detect due to the trustworthiness of the domain names."
+                "- **Resource Development (T1583):** Cyber adversaries may create or compromise legitimate web resources to host malicious content or conduct phishing attacks.",
+                "- **Initial Access (TA0001):** Attackers might use legitimate-looking domains and URLs for spear-phishing campaigns to gain initial access to a victim's network.",
+                "- **Command and Control (TA0011):** Legitimate domains might be abused to host command and control (C2) servers, making malicious traffic harder to detect due to the trusted nature of the domain."
             ],
             "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The presence of well-known domain names might indicate a technique where adversaries send targeted emails containing malicious links that masquerade as reputable sources.",
-                "- **Drive-by Compromise (T1189):** If these domains were compromised to host malicious content, this technique could be used, where adversaries rely on users visiting the website to execute arbitrary code.",
-                "- **Web Service (T1102):** Utilizing legitimate domains for command and control operations could involve this technique, where web services like the ones mentioned are abused to hide malicious traffic."
+                "- **Phishing for Information (T1598):** The URLs and domains could be used in phishing emails or messages to trick victims into disclosing sensitive information under the guise of legitimate services.",
+                "- **Drive-by Compromise (T1189):** Attackers might compromise legitimate websites or create malicious copies to distribute malware when visited by unsuspecting users.",
+                "- **Web Service (T1102):** Utilizing legitimate web services (like those mentioned) as a means to relay commands to compromised systems or exfiltrate data, blending in with normal traffic."
             ],
             "Procedures": [
-                "- **Phishing with Reputable Domains:** The procedure involves crafting phishing emails or messages that include links to the legitimate-looking domains listed in the IoCs, tricking users into trusting and clicking on them, potentially leading to credential theft or malware installation.",
-                "- **Compromising Legitimate Websites:** This procedure entails hacking into the servers hosting these domains or exploiting vulnerabilities to insert malicious content or scripts, which execute when a user visits the site.",
-                "- **Command and Control via Legitimate Services:** By leveraging the trust associated with these domains, adversaries could use them as a base for command and control communications, blending malicious traffic with legitimate traffic to avoid detection."
+                "- **Spear-Phishing via Service Impersonation:** Attackers could mimic the communication from these legitimate services to send spear-phishing emails, directing victims to malicious sites or prompting them to download malware.",
+                "- **Hosting Malicious Payloads:** Cybercriminals might compromise or spoof these legitimate websites to host malicious payloads, which are then distributed via phishing campaigns or drive-by downloads.",
+                "- **C2 Communication Over Trusted Channels:** By leveraging the trust associated with these domains, attackers could set up command and control communications that appear as legitimate traffic to most security filters, allowing them to maintain control over compromised systems without raising immediate alarms."
             ]
-        }
+        },
+        "actors": []
     },
     {
         "article_id": "6697a4af91ce7296607fec61",
@@ -126,22 +186,22 @@
         },
         "ttp": {
             "Tactics": [
-                "- **Reconnaissance (TA0043):** Threat actors might gather information on potential targets or cybersecurity practices by accessing legitimate cybersecurity resources.",
-                "- **Resource Development (TA0042):** Actors could use legitimate cybersecurity information to develop resources such as malicious tools or campaigns that evade detection.",
-                "- **Initial Access (TA0001):** If these URLs were spoofed or used in a malicious context, it could indicate tactics aiming to gain entry into a network or system.",
-                "- **Phishing (T1566):** In a hypothetical scenario where these URLs are used in phishing attempts, this tactic would be relevant."
+                "- **Reconnaissance (TA0043):** Adversaries may gather information that can be used to plan future operations. URLs listed might be used in scenarios where adversaries are collecting intelligence or performing research on security practices and threat intelligence shared by reputable sources to find ways to circumvent defensive measures.",
+                "- **Resource Development (TA0042):** Adversaries may establish resources they can use to support operations. In a hypothetical scenario, similar URLs could be spoofed or mimicked to create phishing sites or to host malicious content.",
+                "- **Command and Control (TA0011):** In a different context, URLs (not necessarily the ones listed but similar in concept) could be used by adversaries for managing C2 communications with compromised systems."
             ],
             "Techniques": [
-                "- **Spearphishing Link (T1566.002):** If actors were to craft emails containing these URLs or similar to deceive victims into clicking, believing they are accessing legitimate resources.",
-                "- **Drive-by Compromise (T1189):** Should the URLs lead to malicious copies of the legitimate sites designed to exploit vulnerabilities in the web browser.",
-                "- **Masquerading (T1036):** Creating fake websites or URLs that closely resemble legitimate ones to trick users or security measures."
+                "- **Search Open Websites/Domains (T1593):** Adversaries may search open sources to gather actionable information. URLs like the ones provided could be part of an adversary's effort to learn about security trends and threat intelligence.",
+                "- **Phishing for Information (T1598):** Hypothetically, if the URLs were part of a phishing campaign (not suggested by the provided IoCs but possible in a broader context), this technique would involve adversaries creating or repurposing similar legitimate-looking links to harvest information.",
+                "- **Web Service (T1102):** If similar URLs were used maliciously, they could serve as a web service for C2 communications, hosting commands for malware or exfiltrating data from a target network."
             ],
             "Procedures": [
-                "- **Information Gathering Procedure:** Actors could use the information from these legitimate sources to tailor their attacks or develop tools that are harder to detect by staying informed about the latest in cybersecurity.",
-                "- **Phishing Campaign Using Spoofed URLs:** Sending emails that mimic legitimate communications from these organizations, enticing users to click on malicious links that appear trustworthy.",
-                "- **Creating Spoofed Cybersecurity Resources:** Developing websites that mimic these legitimate resources to distribute malware or harvest credentials from unsuspecting victims seeking cybersecurity information."
+                "- **Open Source Intelligence (OSINT) Gathering:** Adversaries might use legitimate information sources like the provided URLs to gather intelligence on threats, vulnerabilities, and security practices to refine their attack strategies or develop countermeasures against threat intelligence tools.",
+                "- **Creating Spoofed Sites for Phishing:** In a hypothetical misuse of similar URLs, adversaries could create spoofed versions of legitimate sites to deceive targets into divulging credentials or downloading malware.",
+                "- **C2 Communications via Legitimate Services:** Adversaries might leverage services hosted on URLs that appear legitimate for maintaining control over compromised systems, using them to disguise malicious traffic as benign."
             ]
-        }
+        },
+        "actors": []
     },
     {
         "article_id": "6697a4af91ce7296607fec62",
@@ -152,7 +212,17 @@
             "ip_addresses": [],
             "file_hashes": [],
             "domain_names": [
-                "developer.android.com, play.google.com, googlesamples.github.io, androidrank.org, cs.android.com, codeql.github.com, aka.ms, www.linkedin.com, twitter.com, thecyberwire.com"
+                "- play.google.com",
+                "- developer.android.com",
+                "- www.blackhat.com",
+                "- googlesamples.github.io",
+                "- cs.android.com",
+                "- androidrank.org",
+                "- codeql.github.com",
+                "- aka.ms",
+                "- www.linkedin.com",
+                "- twitter.com",
+                "- thecyberwire.com"
             ],
             "email_addresses": [],
             "urls": [
@@ -162,24 +232,24 @@
         },
         "ttp": {
             "Tactics": [
-                "- **Resource Development (T1583):** The inclusion of various development-related domains (e.g., developer.android.com, cs.android.com, codeql.github.com) suggests efforts in developing or modifying tools, code, or other resources for malicious use.",
-                "- **Initial Access (T1190):** The presence of URLs that lead to developer resources and app stores (play.google.com) could indicate attempts to exploit vulnerabilities in software distribution channels.",
-                "- **Execution (T1203):** The references to Android development and specific Android functionalities (e.g., FileProvider, SharedPreferencesImpl.java) suggest the execution of code on a target device.",
-                "- **Discovery (T1518):** Domains and URLs related to Android development and security (e.g., androidrank.org, developer.android.com/privacy-and-security) could imply efforts to discover vulnerabilities or gather intelligence on Android security mechanisms."
+                "- **Resource Development (T1583):** The domains and URLs listed as IoCs suggest the adversary is developing resources that mimic legitimate services (like Google Play and Android development resources) to support operations.",
+                "- **Initial Access (T1190):** The inclusion of legitimate-looking URLs could indicate phishing or spear-phishing attempts to gain initial access through social engineering.",
+                "- **Execution (T1203):** The reference to Android development and application URLs suggests that adversaries might be attempting to execute malicious code on Android devices.",
+                "- **Credential Access (T1110):** Domains like LinkedIn and Twitter could be used in social engineering attacks aimed at harvesting credentials."
             ],
             "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The presence of URLs in the IoCs could indicate the use of spearphishing with a link to deliver a malicious payload or to redirect users to a malicious site.",
-                "- **Drive-by Compromise (T1189):** The inclusion of URLs that could potentially host or link to malicious content suggests a technique where users are compromised via visiting a website without any other form of interaction.",
-                "- **Exploit Public-Facing Application (T1190):** The references to app store links and development resources imply exploiting vulnerabilities in public-facing applications, such as Android apps, to gain initial access.",
-                "- **Dynamic Code Loading (T1574.010):** The reference to dynamically loaded code in Android (UnsafeDynamicallyLoadedCode.md.html) suggests the dynamic loading of additional code at runtime, potentially bypassing static analysis."
+                "- **Spearphishing Link (T1566.002):** The presence of URLs that are related to legitimate services hints at spearphishing attempts where attackers use these links in emails or messages to trick victims into clicking.",
+                "- **Drive-by Compromise (T1189):** The listed URLs could be part of a strategy to compromise a victim's device by convincing them to visit a malicious website.",
+                "- **Masquerading (T1036):** The use of domains that closely resemble legitimate sites (e.g., developer resources and social media) suggests attempts to masquerade as trusted entities to deceive targets.",
+                "- **Exploit Public-Facing Application (T1190):** Some URLs point to developer resources and applications, indicating potential exploitation of vulnerabilities in these applications for initial access or execution."
             ],
             "Procedures": [
-                "- **Malicious App Development:** Utilizing developer resources (e.g., developer.android.com, cs.android.com) to develop or modify Android applications for malicious purposes.",
-                "- **Vulnerability Discovery and Exploitation:** Leveraging Android security and development documentation (e.g., developer.android.com/privacy-and-security) to discover vulnerabilities and develop exploits targeting Android devices.",
-                "- **Phishing Campaigns:** Crafting phishing campaigns that use URLs linked to reputable sites (e.g., www.blackhat.com, play.google.com) to gain trust and trick users into performing malicious actions.",
-                "- **Social Engineering via Professional Networks:** Utilizing social media and professional networking links (e.g., www.linkedin.com, twitter.com) in phishing or spearphishing attacks to appear more legitimate and increase the chances of success."
+                "- **Phishing with a Spearphishing Link:** Attackers might craft emails or messages that include the listed URLs, purporting to be from legitimate sources like Android development resources or cybersecurity events, to trick victims into clicking and potentially downloading malicious payloads.",
+                "- **Masquerading as Legitimate Development Resources:** By creating or compromising websites that mimic legitimate Android development resources, attackers can deceive developers into downloading malicious tools or code samples, leading to the execution of unauthorized code.",
+                "- **Social Engineering via Professional Networks:** Using compromised or fake profiles on platforms like LinkedIn, attackers could engage in social engineering to gather intelligence or credentials from targets within the cybersecurity or Android development communities."
             ]
-        }
+        },
+        "actors": []
     },
     {
         "article_id": "6697a4b091ce7296607fec63",
@@ -200,23 +270,25 @@
         },
         "ttp": {
             "Tactics": [
-                "- **Reconnaissance (TA0043):** The presence of domain names and URLs related to industrial protocols, security advisories, and threat intelligence points towards an adversary's effort to gather information on potential targets or to understand security mechanisms and vulnerabilities.",
-                "- **Resource Development (TA0042):** The use of legitimate domains and URLs in phishing or other malicious campaigns can be seen as developing resources (such as trust) to support malicious activities.",
-                "- **Initial Access (TA0001):** The IoCs could be used in spear-phishing campaigns targeting individuals in specific industries, leveraging the trust in these domains and URLs to trick users into executing malicious actions."
+                "- **Initial Access (TA0001):** Attackers might use spear-phishing links or drive-by compromise using the listed URLs to gain initial access to a victim's system.",
+                "- **Execution (TA0002):** The URLs might be used to trick users into downloading and executing malicious software.",
+                "- **Command and Control (TA0011):** The domain names and URLs could be part of a command and control infrastructure used by attackers to maintain communication with compromised systems.",
+                "- **Exfiltration (TA0010):** Attackers might use the compromised domains to exfiltrate data from a victim's network."
             ],
             "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The use of URLs from reputable sources in phishing attempts to trick users into clicking on malicious links, believing they are accessing legitimate resources.",
-                "- **Drive-by Compromise (T1189):** If any of the listed URLs were compromised to serve malicious content, this technique could be employed to automatically download malware onto the victim's system when they visit the compromised site.",
-                "- **Masquerading (T1036):** Using trusted domain names and URLs in malicious activities to appear as legitimate traffic or communications, thereby avoiding detection.",
-                "- **Phishing for Information (T1598):** The domains and URLs, especially those related to security advisories and threat intelligence, could be used in phishing campaigns aimed at gathering sensitive information from the targets under the guise of legitimate entities."
+                "- **Spearphishing Link (T1566.002):** Attackers could use emails containing the malicious URLs to target specific individuals or organizations.",
+                "- **Drive-by Compromise (T1189):** The attackers might compromise a website that the victim visits by embedding a malicious script in one of the listed URLs.",
+                "- **Command and Control: Web Protocols (T1071):** The use of HTTPS URLs for command and control activities, allowing attackers to blend in with normal traffic.",
+                "- **Data Encrypted for Impact (T1486):** The URLs might host ransomware or other malware that encrypts a victim's data for extortion."
             ],
             "Procedures": [
-                "- **Spearphishing with Trusted Links:** An attacker crafts an email that appears to be from a trusted entity, using URLs from the listed domains to include links to malicious documents or sites that exploit vulnerabilities or trick users into divulging credentials.",
-                "- **Impersonating Security Advisories:** Creating fake security advisories or updates using the legitimate-looking URLs to trick users of industrial control systems into downloading malware or revealing sensitive information.",
-                "- **Gathering Target Intelligence:** An adversary could use the information available at the listed URLs, especially those related to industrial protocols and security advisories, to gather intelligence on potential targets, including vulnerabilities and security practices.",
-                "- **Social Media Masquerading:** Utilizing links to legitimate social media profiles (e.g., LinkedIn, Twitter) in communications or on websites to create a false sense of legitimacy, potentially for reconnaissance or to establish rapport with targets in social engineering campaigns."
+                "- **Spearphishing with a Compromised URL:** An attacker sends an email to a target individual with a link to one of the malicious URLs listed, tricking the victim into clicking the link, which leads to malware infection.",
+                "- **Website Compromise and Malware Distribution:** An attacker compromises a legitimate website listed in the IoCs and injects malicious code, which redirects visitors to a malicious site or automatically downloads malware onto their system.",
+                "- **Command and Control via HTTPS:** An attacker uses the HTTPS protocol of the listed URLs for communicating with compromised systems to evade detection by blending in with normal encrypted web traffic.",
+                "- **Data Exfiltration to a Compromised Domain:** After gaining access to a victim's network, the attacker exfiltrates sensitive data to a server under their control, using one of the compromised domains as a drop site."
             ]
-        }
+        },
+        "actors": []
     },
     {
         "article_id": "6697a4b091ce7296607fec65",
@@ -239,24 +311,33 @@
         },
         "ttp": {
             "Tactics": [
-                "- **Resource Development (TA0042):** The presence of domain names and URLs related to seemingly legitimate sites could indicate an adversary's efforts in developing resources such as malicious domains and decoy websites for hosting phishing content or malware.",
-                "- **Command and Control (TA0011):** The use of specific domain names and IP addresses might be indicative of command and control servers being used to maintain communication with compromised systems.",
-                "- **Initial Access (TA0001):** The mention of URLs and domain names could suggest tactics aimed at gaining initial access through spear-phishing or drive-by compromise.",
-                "- **Execution (TA0002):** The file hashes provided could be indicative of executable payloads or scripts used by adversaries to perform malicious actions on a victim's system."
+                "- **Resource Development (TA0042):** The IoCs such as domain names and URLs indicate the adversary is developing resources such as websites and social media profiles to support their operations.",
+                "- **Command and Control (TA0011):** The domain names and IP addresses suggest the adversary is establishing command and control (C2) infrastructure to communicate with compromised systems.",
+                "- **Initial Access (TA0001):** The use of URLs could indicate attempts at phishing or directing users to malicious sites for initial compromise.",
+                "- **Execution (TA0002):** The presence of file hashes points to the execution of specific malicious software on targeted systems."
             ],
             "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The URLs provided, especially those mimicking legitimate services, could be used in spear-phishing emails to deceive users into visiting malicious sites or downloading malware.",
-                "- **Drive-by Compromise (T1189):** The listed URLs might be part of a drive-by compromise strategy, where visiting these sites could result in the automatic download and execution of malware.",
-                "- **Command and Control Over Web Protocol (T1071.001):** The domain names could be used for command and control communications over web protocols, disguising malicious traffic as normal web traffic.",
-                "- **User Execution (T1204):** The file hashes represent malware that requires the user to manually execute the malware, possibly through deceptive means such as spear-phishing emails."
+                "- **Acquire Infrastructure: Domains (T1583.001):** The listed domain names suggest the adversary has acquired domain names for use in their operations, likely for C2 or phishing.",
+                "- **Spearphishing Link (T1566.002):** The URLs provided could be used in spearphishing emails to trick users into visiting malicious sites or downloading malware.",
+                "- **User Execution (T1204):** The presence of file hashes implies that the adversary expects users to execute the malware on their devices, either through deception or by exploiting vulnerabilities.",
+                "- **Command and Scripting Interpreter (T1059):** The file hashes may represent scripts or executable files that are run on the target's system for malicious purposes."
             ],
             "Procedures": [
-                "- **Domain Generation for Command and Control:** The domain names listed, such as \"instance-olqdnn-relay.screenconnect[.]com\", could be dynamically generated to evade detection and maintain command and control channels.",
-                "- **Malware Distribution via Spearphishing:** The URLs provided could be part of a procedure where adversaries send emails containing these links to potential victims, enticing them to download malware directly or visit a site that will exploit vulnerabilities in their browser.",
-                "- **Hosting Phishing Pages:** Domains like \"antispam3[.]com\" could be used to host phishing pages that mimic legitimate services, designed to steal credentials or deliver malware when interacted with.",
-                "- **Malware Execution through User Interaction:** The file hashes represent specific malware samples that could be tied to documents or executables. Users are tricked into executing these under the guise of legitimate files, leading to system compromise."
+                "- **Domain Registration for C2:** The adversary registers domains such as `antispam3[.]com` and `instance-olqdnn-relay.screenconnect[.]com` to set up a command and control infrastructure.",
+                "- **Malware Distribution via URLs:** The adversary uses URLs like `https://aka.ms/threatintelblog` to distribute malware, either by direct downloads or by exploiting vulnerabilities in the user's browser.",
+                "- **Execution of Malicious Payloads:** The file hashes represent specific malicious payloads that the adversary attempts to execute on the target systems, possibly as part of a multi-stage attack.",
+                "- **Phishing Campaign:** The adversary uses URLs embedded in emails or social media to direct potential victims to phishing sites or to download malicious files directly."
             ]
-        }
+        },
+        "actors": [
+            {
+                "name": "Cobalt",
+                "id": "6697ebb4cf2c3eb23089c6b2",
+                "aliases": [
+                    "Cobalt"
+                ]
+            }
+        ]
     },
     {
         "article_id": "6697a4b091ce7296607fec66",
@@ -267,29 +348,71 @@
             "ip_addresses": [],
             "file_hashes": [],
             "domain_names": [
-                "detankwar.com, defitankzone.com"
+                "detankwar[.]com, defitankzone[.]com, bestonlinefilmstudio[.]org, blockchain-newtech[.]com, ccwaterfall[.]com, chaingrown[.]com, defitankzone[.]com, detankwar[.]com, freenet-zhilly[.]org, matrixane[.]com, pointdnt[.]com, starglowventures[.]com, mingeloem[.]com"
             ],
             "email_addresses": [],
             "urls": [],
-            "registry_keys": []
+            "registry_keys": [
+                "- No registry keys are present."
+            ]
         },
         "ttp": {
             "Tactics": [
-                "- **Initial Access (TA0001):** Attackers could use the identified domain names to host phishing websites or malicious content to gain initial access to a victim's system.",
-                "- **Command and Control (TA0011):** The domains could serve as command and control (C2) servers for managing compromised systems.",
-                "- **Exfiltration (TA0010):** If these domains are involved in data exfiltration, they could be receiving stolen data from compromised systems."
+                "- **Initial Access (T1078):** Attackers could use the listed domain names to host phishing sites or malicious downloads to gain initial access to a victim's system.",
+                "- **Command and Control (T1071):** The domain names might serve as command and control (C2) servers to manage compromised systems.",
+                "- **Exfiltration (T1041):** Data could be exfiltrated to these domains if they are under the control of attackers."
             ],
             "Techniques": [
-                "- **Spearphishing Link (T1566.002):** Attackers might use emails containing links to the identified malicious domains to trick users into visiting them, potentially leading to the downloading of malware or credential theft.",
-                "- **Web Protocols (T1071):** If the domains are used for C2 communications, they might leverage standard web protocols (HTTP/HTTPS) to blend in with normal traffic and avoid detection.",
-                "- **Exfiltration Over Web Service (T1567):** Data could be exfiltrated to these domains using web services, disguising the exfiltration as benign traffic to external services."
+                "- **Drive-by Compromise (T1189):** Attackers could use the listed domains to host malicious scripts that exploit vulnerabilities in web browsers to install malware.",
+                "- **Spearphishing Link (T1192):** The domains could be used in spearphishing emails as links that direct victims to phishing or malware-hosting sites.",
+                "- **Web Service (T1102):** The domains might be used as a part of a web service for command and control activities, masquerading as legitimate web services to avoid detection.",
+                "- **Exfiltration Over Web Service (T1567):** Data could be exfiltrated to attacker-controlled servers using these domains, making it appear as if the data is being sent to a legitimate web service."
             ],
             "Procedures": [
-                "- **Hosting Phishing Pages:** The identified domains could host pages that mimic legitimate services to capture credentials or serve malware.",
-                "- **C2 Communication Setup:** Malware installed on a victim's system might be configured to communicate with these domains for receiving commands or exfiltrating data.",
-                "- **Data Exfiltration to External Domain:** Sensitive information from compromised systems could be sent to these domains as part of the exfiltration process."
+                "- **Malicious Domain Registration:** Attackers register domains that sound legitimate or are similar to real domains to host phishing sites, distribute malware, or establish command and control channels.",
+                "- **Web-based Delivery of Payload:** Using the domains to host malicious payloads, which are then delivered to victims through phishing emails, malicious advertisements, or compromised websites.",
+                "- **C2 Communication Over HTTP/S:** Utilizing the domains for command and control communications, leveraging web protocols to blend in with normal traffic and avoid detection.",
+                "- **Data Exfiltration to Cloud Storage:** Mimicking cloud storage services with these domains to exfiltrate sensitive data from compromised systems, making the traffic appear less suspicious to network defense mechanisms."
             ]
-        }
+        },
+        "actors": [
+            {
+                "name": "Lazarus Group",
+                "id": "6697ebb4cf2c3eb23089c680",
+                "aliases": [
+                    "Diamond Sleet"
+                ]
+            },
+            {
+                "name": "Sandworm",
+                "id": "6697ebb4cf2c3eb23089c677",
+                "aliases": [
+                    "Seashell Blizzard"
+                ]
+            },
+            {
+                "name": "Storm-0530",
+                "id": "6697ebb4cf2c3eb23089c89c",
+                "aliases": [
+                    "Storm-0530",
+                    "H0lyGh0st"
+                ]
+            },
+            {
+                "name": "Silent Chollima",
+                "id": "6697ebb4cf2c3eb23089c67f",
+                "aliases": [
+                    "Onyx Sleet"
+                ]
+            },
+            {
+                "name": "TraderTraitor",
+                "id": "6697ebb4cf2c3eb23089c81e",
+                "aliases": [
+                    "Jade Sleet"
+                ]
+            }
+        ]
     },
     {
         "article_id": "6697a4b191ce7296607fec67",
@@ -312,24 +435,40 @@
         },
         "ttp": {
             "Tactics": [
-                "- **Resource Development (TA0042):** The presence of domain names suggests the adversary is preparing resources such as websites for hosting malicious content or phishing sites.",
-                "- **Initial Access (TA0001):** The URLs provided in the IoCs could be used for phishing attempts to gain initial access to a victim's system.",
-                "- **Execution (TA0002):** The file hashes listed indicate that specific malicious files are being executed on the victim's systems.",
-                "- **Command and Control (TA0011):** The use of domain names and potentially the IP addresses (if provided) would indicate the adversary's efforts to communicate with compromised systems to control them remotely."
+                "- **Resource Development (TA0042):** The presence of domain names and URLs suggests the adversary is preparing infrastructure to support their operations, which may include hosting malicious content or command and control servers.",
+                "- **Initial Access (TA0001):** The use of URLs in phishing emails or malicious websites could indicate tactics aimed at gaining initial access to a victim's system.",
+                "- **Execution (TA0002):** The file hashes represent specific malware or tools that could be used to execute commands on a victim's system.",
+                "- **Command and Control (TA0011):** The domain names and URLs could be used for command and control activities, allowing communication with compromised systems."
             ],
             "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The URLs provided could be used in spearphishing emails to trick users into clicking on them, leading to malicious websites.",
-                "- **Drive-by Compromise (T1189):** The domains and URLs could host malicious content that exploits vulnerabilities in the web browser to gain execution on the victim's system.",
-                "- **User Execution (T1204):** The presence of file hashes suggests that the adversary relies on users to execute the malicious files, possibly obtained through deceptive downloads or email attachments.",
-                "- **Command and Scripting Interpreter (T1059):** The file hashes might relate to scripts used by the adversary for execution on the victim's system.",
-                "- **Exfiltration Over Web Service (T1567):** The URLs might be used for exfiltrating data to a controlled web service."
+                "- **Spearphishing Link (T1566.002):** The URLs could be used in spearphishing emails to trick users into clicking on a link that leads to a malicious website, initiating the attack.",
+                "- **User Execution (T1204):** The adversary may rely on the user to execute the malware through deceptive means, such as by visiting a malicious website or opening a malicious file.",
+                "- **Command and Scripting Interpreter (T1059):** Some of the file hashes could represent scripts or executables that are used to perform actions on a victim's system.",
+                "- **Web Protocols (T1071.001):** The use of HTTP/S URLs for command and control suggests the adversary is leveraging web protocols to communicate with compromised systems."
             ],
             "Procedures": [
-                "- **Phishing with Malicious Link:** The adversary sends emails containing the URLs `https://waterforvoiceless[.]org/invite.php`, `https://waterforvoiceless[.]org/util.php`, and `https://siestakeying[.]com/auth.php` to trick victims into visiting these sites for initial compromise.",
-                "- **Malware Distribution:** The file hashes represent malware that the adversary distributes, possibly through the mentioned URLs or embedded in downloadable files from these sites, to execute on the victim's system.",
-                "- **Command and Control Communication:** The adversary uses the domains `waterforvoiceless.org` and `siestakeying.com` as part of their command and control infrastructure to communicate with and control compromised systems."
+                "- **Malicious Website Hosting:** The domain names `waterforvoiceless.org` and `siestakeying.com` could be hosting malicious content designed to exploit vulnerabilities or deliver malware when visited.",
+                "- **Malware Distribution:** The file hashes represent specific malware samples that could be distributed via the malicious URLs or as attachments in phishing emails.",
+                "- **Command and Control Communication:** The URLs `https://waterforvoiceless[.]org/invite.php`, `https://waterforvoiceless[.]org/util.php`, and `https://siestakeying[.]com/auth.php` could be used by malware to communicate with an adversary's command and control infrastructure, sending data back or receiving instructions.",
+                "- **Phishing Campaign:** The use of URLs in a phishing campaign to deceive users into providing sensitive information or downloading malware. The specific URLs provided could be used in emails that appear legitimate to the user, prompting them to click on the link."
             ]
-        }
+        },
+        "actors": [
+            {
+                "name": "APT2",
+                "id": "6697ebb4cf2c3eb23089c64a",
+                "aliases": [
+                    "APT2"
+                ]
+            },
+            {
+                "name": "APT29",
+                "id": "6697ebb4cf2c3eb23089c674",
+                "aliases": [
+                    "APT29"
+                ]
+            }
+        ]
     },
     {
         "article_id": "6697a4b191ce7296607fec68",
@@ -340,9 +479,7 @@
             "ip_addresses": [
                 "154.12.177.8, 172.104.124.74, 118.140.151.242, 61.239.68.73, 172.245.68.110"
             ],
-            "file_hashes": [
-                "c867881c56698f938b4e8edafe76a09b, df4603548b10211f0aa77d0e9a172438, 0951109dd1be0d84a33d52c135ba9c97, 9c3bf506dd19c08c0ed3af9c1708a770, 0ba435460fb7622344eec28063274b8a, a78bf3d16349eba86719539ee8ef562d"
-            ],
+            "file_hashes": [],
             "domain_names": [],
             "email_addresses": [],
             "urls": [],
@@ -350,24 +487,55 @@
         },
         "ttp": {
             "Tactics": [
-                "- **Initial Access (TA0001):** The use of specific IP addresses and potentially malicious file hashes could indicate attempts to gain initial access to a system through spear-phishing or exploiting public-facing applications.",
-                "- **Execution (TA0002):** Malicious file hashes suggest that unauthorized software or scripts are being executed on the target system.",
-                "- **Persistence (TA0003):** Although not directly indicated by the provided IoCs, the presence of certain file hashes could imply the use of malware or tools designed to maintain persistence on a compromised host.",
-                "- **Command and Control (TA0011):** The listed IP addresses could serve as command and control (C2) servers, facilitating communication with compromised hosts."
+                "- **Initial Access (TA0001):** Attackers may use these IP addresses as part of their infrastructure to deliver payloads or conduct phishing attacks.",
+                "- **Command and Control (TA0011):** These IP addresses might serve as command and control (C2) servers for managing compromised systems.",
+                "- **Exfiltration (TA0010):** Data might be exfiltrated to these IP addresses after a successful compromise."
             ],
             "Techniques": [
-                "- **Spearphishing Attachment (T1566.001):** If the malicious file hashes are associated with email attachments, this technique could be used as part of an initial access strategy.",
-                "- **User Execution (T1204):** The presence of malicious file hashes suggests that adversaries might rely on users executing malicious files, either as attachments or downloaded from the internet.",
-                "- **Commonly Used Port (T1043):** The use of IP addresses for C2 might involve communication over commonly used ports to blend in with normal traffic and avoid detection.",
-                "- **Standard Application Layer Protocol (T1071):** Adversaries may utilize standard protocols (e.g., HTTP, HTTPS) to communicate with C2 servers identified by the IP addresses, making the traffic less conspicuous."
+                "- **Spearphishing Link (T1566.002):** Attackers could use emails or messages that contain links to servers hosted on these IP addresses to trick victims into downloading malware or providing sensitive information.",
+                "- **External Remote Services (T1133):** Attackers might exploit remote services exposed on these IP addresses to gain initial access or move laterally in the network.",
+                "- **Data Encrypted for Impact (T1486):** If any of these IP addresses are associated with ransomware C2 servers, the technique of encrypting data for ransom could be relevant.",
+                "- **Exfiltration Over Command and Control Channel (T1041):** Data could be exfiltrated to these IP addresses if they are part of a C2 infrastructure."
             ],
             "Procedures": [
-                "- **Phishing with Attachment Execution:** An adversary sends a spear-phishing email containing an attachment. When the attachment is opened by the victim, it executes malware associated with one of the provided file hashes, establishing initial access.",
-                "- **Downloading and Executing Malware:** A user is tricked into downloading a piece of software (e.g., through a malicious website or email link), which turns out to be malware associated with one of the listed file hashes. This malware then executes on the user's system.",
-                "- **C2 Communication over Common Ports:** Malware installed on the victim's system communicates with a C2 server using one of the listed IP addresses. It uses common ports and protocols to blend in with legitimate traffic and maintain control over the compromised host.",
-                "- **Persistence via Malware:** The malware associated with the given file hashes may have capabilities to install additional software or modify system configurations to ensure it remains active on the system across reboots, ensuring persistence."
+                "- **Phishing Campaign Using Compromised IP:** Attackers launch a phishing campaign using emails that direct victims to a malicious site hosted on one of the listed IP addresses.",
+                "- **Remote Access Tool (RAT) Command and Control:** A Remote Access Tool is configured to communicate with a C2 server located at one of these IP addresses, allowing attackers to control compromised systems remotely.",
+                "- **Data Theft and Exfiltration:** Following a successful breach, sensitive data is exfiltrated to an external server associated with one of the given IP addresses."
             ]
-        }
+        },
+        "actors": [
+            {
+                "name": "UNC5174",
+                "id": "6697ebb4cf2c3eb23089c8ca",
+                "aliases": [
+                    "UNC5174",
+                    "Uteus"
+                ]
+            },
+            {
+                "name": "Xiaoqiying",
+                "id": "6697ebb4cf2c3eb23089c7f3",
+                "aliases": [
+                    "Teng Snake",
+                    "Xiaoqiying",
+                    "Genesis Day"
+                ]
+            },
+            {
+                "name": "BRONZE SPRING",
+                "id": "6697ebb4cf2c3eb23089c7b6",
+                "aliases": [
+                    "UNC302"
+                ]
+            },
+            {
+                "name": "Turla",
+                "id": "6697ebb4cf2c3eb23089c675",
+                "aliases": [
+                    "Snake"
+                ]
+            }
+        ]
     },
     {
         "article_id": "6697a4b191ce7296607fec69",
@@ -386,24 +554,33 @@
         },
         "ttp": {
             "Tactics": [
-                "- **Initial Access (TA0001):** The file hash could be related to malware or a tool used for gaining unauthorized access to systems. Malicious files are often used in phishing attacks, drive-by downloads, or other methods to achieve initial access.",
-                "- **Execution (TA0002):** If the file is an executable, it might be directly involved in the execution phase of an attack, where adversaries attempt to run malicious code on a victim's system.",
-                "- **Persistence (TA0003):** The presence of a unique file hash might indicate malware or tools used to maintain persistence on a system, ensuring continued access for the attacker even after restarts or attempts to remove the threat.",
-                "- **Defense Evasion (TA0005):** The file could be part of techniques aimed at avoiding detection, such as obfuscation of malicious files, use of fileless malware, or tampering with security features to prevent analysis."
+                "- **Initial Access (TA0001):** The file hash could be related to a malicious file used to gain initial access to a system. Malware delivered via phishing emails, malicious downloads, or drive-by compromise could have this hash.",
+                "- **Execution (TA0002):** If the file is an executable, the hash could indicate an attempt to run malicious code on a system.",
+                "- **Persistence (TA0003):** The hash might represent malware or a tool used to maintain persistence on a compromised system, such as a Registry Run key or a scheduled task.",
+                "- **Defense Evasion (TA0005):** The file associated with the hash could be involved in techniques aimed at avoiding detection, such as obfuscating malware, disabling security tools, or modifying system processes.",
+                "- **Credential Access (TA0006):** If the file is a tool designed to extract credentials from systems or software, it would relate to this tactic.",
+                "- **Discovery (TA0007):** The hash might be linked to a file used for system or network discovery activities post-compromise.",
+                "- **Lateral Movement (TA0008):** The file could be a tool or payload used for moving within a network, such as a remote access tool or exploit.",
+                "- **Collection (TA0009):** If the file is associated with gathering data from the compromised system, it falls under this tactic.",
+                "- **Command and Control (TA0011):** The file might be malware that communicates with an attacker-controlled server, indicating a command and control activity."
             ],
             "Techniques": [
-                "- **User Execution (T1204):** The malicious file might require the user to execute it, either by opening an attachment or running a downloaded file, as a method for the adversary to gain execution.",
-                "- **Scripting (T1064):** If the file is a script, it could be used to execute arbitrary code in the context of various scripting environments, a common technique for both execution and persistence.",
-                "- **Obfuscated Files or Information (T1027):** The file might be obfuscated or packed to hide its true intent, making analysis and detection more difficult.",
-                "- **Process Injection (T1055):** The file, if malicious, might employ process injection techniques to execute its code in the address space of another process, evading detection and potentially elevating privileges."
+                "- **User Execution (T1204):** If the file requires user interaction to execute, such as opening an attachment or running a downloaded file.",
+                "- **PowerShell (T1059.001):** If the hash is associated with a PowerShell script used in attacks.",
+                "- **Scheduled Task/Job (T1053):** If the file is used to create scheduled tasks for persistence or execution at a later time.",
+                "- **Software Packing (T1027.002):** If the file uses packing to obfuscate its contents and evade antivirus detection.",
+                "- **Credential Dumping (T1003):** If the file is known to be part of a credential dumping toolkit.",
+                "- **Remote File Copy (T1105):** If the file is used to transfer data into or out of a network.",
+                "- **Exfiltration Over C2 Channel (T1041):** If the file is part of a malware that exfiltrates data to a command and control server."
             ],
             "Procedures": [
-                "- **Phishing with Attachment (Procedure):** The file represented by the hash could be distributed via email phishing, enticing users to open an attachment that executes malicious code.",
-                "- **Drive-by Compromise (Procedure):** The file might be downloaded automatically without the user's knowledge by visiting a compromised website, exploiting vulnerabilities in the browser or plugins.",
-                "- **Malware Installation (Procedure):** This procedure involves the direct installation of malware on the victim's machine, where the file hash corresponds to a known malware sample.",
-                "- **Evasion through Obfuscation (Procedure):** The procedure might involve modifying the file to change its hash value, using techniques like packing or encryption to evade signature-based detection."
+                "- **Malware Delivery via Phishing Email:** A scenario where the file associated with the hash is delivered as an attachment in a phishing email, aiming to trick the user into executing it.",
+                "- **Drive-by Download Attack:** The file could be downloaded automatically without the user's consent when visiting a compromised or malicious website.",
+                "- **Lateral Movement with Remote Access Tools:** The file could be a remote access tool used by attackers to move laterally within a network after gaining initial access.",
+                "- **Data Exfiltration Procedure:** If the file is part of a larger toolkit or malware family designed to collect and send sensitive information to an external command and control server."
             ]
-        }
+        },
+        "actors": []
     },
     {
         "article_id": "6697a4b191ce7296607fec6a",
@@ -413,10 +590,10 @@
         "iocs": {
             "ip_addresses": [],
             "file_hashes": [
-                "4a223bc9c6096ac6bae3e7452ed6a1cd, adef679c6aa6860aa89b775dceb6958b, 409c2ac789015e76f9886f1203a73bc0, 691d0143c0642ff783909f983ccb8ffd, e3dc8810da71812b860fc59aeadcc350, 054c67236a86d9ab5ec80e16b884f733, 36e2d9ce19ed045a9840313439d6f18d, a5fdf55c1c50be471946de937f1e46dd, ec6a0434b94f51aa1df76a066aa05413, cb565b1bb128dfc20c8392974ff73e3f, 400d7190012517677dd5ef2e471f2cd1, 54848d17aa76d807e2fd6d196a01ce84, e9ed595b24a7eeb34ac52f57eeec6e2b, ce1054d542dbd999401236f2ce20f826, 1e7cf4c172bdabe48714b402d2255707, 909a235ac0349041b38d84e9aab3f3a1, ef262f571cd429d88f629789616365e4, 816af741c3d6be1397d306841d12e206, c5dc2c75459dc99a42400f6d8b455250, 251894b3af0ece374ed6df223ab09cab, dfed4468dd78ad2f5d762741df4c1755, c0060a0c26df9fed7fdcdb7d26ff921f, 01cbaddd7a269521bf7b80f4a9a1982f, 1d8a1756b882a19d98632bc6c1f1f8cd, 2c4cdc0e78ef57b44f11f7ec2f6164cd, 3b658afa91ce3327dbfa1cf665529a6d, 601eb396c339a69e7d8c2a3de3b0296d, 664cfda4ada6f8b7bb25a5f50cccf984, 68f6810f248d032bbb65b391cdb1d5e0, 710d1a8b2fc17c381a7f20da5d2d70fc, 75d2c686d410ec1f880a6fd7a9800055, a5e64f196175c5f068e1352aa04bc5fa, bfd024e64867e6ca44738dd03d4f87b5, c12ff86d32bd10c6c764b71728a51bce, cf32d73c501d5924b3c98383f53fda51, d94ffe668751935b19eaeb93fed1cdbe, eadbaabe3b8133426bcf09f7102088d4, 05fcace605b525f1bece1813bb18a56c, 4ed5d74a746461d3faa9f96995a1eec8, f58e0dfb8f915fa5ce1b7ca50c46b51b, 0a739dbdbcf9a5d8389511732371ecb4, aaef98be8e58be6b96566268c163b6aa, c3830b1381d95aa6f97a58fd8ff3524e, c51bc86beb9e16d1c905160e96d9fa29, 89107ce5e27d52b9fa6ae6387138dd3e"
+                "4a223bc9c6096ac6bae3e7452ed6a1cd, adef679c6aa6860aa89b775dceb6958b, 409c2ac789015e76f9886f1203a73bc0, 691d0143c0642ff783909f983ccb8ffd, e3dc8810da71812b860fc59aeadcc350, 054c67236a86d9ab5ec80e16b884f733, 36e2d9ce19ed045a9840313439d6f18d, a5fdf55c1c50be471946de937f1e46dd, ec6a0434b94f51aa1df76a066aa05413, ef262f571cd429d88f629789616365e4, 816af741c3d6be1397d306841d12e206, c5dc2c75459dc99a42400f6d8b455250, 05fcace605b525f1bece1813bb18a56c, 4ed5d74a746461d3faa9f96995a1eec8, f58e0dfb8f915fa5ce1b7ca50c46b51b, 0a739dbdbcf9a5d8389511732371ecb4, 36e2d9ce19ed045a9840313439d6f18d, aaef98be8e58be6b96566268c163b6aa, c3830b1381d95aa6f97a58fd8ff3524e, c51bc86beb9e16d1c905160e96d9fa29, a5fdf55c1c50be471946de937f1e46dd, 89107ce5e27d52b9fa6ae6387138dd3e"
             ],
             "domain_names": [
-                "1stemployer[.]com, birngthemhomenow[.]co[.]il, cashcloudservices[.]com, jupyternotebookcollections[.]com, notebooktextcheckings[.]com, teledyneflir[.]com[.]de, vsliveagent[.]com, xboxplayservice[.]com, airconnectionapi[.]azurewebsites[.]net, airconnectionsapi[.]azurewebsites[.]net, airconnectionsapijson[.]azurewebsites[.]net, airgadgetsolution[.]azurewebsites[.]net, airgadgetsolutions[.]azurewebsites[.]net, altnametestapi[.]azurewebsites[.]net, answerssurveytest[.]azurewebsites[.]net, apphrquestion[.]azurewebsites[.]net, apphrquestions[.]azurewebsites[.]net, apphrquizapi[.]azurewebsites[.]net, arquestionsapi[.]azurewebsites[.]net, arquestions[.]azurewebsites[.]net, audiomanagerapi[.]azurewebsites[.]net, audioservicetestapi[.]azurewebsites[.]net, blognewsalphaapijson[.]azurewebsites[.]net, blogvolleyballstatusapi[.]azurewebsites[.]net, blogvolleyballstatus[.]azurewebsites[.]net, boeisurveyapplications[.]azurewebsites[.]net, browsercheckap[.]azurewebsites[.]net, browsercheckingapi[.]azurewebsites[.]net, browsercheckjson[.]azurewebsites[.]net, changequestionstypeapi[.]azurewebsites[.]net, changequestionstypejsonapi[.]azurewebsites[.]net, changequestiontypesapi[.]azurewebsites[.]net, changequestiontypes[.]azurewebsites[.]net, checkapicountryquestions[.]azurewebsites[.]net, checkapicountryquestionsjson[.]azurewebsites[.]net, checkservicecustomerapi[.]azurewebsites[.]net, coffeeonlineshop[.]azurewebsites[.]net, coffeeonlineshoping[.]azurewebsites[.]net, connectairapijson[.]azurewebsites[.]net, connectionhandlerapi[.]azurewebsites[.]net, countrybasedquestions[.]azurewebsites[.]net, customercareserviceapi[.]azurewebsites[.]net, customercareservice[.]azurewebsites[.]net, emiratescheckapi[.]azurewebsites[.]net, emiratescheckapijson[.]azurewebsites[.]net, engineeringrssfeed[.]azurewebsites[.]net, engineeringssfeed[.]azurewebsites[.]net, exchtestcheckingapi[.]azurewebsites[.]net, exchtestcheckingapihealth[.]azurewebsites[.]net, flighthelicopterahtest[.]azurewebsites[.]net, helicopterahtest[.]azurewebsites[.]net, helicopterahtests[.]azurewebsites[.]net, helicoptersahtests[.]azurewebsites[.]net, hiringarabicregion[.]azurewebsites[.]net, homefurniture[.]azurewebsites[.]net, hrapplicationtest[.]azurewebsites[.]net, humanresourcesapi[.]azurewebsites[.]net, humanresourcesapijson[.]azurewebsites[.]net, humanresourcesapiquiz[.]azurewebsites[.]net, iaidevrssfeed[.]centralus[.]cloudapp[.]azure[.]com, iaidevrssfeed[.]centrualus[.]cloudapp[.]azure[.]com, iaidevrssfeed[.]cloudapp[.]azure[.]com, iaidevrssfeedp[.]cloudapp[.]azure[.]com, identifycheckapplication[.]azurewebsites[.]net, identifycheckapplications[.]azurewebsites[.]net, identifycheckingapplications[.]azurewebsites[.]net, ilengineeringrssfeed[.]azurewebsites[.]net, integratedblognewfeed[.]azurewebsites[.]net, integratedblognewsapi[.]azurewebsites[.]com, integratedblognewsapi[.]azurewebsites[.]net, integratedblognews[.]azurewebsites[.]net, intengineeringrssfeed[.]azurewebsites[.]net, intergratedblognewsapi[.]azurewebsites[.]net, javaruntime[.]azurewebsites[.]net, javaruntimestestapi[.]azurewebsites[.]net, javaruntimetestapi[.]azurewebsites[.]net, javaruntimeversioncheckingapi[.]azurewebsites[.]net, javaruntimeversionchecking[.]azurewebsites[.]net, jupyternotebookcollection[.]azurewebsites[.]net, jupyternotebookcollections[.]azurewebsites[.]net, jupyternotebookscollection[.]azurewebsites[.]net, logsapimanagement[.]azurewebsites[.]net, logsapimanagements[.]azurewebsites[.]net, logupdatemanagementapi[.]azurewebsites[.]net, logupdatemanagementapijson[.]azurewebsites[.]net, manpowerfeedapi[.]azurewebsites[.]net, manpowerfeedapijson[.]azurewebsites[.]net, marineblogapi[.]azurewebsites[.]net, notebooktextchecking[.]azurewebsites[.]net, notebooktextcheckings[.]azurewebsites[.]net, notebooktexts[.]azurewebsites[.]net, onequestionsapi[.]azurewebsites[.]net, onequestionsapicheck[.]azurewebsites[.]net, onequestions[.]azurewebsites[.]net, openapplicationcheck[.]azurewebsites[.]net, optionalapplication[.]azurewebsites[.]net, personalitytestquestionapi[.]azurewebsites[.]net, personalizationsurvey[.]azurewebsites[.]net, qaquestionapi[.]azurewebsites[.]net, qaquestionsapi[.]azurewebsites[.]net, qaquestionsapijson[.]azurewebsites[.]net, qaquestions[.]azurewebsites[.]net, queryfindquestions[.]azurewebsites[.]net, queryquestions[.]azurewebsites[.]net, questionsapplicationapi[.]azurewebsites[.]net, questionsapplicationapijson[.]azurewebsites[.]net, questionsapplicationbackup[.]azurewebsites[.]net, questionsdatabases[.]azurewebsites[.]net, questionsurveyapp[.]azurewebsites[.]net, questionsurveyappserver[.]azurewebsites[.]net, quiztestapplication[.]azurewebsites[.]net, refaeldevrssfeed[.]centralus[.]cloudapp[.]azure[.]com, regionuaequestions[.]azurewebsites[.]net, registerinsurance[.]azurewebsites[.]net, roadmapselectorapi[.]azurewebsites[.]net, roadmapselector[.]azurewebsites[.]net, sportblogs[.]azurewebsites[.]net, surveyappquery[.]azurewebsites[.]net, surveyonlinetestapi[.]azurewebsites[.]net, surveyonlinetest[.]azurewebsites[.]net, technewsblogapi[.]azurewebsites[.]net, testmanagementapi1[.]azurewebsites[.]net, testmanagementapis[.]azurewebsites[.]net, testmanagementapisjson[.]azurewebsites[.]net, testquestionapplicationapi[.]azurewebsites[.]net, testtesttes[.]azurewebsites[.]net, tiappschecktest[.]azurewebsites[.]net, tnlsowkis[.]westus3[.]cloudapp[.]azure[.]com, tnlsowki[.]westus3[.]cloudapp[.]azure[.]com, turkairline[.]azurewebsites[.]net, uaeaircheckon[.]azurewebsites[.]net, uaeairchecks[.]azurewebsites[.]net, vscodeupdater[.]azurewebsites[.]net, workersquestionsapi[.]azurewebsites[.]net, workersquestions[.]azurewebsites[.]net, workersquestionsjson[.]azurewebsites[.]net"
+                "1stemployer.com, birngthemhomenow.co.il, cashcloudservices.com, jupyternotebookcollections.com, notebooktextcheckings.com, teledyneflir.com.de, vsliveagent.com, xboxplayservice.com, airconnectionapi.azurewebsites.net, airconnectionsapi.azurewebsites.net, airconnectionsapijson.azurewebsites.net, airgadgetsolution.azurewebsites.net, airgadgetsolutions.azurewebsites.net, altnametestapi.azurewebsites.net, answerssurveytest.azurewebsites.net, apphrquestion.azurewebsites.net, apphrquestions.azurewebsites.net, apphrquizapi.azurewebsites.net, arquestionsapi.azurewebsites.net, arquestions.azurewebsites.net, audiomanagerapi.azurewebsites.net, audioservicetestapi.azurewebsites.net, blognewsalphaapijson.azurewebsites.net, blogvolleyballstatusapi.azurewebsites.net, blogvolleyballstatus.azurewebsites.net, boeisurveyapplications.azurewebsites.net, browsercheckap.azurewebsites.net, browsercheckingapi.azurewebsites.net, browsercheckjson.azurewebsites.net, changequestionstypeapi.azurewebsites.net, changequestionstypejsonapi.azurewebsites.net, changequestiontypesapi.azurewebsites.net, changequestiontypes.azurewebsites.net, checkapicountryquestions.azurewebsites.net, checkapicountryquestionsjson.azurewebsites.net, checkservicecustomerapi.azurewebsites.net, coffeeonlineshop.azurewebsites.net, coffeeonlineshoping.azurewebsites.net, connectairapijson.azurewebsites.net, connectionhandlerapi.azurewebsites.net, countrybasedquestions.azurewebsites.net, customercareserviceapi.azurewebsites.net, customercareservice.azurewebsites.net, emiratescheckapi.azurewebsites.net, emiratescheckapijson.azurewebsites.net, engineeringrssfeed.azurewebsites.net, engineeringssfeed.azurewebsites.net, exchtestcheckingapi.azurewebsites.net, exchtestcheckingapihealth.azurewebsites.net, flighthelicopterahtest.azurewebsites.net, helicopterahtest.azurewebsites.net, helicopterahtests.azurewebsites.net, helicoptersahtests.azurewebsites.net, hiringarabicregion.azurewebsites.net, homefurniture.azurewebsites.net, hrapplicationtest.azurewebsites.net, humanresourcesapi.azurewebsites.net, humanresourcesapijson.azurewebsites.net, humanresourcesapiquiz.azurewebsites.net, iaidevrssfeed.centralus.cloudapp.azure.com, iaidevrssfeed.centrualus.cloudapp.azure.com, iaidevrssfeed.cloudapp.azure.com, iaidevrssfeedp.cloudapp.azure.com, identifycheckapplication.azurewebsites.net, identifycheckapplications.azurewebsites.net, identifycheckingapplications.azurewebsites.net, ilengineeringrssfeed.azurewebsites.net, integratedblognewfeed.azurewebsites.net, integratedblognewsapi.azurewebsites.com, integratedblognewsapi.azurewebsites.net, integratedblognews.azurewebsites.net, intengineeringrssfeed.azurewebsites.net, intergratedblognewsapi.azurewebsites.net, javaruntime.azurewebsites.net, javaruntimestestapi.azurewebsites.net, javaruntimetestapi.azurewebsites.net, javaruntimeversioncheckingapi.azurewebsites.net, javaruntimeversionchecking.azurewebsites.net, jupyternotebookcollection.azurewebsites.net, jupyternotebookcollections.azurewebsites.net, jupyternotebookscollection.azurewebsites.net, logsapimanagement.azurewebsites.net, logsapimanagements.azurewebsites.net, logupdatemanagementapi.azurewebsites.net, logupdatemanagementapijson.azurewebsites.net, manpowerfeedapi.azurewebsites.net, manpowerfeedapijson.azurewebsites.net, marineblogapi.azurewebsites.net, notebooktextchecking.azurewebsites.net, notebooktextcheckings.azurewebsites.net, notebooktexts.azurewebsites.net, onequestionsapi.azurewebsites.net, onequestionsapicheck.azurewebsites.net, onequestions.azurewebsites.net, openapplicationcheck.azurewebsites.net, optionalapplication.azurewebsites.net, personalitytestquestionapi.azurewebsites.net, personalizationsurvey.azurewebsites.net, qaquestionapi.azurewebsites.net, qaquestionsapi.azurewebsites.net, qaquestionsapijson.azurewebsites.net, qaquestions.azurewebsites.net, queryfindquestions.azurewebsites.net, queryquestions.azurewebsites.net, questionsapplicationapi.azurewebsites.net, questionsapplicationapijson.azurewebsites.net, questionsapplicationbackup.azurewebsites.net, questionsdatabases.azurewebsites.net, questionsurveyapp.azurewebsites.net, questionsurveyappserver.azurewebsites.net, quiztestapplication.azurewebsites.net, refaeldevrssfeed.centralus.cloudapp.azure.com, regionuaequestions.azurewebsites.net, registerinsurance.azurewebsites.net, roadmapselectorapi.azurewebsites.net, roadmapselector.azurewebsites.net, sportblogs.azurewebsites.net, surveyappquery.azurewebsites.net, surveyonlinetestapi.azurewebsites.net, surveyonlinetest.azurewebsites.net, technewsblogapi.azurewebsites.net, testmanagementapi1.azurewebsites.net, testmanagementapis.azurewebsites.net, testmanagementapisjson.azurewebsites.net, testquestionapplicationapi.azurewebsites.net, testtesttes.azurewebsites.net, tiappschecktest.azurewebsites.net, tnlsowkis.westus3.cloudapp.azure.com, tnlsowki.westus3.cloudapp.azure.com, turkairline.azurewebsites.net, uaeaircheckon.azurewebsites.net, uaeairchecks.azurewebsites.net, vscodeupdater.azurewebsites.net, workersquestionsapi.azurewebsites.net, workersquestions.azurewebsites.net, workersquestionsjson.azurewebsites.net"
             ],
             "email_addresses": [],
             "urls": [],
@@ -426,25 +603,49 @@
         },
         "ttp": {
             "Tactics": [
-                "- **Initial Access (TA0001):** The use of domain names that mimic legitimate services could indicate phishing attempts to gain initial access to systems.",
-                "- **Execution (TA0002):** The presence of registry keys related to software execution at startup suggests techniques for executing malicious software when a user logs in.",
-                "- **Persistence (TA0003):** The registry keys indicate attempts to maintain persistence by ensuring the malicious software runs at every system startup.",
-                "- **Command and Control (TA0011):** The use of various domain names could be related to establishing command and control channels for communicating with compromised systems."
+                "- **Initial Access (TA0001):** The domain names listed could be part of phishing campaigns or malicious websites designed to gain initial access to victim systems.",
+                "- **Execution (TA0002):** The presence of registry keys indicating the running of `OneDriveFileCoAuth.exe` suggests that adversaries might be executing malicious code on the system.",
+                "- **Persistence (TA0003):** The registry keys under `HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run` are commonly used for persistence, allowing the malicious code to execute at system startup.",
+                "- **Command and Control (TA0011):** The variety of domain names, especially those hosted on common cloud platforms, could be used for command and control activities, allowing communication with the compromised systems."
             ],
             "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The use of deceptive domain names suggests a technique where attackers might send emails containing malicious links to specific targets.",
-                "- **User Execution (T1204):** The attackers may rely on users executing the malicious software, possibly delivered via phishing.",
-                "- **Registry Run Keys / Startup Folder (T1547.001):** The registry keys listed under `HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run` are indicative of this technique, aiming to achieve persistence and execution by adding a program to a registry key for startup execution.",
-                "- **Commonly Used Port (T1043):** The use of Azure websites and cloud services for hosting malicious domains suggests using commonly used web ports to communicate with compromised systems, making the traffic less conspicuous.",
-                "- **Standard Application Layer Protocol (T1071):** The use of HTTP/S for communication with the listed domains implies the use of standard application layer protocols for command and control activities."
+                "- **Spearphishing Link (T1566.002):** The malicious domains could be used in spearphishing emails as links to deceive users into visiting sites hosting malware or phishing content.",
+                "- **User Execution (T1204):** The execution of `OneDriveFileCoAuth.exe` might require user interaction, such as opening a malicious attachment or link.",
+                "- **Registry Run Keys / Startup Folder (T1547.001):** The specific registry keys mentioned are used for achieving persistence by adding a program to the current user's run keys.",
+                "- **Commonly Used Port (T1043):** The use of Azure websites and other common web services for hosting command and control servers uses standard web ports, which are less likely to be blocked.",
+                "- **Exfiltration Over Command and Control Channel (T1041):** The command and control domains could also be used for data exfiltration, sending stolen data back to the attacker's servers."
             ],
             "Procedures": [
-                "- **Phishing with Deceptive Domains:** Attackers register domain names that closely mimic legitimate services to trick victims into clicking on malicious links or disclosing sensitive information.",
-                "- **Malware Execution via Registry:** Malicious software is added to the `Run` registry key to ensure it executes when the user logs into the computer, achieving persistence and execution without further user interaction.",
-                "- **Command and Control via Cloud Services:** Utilizing Azure-hosted websites as command and control servers, attackers can issue commands to and exfiltrate data from compromised systems, leveraging the trust and reliability associated with cloud services to avoid detection.",
-                "- **Persistence through Startup:** By adding registry keys that automatically start malicious applications, attackers ensure their presence remains on the compromised system even after reboots, maintaining long-term access."
+                "- **Phishing for Initial Access:** Attackers could use the listed domain names in phishing emails or messages to trick users into visiting malicious sites or downloading malware.",
+                "- **Malware Execution via Registry Key:** Upon successful phishing, malware such as `OneDriveFileCoAuth.exe` is executed, possibly masquerading as legitimate software, to perform malicious activities on the system.",
+                "- **Maintaining Access through Registry Keys:** By adding entries to the `HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run` registry keys, attackers ensure their malware persists across reboots, maintaining access to the victim's system.",
+                "- **Command and Control Communication:** The malware communicates with the attacker's command and control infrastructure using the listed domain names, receiving commands, and exfiltrating data."
             ]
-        }
+        },
+        "actors": [
+            {
+                "name": "UNC1549",
+                "id": "6697ebb4cf2c3eb23089c8c0",
+                "aliases": [
+                    "UNC1549"
+                ]
+            },
+            {
+                "name": "Tortoiseshell",
+                "id": "6697ebb4cf2c3eb23089c742",
+                "aliases": [
+                    "Tortoiseshell"
+                ]
+            },
+            {
+                "name": "Bohrium",
+                "id": "6697ebb4cf2c3eb23089c837",
+                "aliases": [
+                    "BOHRIUM",
+                    "Smoke Sandstorm"
+                ]
+            }
+        ]
     },
     {
         "article_id": "6697a4b191ce7296607fec6b",
@@ -463,384 +664,48 @@
         },
         "ttp": {
             "Tactics": [
-                "- **Initial Access (TA0001):** The presence of multiple unique file hashes could indicate attempts to deliver malware through various means (e.g., email attachments, drive-by downloads) to gain initial access to a system.",
-                "- **Execution (TA0002):** The malicious files represented by these hashes may be executed as part of an attack to perform malicious actions on the victim's system.",
-                "- **Persistence (TA0003):** Some of these files might be used to establish persistence on a system, ensuring that malicious activity continues even after system restarts or user logouts.",
-                "- **Defense Evasion (TA0005):** The variety of file hashes suggests tactics to evade antivirus or other security solutions, possibly through polymorphism or file obfuscation techniques to avoid detection."
+                "- **Initial Access (TA0001):** The presence of unique file hashes might indicate malware delivery mechanisms aiming for initial system penetration.",
+                "- **Execution (TA0002):** Malware identified by these hashes may execute commands or payloads on a host system.",
+                "- **Persistence (TA0003):** If any of these hashes belong to malware that establishes persistence, it would use techniques to maintain its foothold.",
+                "- **Defense Evasion (TA0005):** Unique or less common file hashes might be used to evade signature-based detection mechanisms.",
+                "- **Command and Control (TA0011):** Malware associated with these hashes may communicate with an attacker-controlled server for further instructions."
             ],
             "Techniques": [
-                "- **User Execution (T1204):** Malicious files might require the user to execute them, either by opening an attachment or clicking a link, to initiate the attack.",
-                "- **Scripting (T1064):** Some of these hashes could belong to scripts used in attacks for execution on the victim's system, leveraging scripting to automate execution and evade defenses.",
-                "- **Obfuscated Files or Information (T1027):** The diversity of hashes might indicate obfuscation techniques used to hide the true nature of the malicious files, making detection and analysis more difficult.",
-                "- **Polymorphic Malware (T1027.003):** The presence of multiple hashes could suggest polymorphic behavior, where malware changes its code or signature to evade detection without altering its fundamental functions."
+                "- **User Execution (T1204):** The execution of files represented by these hashes may rely on user interaction, such as opening a malicious email attachment or downloading and executing a file from a malicious website.",
+                "- **Scripting (T1064):** Some of these file hashes could belong to scripts used for execution or persistence mechanisms.",
+                "- **Registry Run Keys / Startup Folder (T1060):** If any hashes are associated with malware that uses registry modifications for persistence, this technique would be relevant.",
+                "- **Command and Scripting Interpreter (T1059):** Execution of these files might involve the use of command-line interpreters or scripting environments.",
+                "- **Exfiltration Over Command and Control Channel (T1041):** Malware related to these hashes might exfiltrate data back to the attacker via a command and control channel."
             ],
             "Procedures": [
-                "- **Email Attachment Delivery:** An attacker sends emails with attachments containing malware. The variety of file hashes suggests multiple attempts or variants to bypass email security filters and achieve execution on the recipient's system.",
-                "- **Drive-by Download Attack:** Malicious websites or advertisements automatically download one of these files when visited by the victim, exploiting vulnerabilities in the browser or plugins to execute the payload without direct user interaction.",
-                "- **Malware Execution via User Interaction:** The attacker tricks the user into executing the malicious file, possibly by masquerading as legitimate software, leading to the compromise of the victim's system.",
-                "- **Obfuscation with Polymorphism:** The attacker uses polymorphic malware that frequently changes its identifiable features (such as hashes) to evade signature-based detection while maintaining its malicious functionality."
-            ]
-        }
-    },
-    {
-        "article_id": "6697a4b291ce7296607fec71",
-        "title": "Cutting Edge, Part 2: Investigating Ivanti Connect Secure VPN Zero-Day Exploitation | Google Cloud Blog",
-        "article_author": null,
-        "URL": "https://www.mandiant.com/resources/blog/investigating-ivanti-zero-day-exploitation",
-        "iocs": {
-            "ip_addresses": [],
-            "file_hashes": [],
-            "domain_names": [
-                "duorhytm.fun, clicko.click, miltonhouse.nl, cpanel.netbar.org, symantke.com, entraide-internationale.fr, api.d-n-s.name, clickcom.click, line-api.com, areekaweb.com, ehangmun.com, secure-cama.com"
-            ],
-            "email_addresses": [],
-            "urls": [],
-            "registry_keys": []
-        },
-        "ttp": {
-            "Tactics": [
-                "- **Initial Access (TA0001):** The use of deceptive domain names suggests attempts to trick users into visiting malicious sites or opening malicious links, which is a common technique for gaining initial access to a system.",
-                "- **Execution (TA0002):** Malicious domains could be used to deliver and execute malware on a victim's system.",
-                "- **Command and Control (TA0011):** The listed domains may serve as command and control (C2) servers for managing compromised systems."
-            ],
-            "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The presence of misleading domain names suggests a technique where attackers send emails containing malicious links to specific individuals or organizations.",
-                "- **Drive-by Compromise (T1189):** Users visiting these deceptive domains might be unknowingly downloading malware onto their devices.",
-                "- **Web Service (T1102):** Domains like `api.d-n-s.name` suggest the use of web services for command and control activities.",
-                "- **Domain Generation Algorithms (DGA) (T1568.002):** Some of the domain names could be generated through an algorithm to evade detection and create a resilient C2 infrastructure.",
-                "- **Masquerading (T1036):** Domains such as `symantke.com` mimic legitimate domain names to trick users and evade detection."
-            ],
-            "Procedures": [
-                "- **Malicious Domain Visit:** Users are tricked into visiting a malicious domain (e.g., through a phishing email), which then exploits vulnerabilities or prompts the download of malware.",
-                "- **Malware Distribution:** The attacker uses the domains to host and distribute malware. When a user visits one of these domains, their system might automatically download and execute malicious software.",
-                "- **Command and Control Communication:** Once a system is compromised, it communicates with one of these domains to receive further instructions or exfiltrate data. This communication is often disguised to look like normal traffic to evade detection.",
-                "- **Credential Phishing:** A deceptive domain (e.g., `symantke.com`) is used in a phishing campaign to mimic a legitimate website, tricking users into entering their credentials.",
-                "- **DGA-based C2 Infrastructure:** The attacker employs a domain generation algorithm to dynamically generate a large number of domain names (like some of those listed) for command and control, making it difficult for defenders to block all malicious traffic."
-            ]
-        }
-    },
-    {
-        "article_id": "6697a4b291ce7296607fec72",
-        "title": "Evolution of UNC4990: Uncovering USB Malware's Hidden Depths | Google Cloud Blog",
-        "article_author": null,
-        "URL": "https://www.mandiant.com/resources/blog/unc4990-evolution-usb-malware",
-        "iocs": {
-            "ip_addresses": [],
-            "file_hashes": [
-                "72f1ba6309c98cd52ffc99dd15c45698dfca2d6ce1ef0bf262433b5dfff084be, 98594dfae6031c9bdf62a4fe2e2d2821730115d46fca61da9a6cc225c6c4a750, d09d1a299c000de6b7986078518fa0defa3278e318c7f69449c02f177d3228f0, 7c793cc33721bae13e200f24e8d9f51251dd017eb799d0172fd647acab039027, 6fb4945bb73ac3f447fb7af6bd2937395a067a6e0c0900886095436114a17443, a4f20b60a50345ddf3ac71b6e8c5ebcb9d069721b0b0edc822ed2e7569a0bb40, 8a492973b12f84f49c52216d8c29755597f0b92a02311286b1f75ef5c265c30d, 060882f97ace7cb6238e714fd48b3448939699e9f085418af351c42b401a1227, 8c25b73245ada24d2002936ea0f3bcc296fdcc9071770d81800a2e76bfca3617, b9ffba378d4165f003f41a619692a8898aed2e819347b25994f7a5e771045217, 84674ae8db63036d1178bb42fa5d1b506c96b3b22ce22a261054ef4d021d2c69, 15d977dae1726c2944b0b4965980a92d8e8616da20e4d47d74120073cbc701b3, 26d93501cb9d85b34f2e14d7d2f3c94501f0aaa518fed97ce2e8d9347990decf, 26e943db620c024b5e87462c147514c990f380a4861d3025cf8fc1d80a74059a, 71c9ce52da89c32ee018722683c3ffbc90e4a44c5fba2bd674d28b573fba1fdc, 539a79f716cf359dceaa290398bc629010b6e02e47eaed2356074bffa072052f"
-            ],
-            "domain_names": [],
-            "email_addresses": [],
-            "urls": [],
-            "registry_keys": [
-                "HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Node_Run"
+                "- **Malware Delivery via Email:** An attacker might use phishing emails with attachments or links that, when opened or clicked, download and execute the malware associated with one of these hashes.",
+                "- **Drive-by Compromise:** Malicious websites or legitimate websites with injected malicious content could serve files associated with these hashes, leading to system compromise when accessed by unsuspecting users.",
+                "- **Malicious Document Execution:** Documents containing malicious macros or exploits that, when opened, execute a payload associated with one of the provided hashes.",
+                "- **Command and Control Communication:** Malware identified by these hashes may initiate outbound connections to an attacker-controlled server to receive further instructions or offload stolen data."
             ]
         },
-        "ttp": {
-            "Tactics": [
-                "- **Persistence (TA0003):** The use of the registry key `HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Node_Run` suggests an attempt to maintain persistence by ensuring a malware or script runs at system startup.",
-                "- **Defense Evasion (TA0005):** Modifying registry keys to achieve persistence can also be seen as a technique to evade defenses by embedding malicious activities within legitimate system processes that are allowed to auto-start.",
-                "- **Resource Development (TA0042):** The collection of file hashes represents the development or acquisition of resources (malware, tools, scripts) to be used in attacks."
-            ],
-            "Techniques": [
-                "- **Registry Run Keys / Startup Folder (T1547.001):** The specific registry key used (`HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Node_Run`) is a common technique for achieving persistence and potentially evading detection by running malicious software during system startup.",
-                "- **Obfuscated Files or Information (T1027):** The presence of multiple file hashes without context suggests that these files could be obfuscated or encrypted in a way to evade antivirus or endpoint detection solutions."
-            ],
-            "Procedures": [
-                "- **Configuring Registry for Persistence:** An attacker modifies the Windows registry, specifically adding a value under `HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run`, to ensure their malicious payload executes each time the infected user logs into the system.",
-                "- **Malware Deployment:** The listed file hashes are indicative of the deployment of various malware samples. These could be involved in different stages of an attack, including initial access, execution, persistence, and lateral movement. Each hash represents a unique file that could be used for specific tasks within the broader attack campaign."
-            ]
-        }
-    },
-    {
-        "article_id": "6697a4b391ce7296607fec74",
-        "title": "Cutting Edge: Suspected APT Targets Ivanti Connect Secure VPN in New Zero-Day Exploitation | Google Cloud Blog",
-        "article_author": null,
-        "URL": "https://www.mandiant.com/resources/blog/suspected-apt-targets-ivanti-zero-day",
-        "iocs": {
-            "ip_addresses": [],
-            "file_hashes": [
-                "6de651357a15efd01db4e658249d4981, 3d97f55a03ceb4f71671aa2ecf5b24e9, 677c1aa6e2503b56fe13e1568a814754, d0c7a334a4d9dcd3c6335ae13bee59ea"
-            ],
-            "domain_names": [
-                "symantke[.]com"
-            ],
-            "email_addresses": [],
-            "urls": [],
-            "registry_keys": []
-        },
-        "ttp": {
-            "Tactics": [
-                "- **Initial Access (TA0001):** The use of a typo-squatted domain name (e.g., `symantke[.]com`) suggests an attempt to deceive users into believing they are visiting a legitimate site, possibly for phishing or delivering malware.",
-                "- **Execution (TA0002):** The presence of specific file hashes indicates the execution of malicious software on victim systems.",
-                "- **Persistence (TA0003):** Malicious files associated with the given hashes might be used to maintain persistent access to a compromised system.",
-                "- **Defense Evasion (TA0005):** The use of a domain name that closely resembles a legitimate one (typo-squatting) and specific file hashes could indicate attempts to avoid detection by security solutions.",
-                "- **Command and Control (TA0011):** The absence of IP addresses in the IoCs does not preclude the use of the listed domain for command and control communications, suggesting the malware associated with the file hashes might communicate with controllers hosted on the typo-squatted domain."
-            ],
-            "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The typo-squatted domain `symantke[.]com` could be used in spear-phishing emails to trick victims into clicking on a malicious link.",
-                "- **User Execution (T1204):** The malicious files represented by the hashes may require the user to execute them, either as attachments from phishing emails or downloads from the deceptive domain.",
-                "- **Masquerading (T1036):** The use of a domain name that mimics a legitimate one is a form of masquerading designed to make malicious activities appear benign.",
-                "- **Command and Control Over Web Protocol (T1071):** The malicious domain could be used for C2 communications over standard web protocols, directing the activities of compromised hosts."
-            ],
-            "Procedures": [
-                "- **Phishing with a Spoofed Domain:** Attackers register `symantke[.]com`, a domain name that closely mimics a legitimate security company, to host phishing content or malware. This domain is then used in phishing campaigns to deceive victims into believing they are interacting with a trusted entity.",
-                "- **Malware Distribution:** The file hashes listed are associated with specific malware payloads. These payloads could be hosted on the typo-squatted domain and delivered to victims through various means, including email attachments or drive-by downloads, to compromise systems.",
-                "- **Avoiding Detection:** By using a domain name similar to a legitimate one and distributing malware that may not be widely recognized (as indicated by specific hashes), attackers aim to evade detection by both users and antivirus solutions.",
-                "- **Command and Control Communication:** Malware associated with the provided file hashes may be designed to communicate with a command and control server hosted on the `symantke[.]com` domain, receiving instructions and exfiltrating data without raising suspicion."
-            ]
-        }
-    },
-    {
-        "article_id": "6697a4b391ce7296607fec75",
-        "title": "Hundreds of Thousands of Dollars Worth of Solana Cryptocurrency Assets Stolen in Recent CLINKSINK Drainer Campaigns | Google Cloud Blog",
-        "article_author": null,
-        "URL": "https://www.mandiant.com/resources/blog/solana-cryptocurrency-stolen-clinksink-drainer-campaigns",
-        "iocs": {
-            "ip_addresses": [],
-            "file_hashes": [
-                "MD5 hash 8650e83da50bd726f77311b729905c0d"
-            ],
-            "domain_names": [
-                "ontopothers[.]com"
-            ],
-            "email_addresses": [],
-            "urls": [],
-            "registry_keys": []
-        },
-        "ttp": {
-            "Tactics": [
-                "- **Initial Access (TA0001):** The domain name could be used in phishing campaigns to deceive users into clicking malicious links or as part of a drive-by compromise.",
-                "- **Command and Control (TA0011):** The domain name could serve as a command and control (C2) server to manage compromised systems.",
-                "- **Execution (TA0002):** The MD5 hash indicates a specific file, which could be a malicious executable part of an attack."
-            ],
-            "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The domain name 'ontopothers[.]com' could be used in a spearphishing link sent via email to trick the recipient into visiting a malicious site or downloading malware.",
-                "- **Command and Control: Web Protocols (T1071.001):** The domain name could be involved in web-based command and control communication.",
-                "- **User Execution (T1204):** The file associated with the provided MD5 hash might require the user to manually execute it, possibly as a part of a phishing attack.",
-                "- **Scripting (T1064):** The file associated with the MD5 hash could be a script intended for execution on the victim's machine to perform malicious activities."
-            ],
-            "Procedures": [
-                "- **Phishing with a Malicious Attachment or Link:** An attacker could use the domain 'ontopothers[.]com' in a phishing email as a link or to host a malicious file. The file associated with the MD5 hash might be attached to the email or downloadable from the domain, deceiving the user into executing it.",
-                "- **Establishing Command and Control Channel:** After initial compromise, the attacker could use the domain 'ontopothers[.]com' as a command and control server to send commands to the compromised system and exfiltrate data. The file associated with the MD5 hash could be part of the malware used to establish this connection.",
-                "- **Executing Malicious Script or Binary:** The file indicated by the MD5 hash could be a script or executable that performs malicious activities on the victim's machine, such as downloading additional malware, capturing keystrokes, or exploiting local vulnerabilities for further access."
-            ]
-        }
-    },
-    {
-        "article_id": "6697a4b391ce7296607fec77",
-        "title": "Opening a Can of Whoop Ads: Detecting and Disrupting a Malvertising Campaign Distributing Backdoors | Google Cloud Blog",
-        "article_author": null,
-        "URL": "https://www.mandiant.com/resources/blog/detecting-disrupting-malvertising-backdoors",
-        "iocs": {
-            "ip_addresses": [
-                "47.252.45[.]173, 35.203.111[.]228, 127.0.0[.]1, 34.16.181[.]0, 47.253.165[.]1, 8.209.99[.]230, 47.252.33[.]131, 47.253.141[.]12, 35.247.194[.]72, 94.228[.]169[.]143"
-            ],
-            "file_hashes": [
-                "9f9c5a1269667171e1ac328f7f7f6cb3, 2c16eafd0023ea5cb8e9537da442047e, 7544f5bb88ad481f720a9d9f94d95b30, 862a42a91b5734062d47c37fdd80c633, 650b0b12b21e9664d5c771d78738cf9f, 9120c82b0920b9db39894107b5494ccd"
-            ],
-            "domain_names": [
-                "claimprocessing[.]org, treasurydept[.]org, pittsburgh.soulcarelife[.]org, durham.soulcarelife[.]org, plano.soulcarelife[.]org, mesa.halibut[.]sbs, arlington.barracudas[.]sbs, lugbara[.]top, lewru[.]top, infocatalog[.]pics, bikeontop[.]shop, positivereview[.]cloud, dreamteamup[.]shop, whatup[.]cloud, thebesttime[.]buzz"
-            ],
-            "email_addresses": [],
-            "urls": [],
-            "registry_keys": []
-        },
-        "ttp": {
-            "Tactics": [
-                "- **Resource Development (TA0042):** The presence of domain names and IP addresses indicates efforts to establish infrastructure for operations, including command and control servers and phishing sites.",
-                "- **Initial Access (TA0001):** The use of specific domain names suggests attempts to deceive users into interacting with malicious content, potentially for initial system access through phishing.",
-                "- **Command and Control (TA0011):** The listed IP addresses could be related to command and control (C2) servers, indicating communication with compromised systems to control them remotely.",
-                "- **Discovery (TA0007):** The inclusion of the loopback IP address (127.0.0.1) could imply internal reconnaissance activities to discover services running on the local host."
-            ],
-            "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The use of deceptive domain names could be part of spearphishing campaigns to trick users into clicking on malicious links.",
-                "- **External Remote Services (T1133):** The IP addresses might be used to facilitate access to external remote services as part of an attack.",
-                "- **Exfiltration Over C2 Channel (T1041):** The command and control servers identified by the IP addresses could be used to exfiltrate data from compromised systems.",
-                "- **System Network Configuration Discovery (T1016):** The presence of a loopback IP address (127.0.0.1) may indicate attempts to discover network configurations on the compromised host."
-            ],
-            "Procedures": [
-                "- **Domain Registration for Phishing:** The registration of deceptive domain names such as \"claimprocessing[.]org\" and \"treasurydept[.]org\" could be used in phishing campaigns to impersonate legitimate entities.",
-                "- **Establishing Command and Control Servers:** The use of various IP addresses, such as \"47.252.45[.]173\" and \"35.203.111[.]228\", for establishing command and control servers to manage compromised systems remotely.",
-                "- **Data Exfiltration:** Utilizing command and control channels associated with the listed IP addresses to exfiltrate data from victim networks.",
-                "- **Internal Network Discovery:** Employing the loopback address to conduct discovery of services and configurations on the local system, potentially as a precursor to further lateral movement or exploitation."
-            ]
-        }
-    },
-    {
-        "article_id": "6697a4b491ce7296607fec7e",
-        "title": "Sandworm Disrupts Power in Ukraine Using a Novel Attack Against Operational Technology | Google Cloud Blog",
-        "article_author": null,
-        "URL": "https://www.mandiant.com/resources/blog/sandworm-disrupts-power-ukraine-operational-technology",
-        "iocs": {
-            "ip_addresses": [
-                "82.180.150.197, 176.119.195.113, 176.119.195.115, 185.220.101.58, 190.2.145.24"
-            ],
-            "file_hashes": [
-                "26e2a41f26ab885bf409982cb823ffd1, 3290cd8f948b8b15a3c53f8e7190f9b0, cea123ebf54b9d4f8811a47134528f12, b2557692a63e119af0a106add54950e6, 61c245a073bdb08158a3c9ad0219dc23, 82ab2c7e4d52bb2629aff200a4dc6630"
-            ],
-            "domain_names": [],
-            "email_addresses": [],
-            "urls": [],
-            "registry_keys": []
-        },
-        "ttp": {
-            "Tactics": [
-                "- **Initial Access (TA0001):** The use of IP addresses and potentially malicious file hashes suggests attempts to gain unauthorized access to systems or networks.",
-                "- **Execution (TA0002):** The presence of specific file hashes indicates the execution of potentially malicious software on a target system.",
-                "- **Command and Control (TA0011):** The listed IP addresses could be used for command and control (C2) communications between compromised hosts and attacker-controlled servers."
-            ],
-            "Techniques": [
-                "- **Spearphishing Attachment (T1566.001):** If these file hashes were delivered via email, this technique could be used, leveraging email attachments to deliver malware.",
-                "- **Drive-by Compromise (T1189):** The presence of file hashes might indicate malware that was automatically downloaded and executed as a result of visiting a website controlled by the adversary.",
-                "- **Commonly Used Port (T1043):** The IP addresses might be used in conjunction with commonly used ports for C2 communications, making the network traffic blend in with legitimate traffic.",
-                "- **Scripting (T1064):** The malicious files identified by the hashes may include scripts as a means to execute commands or payloads on the compromised system."
-            ],
-            "Procedures": [
-                "- **Malware Distribution via IP Addresses:** The attacker could be distributing malware using the listed IP addresses either by directly connecting to victims or hosting malicious content to be downloaded.",
-                "- **File Hashes as Malware Indicators:** The specific file hashes could represent various types of malware (e.g., ransomware, trojans) that were identified on compromised systems, serving as indicators for further investigation or blocking.",
-                "- **Command and Control Communication:** The adversary might use the listed IP addresses for establishing C2 communications with the compromised hosts, sending commands, and exfiltrating data."
-            ]
-        }
-    },
-    {
-        "article_id": "6697a4b591ce7296607fec80",
-        "title": "Investigation of Session Hijacking via Citrix NetScaler ADC and Gateway Vulnerability (CVE-2023-4966) | Google Cloud Blog",
-        "article_author": null,
-        "URL": "https://www.mandiant.com/resources/blog/remediation-netscaler-adc-gateway-cve-2023-4966",
-        "iocs": {
-            "ip_addresses": [],
-            "file_hashes": [],
-            "domain_names": [],
-            "email_addresses": [],
-            "urls": [],
-            "registry_keys": [
-                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Citrix\\<session #>\\Evidence\\ClientName, HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Citrix\\<session #>\\Evidence\\ClientIP, HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Citrix\\<session #>\\Evidence\\BrokeringUserSid, HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Policies\\Citrix\\<session #>\\Events\\LastUpdate, HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Policies\\Citrix\\<session #>\\Evidence\\ClientName"
-            ]
-        },
-        "ttp": {
-            "Tactics": [
-                "- **Persistence (TA0003):** The registry keys mentioned are indicative of changes made to ensure that malicious activities or tools persist across reboots and user logins. Modifying registry keys related to software like Citrix can be a method to maintain persistence within a compromised system.",
-                "- **Defense Evasion (TA0005):** The use of registry keys under software policies may be an attempt to hide malicious activities under the guise of legitimate administrative settings, evading security measures designed to detect unauthorized changes.",
-                "- **Discovery (TA0007):** The specific registry keys related to Citrix sessions, client names, client IP, and user SIDs suggest an adversary's intent to gather information about the network environment, user activities, and potentially sensitive session data."
-            ],
-            "Techniques": [
-                "- **Registry Run Keys / Startup Folder (T1547.001):** The modification or addition of registry keys to ensure a program runs at startup can be a technique used for persistence. The specific paths mentioned do not directly correspond to traditional Run keys, but the concept of modifying registry keys for persistence applies.",
-                "- **Modify Registry (T1112):** Directly relates to the act of adding, modifying, or deleting registry keys to hide malicious activity, maintain persistence, or alter the function of security controls and operating system components.",
-                "- **Remote System Discovery (T1018):** The collection of client IP addresses and session information could be part of an adversary's efforts to understand the network topology and identify other potential targets within the network."
-            ],
-            "Procedures": [
-                "- **Citrix Registry Key Modification for Persistence:** An adversary might create or modify the mentioned registry keys related to Citrix sessions to ensure that their malicious payloads or scripts are executed in the context of legitimate Citrix sessions, aiding in persistence.",
-                "- **Hiding Malicious Activity via Registry Modification:** By modifying or adding registry keys within sections of the registry expected to be used by legitimate software (like Citrix), an adversary can attempt to evade detection tools that monitor for known-bad registry changes.",
-                "- **Network Reconnaissance through Citrix Session Information:** An adversary could use the information in the specified registry keys to perform reconnaissance, gathering details about the network environment, user identities, and session specifics to plan further attacks or lateral movement."
-            ]
-        }
-    },
-    {
-        "article_id": "6697a4b691ce7296607fec84",
-        "title": "Shore Up Government Infrastructure With State and Local Cybersecurity Grant Funding | Mandiant | Google Cloud Blog",
-        "article_author": null,
-        "URL": "https://www.mandiant.com/resources/blog/state-local-cybersecurity-funding",
-        "iocs": {
-            "ip_addresses": [],
-            "file_hashes": [],
-            "domain_names": [],
-            "email_addresses": [
-                "SLCGPinfo@cisa.dhs.gov, FEMA-SLCGP@fema.dhs.gov"
-            ],
-            "urls": [],
-            "registry_keys": []
-        },
-        "ttp": {
-            "Tactics": [
-                "- **Spear Phishing (T1566):** This tactic involves sending emails to targeted individuals or organizations with the intent to deceive the recipients into taking actions that could lead to unauthorized access or the disclosure of sensitive information. The use of seemingly legitimate government email addresses could be part of a spear phishing campaign.",
-                "- **Initial Access (TA0001):** The use of email addresses as IoCs may indicate an attempt to gain initial access to a network or system. Phishing emails, especially those that appear to come from legitimate sources, are a common method for attackers to gain initial access."
-            ],
-            "Techniques": [
-                "- **Spear Phishing via Service (T1566.003):** This technique involves sending spear-phishing emails through third-party services. In this case, the attackers might be impersonating government entities (CISA and FEMA) to gain trust and prompt action from the recipient.",
-                "- **Phishing for Information (T1598):** The attackers could be using the email addresses to masquerade as legitimate government officials to solicit sensitive information from the targets, under the guise of official communication."
-            ],
-            "Procedures": [
-                "- **Email Impersonation:** Attackers could be using these email addresses to impersonate government officials or agencies, sending emails that appear to be legitimate communications from CISA or FEMA. The goal might be to trick individuals into revealing sensitive information or to convince them to click on malicious links or attachments.",
-                "- **Data Harvesting via Email Replies:** By convincing recipients that they are communicating with a legitimate government entity, attackers could solicit and collect sensitive information, which could be used for further attacks or fraudulent activities."
-            ]
-        }
-    },
-    {
-        "article_id": "6697a4b691ce7296607fec85",
-        "title": "Backchannel Diplomacy: APT29's Rapidly Evolving Diplomatic Phishing Operations | Mandiant | Google Cloud Blog",
-        "article_author": null,
-        "URL": "https://www.mandiant.com/resources/blog/apt29-evolving-diplomatic-phishing",
-        "iocs": {
-            "ip_addresses": [],
-            "file_hashes": [
-                "a3067a0262e651e94329869f43a51722, eeded26943a7b2fdef7608fb21bbfd66, b051e8efb40c2c435d77f3be77c59488, 854e5c592e93b69b8ab08dbc8a0b673f, 1485b591e654327c1d032a901940b149, 0d5b12c50173a176b0a8ba5a97a831d8, 62b2031f8988105efdf473bdfedd07f5, efe86302838ad2ab091540f4e0f7b75a, b1820abc3a1ce2d32af04c18f9d2bfc3, 9159d3c58c5d970ed25c2db9c9487d7a, bc4b0bd5da76b683cc28849b1eed504d, 0065cffe5a1c6a33900b781835aa9693, 16d489cc5a91e7dbe74d1c9399534eac, c60aa80e0e58c2758f0bac037ec16dca, 1f21f9948b412f0198f928ed3266786b, 556857ccb27b527e05415eb6d443aee1, 880120da2f075155524430ceab7c058e, e306333093eaf198f4d416d25a40784a, 4355851b6fcf2d44e3fd47f47a5e9502, 5ff4831ee70c07e33c1bbe091840d5ee, 1ec49b2cb9d4ba265678359e117809b8, f089fd7204552aec41f64b1eb6b03eda, 0b0707ce90548f0c8b952138fff62742, 33312f16fd5b88470a0e7560954ae459, b382d0f8b130cd1804782d400a4d4f55, fc47284181f2bb6785e91c9b92710d78, b12a4b8ec485ad9f9c4cae1e25a35db8, 4c00d883444c78f19c3a1af191614491, 68cc826c2c58cb74abe3e5ef2123102c, 9685dae9ed8d2bf13b66593c1d7cd2eb, dd2e5debb0ae8b8bccac5c1fbef6bb5a, 5bcf04c0fb0f62fc5f4b83789477a699, 3f57258dce31ba0c80002130b8657b2b, eccf100bc3d6e901f17a0eced5752ca7, dbc9223af733d0140be136cf32a990d9, ac78497929569682133e02dec9b67870, 53270b3968004cb48dac1a1b239ed23d, 0032b8eabdc41e01923fabca5fe8a06b, 6b41c60c24916e3c32acd90bbd7b92f9, 036ab9f19b63d44aaccf0f965df9434c, 1aee5bf23edb7732fd0e6b2c61a959ce, 2d794d1544f933aacbd8da2dad78b381, 5569fb4e9140974a80b4b7587b026913, 595d8ea258ef8d8ec70b0e8a740e903c, 1d54c487e6c8a08517fdb8efedfcd459, 7a5988423f731d8b36d01926e715dd11, 41944bb155ecf70193245d8c3485dd2e, 295527e2e38da97167979ade004de880, 800f766f728a4418b0c682a867673341, 5e1389b494edc86e17ff1783ed6b9d37, 9e51506816ad620c9e6474c52a9004a6, 301a7273418bceaa3fb15b15f69dd32a, fc53c75289309ffb7f65a3513e7519eb, 78062da99751c0a520ca4ac9fa59af73, d6986d991c41afcc2e71fc30bde851d1, d67f83dcda6d01bedf08a51df7415d14, 0be11b4f34ede748892ea49e473d82db, dfbdd308e22898f680b6c2c8eb052fb5, 4f744666d2a2dc95419208c61e42f163"
-            ],
-            "domain_names": [
-                "tinyurl.com, willyminiatures.com, simplesalsamix.com, parquesanrafael.cl, inovaoftalmologia.com.br, sylvio.com.br, resetlocations.com, gavice.ng, sharpledge.com, graph.microsoft.com, kitaeri.com, kegas.id, sgrhf.org.pk"
-            ],
-            "email_addresses": [],
-            "urls": [],
-            "registry_keys": []
-        },
-        "ttp": {
-            "Tactics": [
-                "- **Resource Development (TA0042):** The presence of multiple domain names could indicate the adversary's efforts in establishing infrastructure for command and control, phishing, or malware distribution.",
-                "- **Initial Access (TA0001):** The use of domains like `tinyurl.com` suggests tactics for delivering payloads through shortened URLs, which might be used in phishing attacks or malicious advertisements.",
-                "- **Execution (TA0002):** The variety of file hashes suggests the execution of several different malware samples or tools, indicating the adversary's attempt to compromise systems or execute malicious payloads.",
-                "- **Command and Control (TA0011):** Domains such as `graph.microsoft.com` could be abused for command and control activities, masquerading malicious traffic as legitimate to evade detection."
-            ],
-            "Techniques": [
-                "- **Spearphishing Link (T1566.002):** The use of shortened URLs (`tinyurl.com`) and potentially compromised legitimate domains could be part of spearphishing campaigns to deceive users into clicking malicious links.",
-                "- **User Execution (T1204):** The variety of file hashes implies that the adversary expects some of these files to be executed by the user, possibly as attachments or downloads from malicious emails or websites.",
-                "- **Command and Control Over Web Protocol (T1071.001):** The use of legitimate-looking domains, including `graph.microsoft.com`, suggests attempts to control compromised systems using web protocols, making the malicious traffic blend in with normal traffic.",
-                "- **Masquerading (T1036):** Utilizing domains that appear legitimate or are related to legitimate services (e.g., `graph.microsoft.com`) to conceal malicious activity or data exfiltration efforts."
-            ],
-            "Procedures": [
-                "- **Phishing with Spearphishing Link:** The attacker crafts emails containing shortened URLs (`tinyurl.com`) leading to malicious sites hosted on seemingly benign domains (e.g., `simplesalsamix.com`, `parquesanrafael.cl`) to trick victims into compromising their systems.",
-                "- **Distributing Malware via Compromised Domains:** Malware is hosted on compromised or attacker-controlled domains (e.g., `willyminiatures.com`, `resetlocations.com`), waiting for unsuspecting users to download and execute the malicious payloads, indicated by the diverse set of file hashes.",
-                "- **Command and Control Communication:** After initial compromise, malware communicates with command and control servers using domains that blend in with normal traffic (e.g., `graph.microsoft.com`), to receive further instructions or exfiltrate data without raising suspicion.",
-                "- **Execution of Malicious Payloads:** The attacker relies on various methods, including phishing and exploitation of public-facing applications, to execute the payloads associated with the provided file hashes on the victim's system, aiming to establish persistence, perform lateral movement, or exfiltrate data."
-            ]
-        }
-    },
-    {
-        "article_id": "6697a4b791ce7296607fec8c",
-        "title": "Diving Deep into UNC4841 Operations Following Barracuda ESG Zero-Day Remediation (CVE-2023-2868) | Mandiant | Google Cloud Blog",
-        "article_author": null,
-        "URL": "https://www.mandiant.com/resources/blog/unc4841-post-barracuda-zero-day-remediation",
-        "iocs": {
-            "ip_addresses": [
-                "101.229.146.218, 103.146.179.101, 103.27.108.62, 103.77.192.87, 103.146.179.69, 103.77.192.13, 103.77.192.88, 103.93.78.142, 104.156.229.226, 104.223.20.222, 107.148.149.156, 107.148.219.227, 107.148.219.53, 107.148.219.54, 107.148.219.55, 107.148.223.196, 107.173.62.158, 113.52.106.3, 137.175.19.25, 137.175.28.251, 137.175.30.36, 137.175.30.86, 137.175.51.147, 137.175.53.17, 137.175.53.170, 137.175.53.218, 137.175.60.252, 137.175.60.253, 137.175.78.66, 139.84.227.9, 155.94.160.72, 155.94.160.95, 182.239.114.135, 182.239.114.254, 185.243.41.209, 192.74.226.142, 192.74.254.229, 195.234.82.132, 198.2.254.219, 198.2.254.220, 198.2.254.221, 198.2.254.222, 198.2.254.223, 199.247.23.80, 213.156.153.34, 216.238.112.82, 23.224.42.5, 23.224.42.29, 23.224.78.130, 23.224.78.131, 23.224.78.132, 23.224.78.133, 23.224.78.134, 37.9.35.217, 38.54.1.82, 38.54.113.205, 38.60.254.165, 45.148.16.42, 45.148.16.46, 45.154.253.153, 45.154.253.154, 45.63.76.67, 51.91.79.17, 52.23.241.105, 54.197.109.223, 64.176.4.234, 64.176.7.59"
-            ],
-            "file_hashes": [
-                "06528143748b54793b2a7561d96138c5, 4495cb72708f486b734de6b6c6402aba, 61514ac639721a51e98c47f2ac3afe81, f667939000c941e5b9dc91303c98b7fc, fe1e2d676c91f899b706682b70176983, 0d67f50a0bf7a3a017784146ac41ada0, 7a31d314247ac33ae39a9248b770d717, 206b05ef55aff6fa453ba8e5f6c55167, 42722b7d04f58dcb8bd80fe41c7ea09e, 5392fb400bd671d4b185fb35a9b23fd3, 878cf1de91f3ae543fd290c31adcbda4, ac4fb6d0bfc871be6f68bfa647fc0125, 479315620c9a5a62a745ab586ba7b78c, 683acdb559bbc7fb64431d1f579a8104, ef00c92fa005c2f61ec23d5278a8fa25, ff4f425be50bacbb10f16287aaddb7e3, 94b6f76da938ef855a91011f16252d59, 32ffe48d1a8ced49c53033eb65eff6f3, 8406f74ac2c57807735a9b86f61da9f9, d81263e6872cc805e6cf4ca05d86df4e, da06e7c32f070a9bb96b720ef332b50b, c5c93ba36e079892c1123fe9dffd660f, 19e373b13297de1783cecf856dc48eb0, c56d7b86e59c5c737ee7537d7cf13df1, cb0f7f216e8965f40a724bc15db7510b, 881b7846f8384c12c7481b23011d8e45, f5ab04a920302931a8bd063f27b745cc, 0245e7f9105253ecb30de301842e28e4, 0c227990210e7e9d704c165abd76ebe2, 132a342273cd469a34938044e8f62482, 1bc5212a856f028747c062b66c3a722a, 2d841cb153bebcfdee5c54472b017af2, 2e30520f8536a27dd59eabbcb8e3532a, 349ca242bc6d2652d84146f5f91c3dbb, 3e3f72f99062255d6320d5e686f0e212, 4c1c2db989e0e881232c7748593d291e, 7d7fd05b262342a9e8237ce14ec41c3b, 8fc03800c1179a18fbd58d746596fa7d, a45ca19435c2976a29300128dc410fd4, ba7af4f98d85e5847c08cf6cefdf35dc, c528b6398c86f8bdcfa3f9de7837ebfe, c7a89a215e74104682880def469d4758, c979e8651c1f40d685be2f66e8c2c610, d1392095086c07bd8d2ef174cb5f6ca8, ad1dc51a66201689d442499f70b78dea, dde2d3347b76070fff14f6c0412f95ba, 858174c8f4a45e9564382d4480831c6b, 2ccb9759800154de817bf779a52d48f8, 177add288b289d43236d2dba33e65956, e52871d82de01b7e7f134c776703f696, 336c12441b7a678280562729c974a840, 5fdee67c82f5480edfa54afc5a9dc834, 407738e565b4e9dafb07b782ebcf46b0, 67a4556b021578e0a421fdc251f07e04, 694cdb49879f1321abb4605adf634935, 6f79ef58b354fd33824c96625590c244, 7ebd5f3e800dcd0510cfcbe2351d3838, d098fe9674b6b4cb540699c5eb452cb5, 03e07c538a5e0e7906af803a83c97a1e, 0dd78b785e7657999d05d52a64b4c4cf, 35a432e40da597c7ab63ff16b09d19d8, 806250c466824a027e3e85461dc672db, 830fca78440780aef448c862eee2a8ac, b354111afc9c6c26c1475e761d347144, b745626b36b841ed03eddfb08e6bb061, b860198feca7398bc79a8ec69afc65ed, c2e577c71d591999ad5c581e49343093, e68cd991777118d76e7bce163d8a2bc1, ed648c366b6e564fc636c072bbcac907, ff005f1ff98ec1cd678785baa0386bd1, a28de396aa91b7faca35e861b634c502, 1b1830abaf95bd5a44aa3873df901f28, 1fea55b7c9d13d822a64b2370d015da7, 3b93b524db66f8bb3df8279a141734bb, 4cd0f3219e98ac2e9021b06af70ed643, 4ec4ceda84c580054f191caa09916c68, 64c690f175a2d2fe38d3d7c0d0ddbb6e, 827d507aa3bde0ef903ca5dec60cdec8, 831d41ba2a0036540536c2f884d089f9, 8fdf3b7dc6d88594b8b5173c1aa2bc82, 9bc6d6af590e7d94869dee1d33cc1cae, b601fce4181b275954e3f35b18996c92, 9033dc5bac76542b9b752064a56c6ee4, cd2813f0260d63ad5adf0446253c2172, cd2813f0260d63ad5adf0446253c2576, 666da297066a2596cacb13b3da9572bf, 35cf6faf442d325961935f660e2ab5a0, ce67bb99bc1e26f6cb1f968bc1b1ec21, 025046adfa7b2cf50f86f5e0c6bb2ab7, 0805b523120cc2da3f71e5606255d29c, 17696a438387248a12cc911fbae8620e, 19ebfe05040a8508467f9415c8378f32, 1b92e5455de794af560f10a907d931cc, 1bbb32610599d70397adfdaf56109ff3, 23f4f604f1a05c4abf2ac02f976b746b, 3c20617f089fe5cc9ba12c43c6c072f5, 45b79949276c9cb9cf5dc72597dc1006, 4b511567cfa8dbaa32e11baf3268f074, 4ca4f582418b2cc0626700511a6315c0, 5d6cba7909980a7b424b133fbac634ac, 69ef9a9e8d0506d957248e983d22b0d5, 724079649f690ca1ee80b8b3125b58b9, 76811232ede58de2faf6aca8395f8427, 82eaf69de710abdc5dea7cd5cb56cf04, 8f1c40bd3ab33d517839ca17591d8666, a08a99e5224e1baf569fda816c991045, bef722484288e24258dd33922b1a7148, d8e748b1b609d376f57343b2bde94b29, db4c48921537d67635bb210a9cb5bb52, e80a85250263d58cc1a1dc39d6cf3942, f6857841a255b3b4e4eded7a66438696, fe031a93c84aa3d01e2223a6bb988fa0, 3273a29d15334efddd8276af53c317fb, 446f3d71591afa37bbd604e2e400ae8b, 87847445f9524671022d70f2a812728f, 9aa90d767ba0a3f057653aadcb75e579, e4e86c273a2b67a605f5d4686783e0cc, ec0d46b2aa7adfdff10a671a77aeb2ae, 436587bad5e061a7e594f9971d89c468, 85c5b6c408e4bdb87da6764a75008adf, f013a111044f3228b978f49e1ee374fe, 90a75b588f63c6a0294a48e93628aec9"
-            ],
-            "domain_names": [],
-            "email_addresses": [],
-            "urls": [],
-            "registry_keys": []
-        },
-        "ttp": {
-            "Tactics": [
-                "- **Initial Access (TA0001):** The attacker is trying to gain an entry point into the network or system. The IP addresses could be related to phishing campaigns, exploit attempts against public-facing applications, or other initial access vectors.",
-                "- **Execution (TA0002):** The file hashes represent malicious files that, once on the target system, need to be executed to perform malicious activities.",
-                "- **Command and Control (TA0011):** The IP addresses might be used for command and control (C2) communication by the malware represented by the file hashes."
-            ],
-            "Techniques": [
-                "- **Spearphishing Attachment (T1566.001):** If any of the file hashes correspond to documents or executables typically used in phishing, this technique could be involved, leveraging email as an attack vector.",
-                "- **Drive-by Compromise (T1189):** The attacker might use the IP addresses to host malicious content that exploits vulnerabilities in web browsers to execute code.",
-                "- **PowerShell (T1059.001):** Some of the file hashes could relate to malicious scripts executed via PowerShell, a common technique for running attacker code on a compromised system.",
-                "- **User Execution (T1204):** This involves tricking users into running malicious software on their systems, possibly related to the identified file hashes.",
-                "- **Commonly Used Port (T1043):** The use of standard network ports for C2 communication could be implied by the presence of multiple IP addresses, as attackers often mimic normal traffic to avoid detection.",
-                "- **Remote File Copy (T1105):** The file hashes might have been transferred to the target systems as part of the attack, using various methods for remote file copy."
-            ],
-            "Procedures": [
-                "- **Malware Distribution via Compromised IPs:** Attackers could be using the listed IP addresses to distribute malware, represented by the file hashes, to unsuspecting victims through malicious downloads or drive-by compromises.",
-                "- **Execution of Malicious Payloads:** The presence of file hashes indicates that specific payloads are being executed on victim machines, which could involve techniques like user execution or exploitation of vulnerabilities.",
-                "- **Maintaining Persistence with Malware:** Some of the file hashes might correspond to malware designed to maintain persistence on a system, ensuring continued access for the attackers even after initial vectors are closed.",
-                "- **Data Exfiltration to C2 Servers:** The identified IP addresses could serve as exfiltration points for stolen data, using the compromised systems as a stepping stone."
-            ]
-        }
+        "actors": [
+            {
+                "name": "UNC5325",
+                "id": "6697ebb4cf2c3eb23089c8c3",
+                "aliases": [
+                    "UNC5325"
+                ]
+            },
+            {
+                "name": "UNC3886",
+                "id": "6697ebb4cf2c3eb23089c7f5",
+                "aliases": [
+                    "UNC3886"
+                ]
+            },
+            {
+                "name": "UNC4841",
+                "id": "6697ebb4cf2c3eb23089c843",
+                "aliases": [
+                    "UNC4841"
+                ]
+            }
+        ]
     }
 ]

@@ -7,6 +7,8 @@ from bson import ObjectId
 import json
 import logging
 import re
+import ahocorasick
+from collections import defaultdict
 
 # Load environment variables
 load_dotenv()
@@ -32,7 +34,7 @@ db_client = MongoClient(connection_string)
 db = db_client[db_name]
 source_collection = db["crawler_data"]
 target_collection = db["ioc-ttp-collection"]  # New collection name for saving IoCs and TTPs
-
+actors_data_collection = db["actors_data"]
 
 
 # Initialize Flask app
@@ -166,6 +168,56 @@ def extract_registry_keys(content):
     result = response.choices[0].message.content.strip().split('\n')
     return result if "No registry keys are present." not in result else []
 
+
+# def extract_actors(content, known_actors):
+#     actors_present = set()
+
+#     automaton = ahocorasick.Automaton()
+#     for actor in known_actors:
+#         name = actor.get('name', '')
+#         actor_id = str(actor.get('_id', ''))
+#         if name and actor_id:
+#             automaton.add_word(name, (name, actor_id))
+
+#     automaton.make_automaton()
+
+#     for _, (name, actor_id) in automaton.iter(content):
+#         actors_present.add((name, actor_id))
+
+#     # Convert set back to list of dictionaries
+#     return [{'name': name, 'id': actor_id} for name, actor_id in actors_present]
+
+def extract_actors(content, known_actors):
+    actors_present = defaultdict(lambda: {"id": "", "aliases": set()})
+    
+    # Initialize the Aho-Corasick automaton
+    automaton = ahocorasick.Automaton()
+    
+    for actor in known_actors:
+        name = actor.get('name', '')
+        actor_id = str(actor.get('_id', ''))
+        aliases = actor.get('alias', '')
+
+        # Add the actor's name to the automaton
+        if name and actor_id:
+            automaton.add_word(name, (name, actor_id, name))
+        
+        # Add aliases to the automaton
+        if aliases:
+            for alias in aliases.split(', '):
+                automaton.add_word(alias, (name, actor_id, alias))
+    
+    automaton.make_automaton()
+    
+    # Extract matches from the content
+    for _, (name, actor_id, alias) in automaton.iter(content):
+        actors_present[name]["id"] = actor_id
+        actors_present[name]["aliases"].add(alias)
+    
+    # Format the result
+    return [{'name': name, 'id': details["id"], 'aliases': list(details["aliases"])} for name, details in actors_present.items()]
+
+
 # Function to map IoCs to TTPs using OpenAI
 def map_iocs_to_ttps(iocs):
     # ttps = []
@@ -239,9 +291,18 @@ def parse_ttp_response(response_text):
 # Function to fetch data from MongoDB, process, and update
 def fetch_process_update():
     try:
+
+
+        delete_result = target_collection.delete_many({})
+        print(f"Deleted {delete_result.deleted_count} documents from the collection.")
         # Fetch first 8 documents from the source collection
         logging.info("Fetching data from the database.")
-        documents = list(source_collection.find().limit(50))
+        documents = list(source_collection.find().limit(60))
+
+        logging.info("Fetching actors list")
+        know_actors = list(actors_data_collection.find())
+        print(know_actors[0])
+
 
         # Process each document
         results = []
@@ -274,10 +335,8 @@ def fetch_process_update():
             ttp = map_iocs_to_ttps(iocs)
             # Parse the response into structured data
             ttp_data = parse_ttp_response(ttp)
-            # logging.info(f"Extracted TTPs: {ttps}")
-
-            # # Ensure 'name' is a string
-            # name = str(doc.get('name', ''))  # Convert to string if not already
+            actors = extract_actors(content, know_actors)
+            
             
             # Save IoCs and TTPs to the new collection
             target_collection.insert_one({
@@ -286,7 +345,8 @@ def fetch_process_update():
                 'article_author': doc.get('author'),
                 'URL': doc.get('URL', ''),
                 'iocs': iocs,
-                'ttp' : ttp_data
+                'ttp' : ttp_data,
+                'actors' : actors
             })
             logging.info("Saved IoCs and TTPs to the database.")
             
@@ -297,7 +357,8 @@ def fetch_process_update():
                 'article_author': doc.get('author'),
                 'URL': doc.get('URL', ''),
                 'iocs': iocs,
-                'ttp' : ttp_data
+                'ttp' : ttp_data,
+                'actors': actors
             })
 
         # Save results to a local JSON file

@@ -1,4 +1,4 @@
-# Use the official Python image from the Docker Hub
+# official Python image from the Docker Hub
 FROM python
 
 # Set the working directory inside the container
